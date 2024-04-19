@@ -1,0 +1,14 @@
+Game	
+
+- * Chạy chương trình đầu tiên
+- Chim di chuyển
+- Màn hình chuyển động
+- Chim chuyển động
+- Tạo quái
+- Xử lý va chạm
+- Nhạc (mixer)
+- Menu (ttf)
+- Tạo đạn quái
+- Tạo chim2 
+- Tạo tên lửa ( hướng tới chim )
+- Tạo boss 

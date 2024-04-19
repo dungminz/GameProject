@@ -1,0 +1,12 @@
+Bố cục hàm
+
+- pragma once //thay thế ifdef-define-endif
+
+- constructor
+- destructor
+
+- init
+- update
+- render
+- hàm phụ
+- (clean)
