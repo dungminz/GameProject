@@ -9,7 +9,7 @@ LDFLAGS = -L/opt/homebrew/Cellar/sdl2_mixer/2.8.0/lib \
 		  -L/opt/homebrew/Cellar/sdl2/2.30.0/lib
 LIBS = -lSDL2_mixer -lSDL2_ttf -lSDL2_image -lSDL2
 TARGET = main
-SRCS = Main.cpp Game.cpp TextureManager.cpp
+SRCS = Main.cpp Game.cpp TextureManager.cpp Bird.cpp
 
 all: $(TARGET)
 

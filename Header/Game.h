@@ -11,15 +11,19 @@ void waitUntilKeyPressed();
 
 struct Game {
 
-    SDL_Texture *bird;
+    SDL_Texture *bird_img;
     SDL_Texture *bgr;
+    bool is_running;
 
     static SDL_Window *window;
     static SDL_Renderer *renderer;
+    static const Uint8* currentKeyState; 
 
     void init();
     void render();
-    void render2();
+    bool running() {return is_running;}
+    void handle_events();
+    void update();
     void clean();
 };
 

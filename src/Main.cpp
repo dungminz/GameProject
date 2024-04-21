@@ -4,9 +4,10 @@
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
-#define WINDOW_TITLE  "Hello mn!!"
+#define WINDOW_TITLE "Hello mn!!"
 
-bool isRunning = true;
+const Uint8* Game::currentKeyState = SDL_GetKeyboardState(NULL);
+
 Game game;
 
 void init() {
@@ -43,23 +44,16 @@ int main(int argc, char *argv[])
 {
     srand(time(0));
     init();
-
-    while(isRunning) {
-        game.init();
+    
+    game.init();
+    while(game.running()) {
+        game.handle_events();
         game.render();
-        waitUntilKeyPressed();
-        game.clean();
-
-        game.init();
-        game.render2();
-        waitUntilKeyPressed();
-        game.clean();
-
-        isRunning = false;
+        // waitUntilKeyPressed();
+        SDL_Delay(10);
     }
-
+    game.clean();
     clean();
     
-
     return 0;
 }
