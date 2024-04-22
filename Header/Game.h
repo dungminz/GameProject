@@ -15,9 +15,13 @@ struct Game {
     SDL_Texture *bgr;
     bool is_running;
 
+    static bool leftPressed;
+    static bool rightPressed;
+    static bool upPressed;
+    static bool downPressed;
+
     static SDL_Window *window;
     static SDL_Renderer *renderer;
-    static const Uint8* currentKeyState; 
 
     void init();
     void render();

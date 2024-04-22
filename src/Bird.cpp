@@ -3,9 +3,17 @@
 
 Bird::Bird() {}
 
+void Bird::init() {
+    bird_img = TextureManager::loadTexture("bird.png");
+}
+
 void Bird::update() {
-    if(Game::currentKeyState[SDL_SCANCODE_UP]) std::cerr<<"UP\n";
-    if(Game::currentKeyState[SDL_SCANCODE_DOWN]) std::cerr<<"DOWN\n";
-    if(Game::currentKeyState[SDL_SCANCODE_LEFT]) std::cerr<<"LEFT\n";
-    if(Game::currentKeyState[SDL_SCANCODE_RIGHT]) std::cerr<<"RIGHT\n";
+    if(Game::leftPressed) mouse.turnLeft();
+    if(Game::rightPressed) mouse.turnRight();
+    if(Game::upPressed) mouse.turnUp();
+    if(Game::downPressed) mouse.turnDown();
+}
+
+void Bird::render() {
+    TextureManager::draw(bird_img, mouse.x, mouse.y);
 }

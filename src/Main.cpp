@@ -6,8 +6,6 @@ const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
 #define WINDOW_TITLE "Hello mn!!"
 
-const Uint8* Game::currentKeyState = SDL_GetKeyboardState(NULL);
-
 Game game;
 
 void init() {
@@ -48,6 +46,7 @@ int main(int argc, char *argv[])
     game.init();
     while(game.running()) {
         game.handle_events();
+        game.update();
         game.render();
         // waitUntilKeyPressed();
         SDL_Delay(10);

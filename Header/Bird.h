@@ -1,9 +1,16 @@
 #pragma once
 
-#include "../Header/Game.h"
+#include "Game.h"
+#include "Mouse.h"
 
 struct Bird {
-    int t;
     Bird();
+
+    SDL_Texture *bird_img;
+
+    void init();
     void update();
+    void render();
+
+    Mouse mouse;
 };
