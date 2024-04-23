@@ -3,6 +3,16 @@
 - SDL_RenderFillRect
 - SDL_PumpEvents();
 
+- Dùng con trỏ
+->tiện sử dụng contructor, destructor
+
+- Xử lý sdl_quit
+->chương trình có thể thoát 'bình thường'
+
+- Xử lý sdl_delay
+->giảm tải cpu
+
+- Về biến static : sau khi khởi tạo ở .h, cần gán giá trị mặc định ở .cpp để dùng chung toàn bộ file
 
 - Hàm mouse: di chuyển bị khựng giữa chừng
 -> xử lý từng nút một

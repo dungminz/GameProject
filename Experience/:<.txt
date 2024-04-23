@@ -1,0 +1,5 @@
+fix lỗi update macos: 
+- https://github.com/orgs/Homebrew/discussions/5216
+#ifndef __has_extension
+#define __has_extension(x) 0
+#endif

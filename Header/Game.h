@@ -1,4 +1,9 @@
 #pragma once
+
+#ifndef __has_extension
+#define __has_extension(x) 0
+#endif
+
 #ifndef _GAME__H
 #define _GAME__H
 
@@ -11,8 +16,6 @@ void waitUntilKeyPressed();
 
 struct Game {
 
-    SDL_Texture *bird_img;
-    SDL_Texture *bgr;
     bool is_running;
 
     static bool leftPressed;

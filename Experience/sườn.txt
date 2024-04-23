@@ -1,7 +1,7 @@
 Game	
 
-- * Chạy chương trình đầu tiên
-- Chim di chuyển
+- . Chạy chương trình đầu tiên
+- . Chim di chuyển
 - Màn hình chuyển động
 - Chim chuyển động
 - Tạo quái

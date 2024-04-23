@@ -1,6 +1,6 @@
 #pragma once
 
-const int INITIAL_SPEED = 3;
+const int INITIAL_SPEED = 4;
 
 struct Mouse {
 
