@@ -4,7 +4,7 @@
 Bird::Bird() {}
 
 void Bird::init() {
-    bird_img = TextureManager::loadTexture("bird.png");
+    bird_img = DrawTexture::loadTexture("bird.png");
 }
 
 void Bird::update() {
@@ -15,5 +15,5 @@ void Bird::update() {
 }
 
 void Bird::render() {
-    TextureManager::draw(bird_img, mouse.x, mouse.y);
+    DrawTexture::draw(bird_img, mouse.x, mouse.y);
 }

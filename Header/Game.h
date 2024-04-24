@@ -9,7 +9,7 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
-#include "../Header/TextureManager.h"
+#include "../Header/DrawTexture.h"
 
 void logErrorAndExit(const char* msg, const char* error);
 void waitUntilKeyPressed();

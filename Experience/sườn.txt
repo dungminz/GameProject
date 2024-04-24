@@ -1,14 +1,42 @@
-Game	
+Bố cục Game:
 
 - . Chạy chương trình đầu tiên
+    + Tách DrawTexture thay vì Graphics (đổi tên phù hợp)
 - . Chim di chuyển
-- Màn hình chuyển động
-- Chim chuyển động
-- Tạo quái
+    + Hàm mouse: di chuyển bị khựng giữa chừng
+    -> xử lý từng nút một
+        : xoá hướng ngược lại -> mượt++
+        : không dùng đến SDL_GetKeyboardState -> bỏ
+    ->done
+    + Thêm di chuyển không quá màn hình
+- . Màn hình di chuyển
+    + Thêm phong cảnh (png)..
+- Chim chuyển động tại chỗ (sprite)
+- Tạo quái (dùng rand)
 - Xử lý va chạm
 - Nhạc (mixer)
 - Menu (ttf)
 - Tạo đạn quái
 - Tạo chim2 
-- Tạo tên lửa ( hướng tới chim )
+- Tạo tên lửa (hướng tới chim)
 - Tạo boss 
+
+
+Bố cục hàm:
+
+- pragma once //thay thế ifdef-define-endif
+
+- constructor
+- destructor
+
+- init -> constructor
+- hàm phụ
+- update
+- render
+- (clean)
+
+
+Bố cục chạy:
+    
+- background
+- bird

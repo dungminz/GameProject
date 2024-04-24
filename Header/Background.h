@@ -12,5 +12,6 @@ struct Background {
     
     void init();
     void scroll(int distance);
+    void update();
     void render();
 };

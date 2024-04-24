@@ -1,8 +1,8 @@
 #include "../Header/Background.h"
-#include "../header/TextureManager.h"
+#include "../header/DrawTexture.h"
 
 void Background::init() {
-    texture = TextureManager::loadTexture("bg2.png");
+    texture = DrawTexture::loadTexture("bg2.png");
     SDL_QueryTexture(texture, NULL, NULL, &width, &height);
 }
 
@@ -11,8 +11,11 @@ void Background::scroll(int distance) {
     if(scrollingOffset<0) scrollingOffset = width;
 }
 
-void Background::render() {
+void Background::update() {
     scroll(INITIAL_DISTANCE);
-    TextureManager::draw(texture, scrollingOffset, 0);
-    TextureManager::draw(texture, scrollingOffset-width, 0);
+}
+
+void Background::render() {
+    DrawTexture::draw(texture, scrollingOffset, 0);
+    DrawTexture::draw(texture, scrollingOffset-width, 0);
 }

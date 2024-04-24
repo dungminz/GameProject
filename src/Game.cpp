@@ -1,6 +1,6 @@
 #include <iostream>
 #include "../Header/Game.h"
-#include "../Header/TextureManager.h"
+#include "../Header/DrawTexture.h"
 #include "../Header/Bird.h"
 #include "../Header/Background.h"
 
@@ -20,6 +20,7 @@ void waitUntilKeyPressed() {
 
 SDL_Renderer *Game::renderer = nullptr;
 SDL_Window *Game::window = nullptr;
+
 bool Game::leftPressed = false;
 bool Game::rightPressed = false;
 bool Game::upPressed = false;
@@ -52,8 +53,8 @@ void Game::render() {
 }
 
 void Game::clean() {
-    delete background;
-    delete bird;
+    delete background; background = nullptr;
+    delete bird; bird = nullptr;
 }
 
 void Game::handle_events() {
@@ -63,19 +64,19 @@ void Game::handle_events() {
             case SDL_QUIT: is_running = false; break;
             case SDL_KEYDOWN:
                 switch (event.key.keysym.sym) {
-                    case SDLK_LEFT: leftPressed=true; rightPressed=false; break;
-                    case SDLK_RIGHT: rightPressed=true; leftPressed=false; break;
-                    case SDLK_UP: upPressed=true; downPressed=false; break;
-                    case SDLK_DOWN: downPressed=true; upPressed=false; break;
+                    case SDLK_LEFT:  leftPressed=true;  rightPressed=false; break;
+                    case SDLK_RIGHT: rightPressed=true; leftPressed=false;  break;
+                    case SDLK_UP:    upPressed=true;    downPressed=false;  break;
+                    case SDLK_DOWN:  downPressed=true;  upPressed=false;    break;
                     default: break;
                 }
                 break;
             case SDL_KEYUP:
                 switch (event.key.keysym.sym) {
-                    case SDLK_LEFT: leftPressed=false; break;
+                    case SDLK_LEFT:  leftPressed=false;  break;
                     case SDLK_RIGHT: rightPressed=false; break;
-                    case SDLK_UP: upPressed=false; break;
-                    case SDLK_DOWN: downPressed=false; break;
+                    case SDLK_UP:    upPressed=false;    break;
+                    case SDLK_DOWN:  downPressed=false;  break;
                     default: break;
                 }
                 break;
@@ -85,5 +86,6 @@ void Game::handle_events() {
 }
 
 void Game::update() {
+    background->update();
     bird->update();
 }

@@ -31,10 +31,10 @@ void init() {
     SDL_RenderSetLogicalSize(Game::renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 void clean() {
-    IMG_Quit();
-
     SDL_DestroyRenderer(game.renderer); game.renderer = nullptr;
     SDL_DestroyWindow(game.window); game.window = nullptr;
+
+    IMG_Quit();
     SDL_Quit();
 }
 
