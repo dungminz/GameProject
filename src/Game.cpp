@@ -42,9 +42,6 @@ void Game::init() {
 void Game::render() {
     SDL_RenderClear(renderer);
 
-    //lay w, h
-    //std::cerr<<"w: "<<background->width<<", h: "<<background->height<<'\n';
-
     //Render everything
     background->render();
     bird->render();

@@ -4,7 +4,7 @@
 Bird::Bird() {}
 
 void Bird::init() {
-    bird_img = DrawTexture::loadTexture("bird.png");
+    bird_img = DrawTexture::loadTexture("eggbird.png");
 }
 
 void Bird::update() {
@@ -15,5 +15,9 @@ void Bird::update() {
 }
 
 void Bird::render() {
-    DrawTexture::draw(bird_img, mouse.x, mouse.y);
+    int w, h;
+    SDL_QueryTexture(bird_img, NULL, NULL, &w, &h);
+    SDL_Rect src = {0, 0, w/8, h};
+    // std::cout<<(double)w/8<<' '<<(double)h<<'\n';
+    DrawTexture::draw(bird_img, &src, mouse.x, mouse.y);
 }

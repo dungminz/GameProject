@@ -2,8 +2,8 @@
 
 #include "../Header/Game.h"
 
-const int SCREEN_WIDTH = 1200;
-const int SCREEN_HEIGHT = 600;
+const int SCREEN_WIDTH = 1280;
+const int SCREEN_HEIGHT = 720;
 #define WINDOW_TITLE "Hello mn!!"
 
 Game game;

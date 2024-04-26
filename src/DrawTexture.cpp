@@ -2,11 +2,11 @@
 #include "../Header/DrawTexture.h"
 
 
-SDL_Texture *DrawTexture::loadTexture(const char *filename)
+SDL_Texture *DrawTexture::loadTexture(const string filename)
 {
     SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Loading %s", filename);
 
-    SDL_Texture *texture = IMG_LoadTexture(Game::renderer, filename);
+    SDL_Texture *texture = IMG_LoadTexture(Game::renderer, filename.c_str());
     if (texture == NULL)
         SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Load texture %s", IMG_GetError());
 

@@ -3,19 +3,30 @@
 
 void Background::init() {
     texture = DrawTexture::loadTexture("bg2.png");
-    SDL_QueryTexture(texture, NULL, NULL, &width, &height);
+    ground = DrawTexture::loadTexture(bg_ground);
+    for(int i=0; i<TOTAL_BACKGROUND_LAYERS; i++) {
+        scrolling_layer[i] = width;
+        layer[i] = DrawTexture::loadTexture(bg_layer[i]);
+        if(layer[i]==nullptr) logErrorAndExit("LoadImage"+i, IMG_GetError());
+    }
+    SDL_QueryTexture(ground, NULL, NULL, &width, &height);
 }
 
-void Background::scroll(int distance) {
-    scrollingOffset-=distance;
-    if(scrollingOffset<0) scrollingOffset = width;
+void Background::scroll() {
+    for(int i=0; i<TOTAL_BACKGROUND_LAYERS; i++) {
+        scrolling_layer[i] -= LAYER_SPEED[i];
+        if(scrolling_layer[i]<0) scrolling_layer[i] = width;
+    }
 }
 
 void Background::update() {
-    scroll(INITIAL_DISTANCE);
+    scroll();
 }
 
 void Background::render() {
-    DrawTexture::draw(texture, scrollingOffset, 0);
-    DrawTexture::draw(texture, scrollingOffset-width, 0);
+    DrawTexture::draw(ground);
+    for(int i=0; i<TOTAL_BACKGROUND_LAYERS; i++) {
+        DrawTexture::draw(layer[i], scrolling_layer[i] - width, 0);
+        DrawTexture::draw(layer[i], scrolling_layer[i], 0);
+    }    
 }
