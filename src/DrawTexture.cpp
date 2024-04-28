@@ -2,7 +2,7 @@
 #include "../Header/DrawTexture.h"
 
 
-SDL_Texture *DrawTexture::loadTexture(const string filename)
+SDL_Texture *DrawTexture::loadTexture(const std::string filename)
 {
     SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Loading %s", filename);
 

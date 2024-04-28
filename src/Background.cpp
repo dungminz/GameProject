@@ -7,7 +7,6 @@ void Background::init() {
     for(int i=0; i<TOTAL_BACKGROUND_LAYERS; i++) {
         scrolling_layer[i] = width;
         layer[i] = DrawTexture::loadTexture(bg_layer[i]);
-        if(layer[i]==nullptr) logErrorAndExit("LoadImage"+i, IMG_GetError());
     }
     SDL_QueryTexture(ground, NULL, NULL, &width, &height);
 }
@@ -15,7 +14,7 @@ void Background::init() {
 void Background::scroll() {
     for(int i=0; i<TOTAL_BACKGROUND_LAYERS; i++) {
         scrolling_layer[i] -= LAYER_SPEED[i];
-        if(scrolling_layer[i]<0) scrolling_layer[i] = width;
+        if(scrolling_layer[i]<0) scrolling_layer[i] += width;
     }
 }
 

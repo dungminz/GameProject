@@ -1,6 +1,6 @@
 #pragma once
 
-#include "CommonFunction.h"
+#include "string"
 #include "Game.h"
 
 const int INITIAL_DISTANCE = 3;
@@ -13,8 +13,8 @@ const double LAYER_SPEED[TOTAL_BACKGROUND_LAYERS] = {
 
 struct Background {
 
-    string bg_ground;
-    string bg_layer[TOTAL_BACKGROUND_LAYERS];
+    std::string bg_ground;
+    std::string bg_layer[TOTAL_BACKGROUND_LAYERS];
 
     Background() {
         bg_ground = "../Image/background/bg0.png";
@@ -25,7 +25,7 @@ struct Background {
         bg_layer[4] = "../Image/background/4.png";
         bg_layer[5] = "../Image/background/5.png";
     };
-    //~Background() {};
+    ~Background() {};
     
     SDL_Texture *texture;
     SDL_Texture *ground;
