@@ -4,9 +4,8 @@
 Bird::Bird() {}
 
 void Bird::init() {
-    bird_img = DrawTexture::loadTexture("eggbird.png");
-    dino_img = DrawTexture::loadTexture("BlueTest.png");
-    dino.init(dino_img, TOTAL_FLAME_DINO, DINO_CLIPS);
+    bird_img = DrawTexture::loadTexture("../Image/Animation/eggbird.png");
+    bird.init(bird_img, FLAMES_EGG_BIRD, CLIPS_EGG_BIRD);
 }
 
 void Bird::update() {
@@ -14,14 +13,10 @@ void Bird::update() {
     if(Game::rightPressed) mouse.turnRight();
     if(Game::upPressed) mouse.turnUp();
     if(Game::downPressed) mouse.turnDown();
-    dino.update();
+    bird.update();
 }
 
-void Bird::render() {
-    int w, h;
-    SDL_QueryTexture(bird_img, NULL, NULL, &w, &h);
-    SDL_Rect src = {0, 0, w, h};
-    SDL_Rect dest = {mouse.x, mouse.y, w/10, h/10}; 
-    DrawTexture::draw(bird_img, &src, &dest);
-    //DrawTexture::draw(dino_img, dino.getCurrentClip(), mouse.x, mouse.y);
+void Bird::render() { 
+    SDL_Rect dest = {mouse.x, mouse.y, 560/8, 420/8};
+    DrawTexture::draw(bird_img, bird.getCurrentClip(), &dest);
 }

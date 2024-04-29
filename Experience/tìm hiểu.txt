@@ -14,3 +14,4 @@
 
 - Về biến static : sau khi khởi tạo ở .h, cần gán giá trị mặc định ở .cpp để dùng chung toàn bộ file
 
+- Về destructor, free()

@@ -18,7 +18,7 @@ void Sprite::tick() {
 }
 
 void Sprite::update() {
-    ticks = ++ticks%10;
+    ticks = ++ticks%5;
     if(!ticks) tick();
 }
 

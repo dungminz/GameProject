@@ -9,9 +9,12 @@ Bố cục Game:
         : không dùng đến SDL_GetKeyboardState -> bỏ
     ->done
     + Thêm di chuyển không quá màn hình
+    + Thêm hiệu ứng khi bay lên và xuống
 - . Màn hình di chuyển
     + Thêm phong cảnh (png)..
-- Chim chuyển động tại chỗ (sprite)
+- . Chim chuyển động tại chỗ (sprite)
+- Tạo đồ ăn (tính điểm)
+    + Xử lý gameover
 - Tạo quái (dùng rand)
 - Xử lý va chạm
 - Nhạc (mixer)
