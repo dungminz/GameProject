@@ -7,9 +7,12 @@
 #ifndef _GAME__H
 #define _GAME__H
 
+#include <iostream>
 #include <SDL.h>
 #include <SDL_image.h>
 #include "../Header/DrawTexture.h"
+#include "Sprite.h"
+#include "Mouse.h"
 
 void logErrorAndExit(const char* msg, const char* error);
 void waitUntilKeyPressed();

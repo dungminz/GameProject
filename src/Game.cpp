@@ -1,7 +1,7 @@
-#include <iostream>
 #include "../Header/Game.h"
 #include "../Header/DrawTexture.h"
 #include "../Header/Bird.h"
+#include "../Header/Enemy.h"
 #include "../Header/Background.h"
 
 void logErrorAndExit(const char* msg, const char* error) {
@@ -26,14 +26,21 @@ bool Game::rightPressed = false;
 bool Game::upPressed = false;
 bool Game::downPressed = false;
 
-Bird *bird = nullptr;
 Background *background = nullptr;
+Enemy *enemy = nullptr;
+Bird *bird = nullptr;
 
 void Game::init() {
     is_running = true;
+
     background = new Background();
     if(background) background->init();
         else logErrorAndExit("CreateBackground", SDL_GetError());
+
+    enemy = new Enemy();
+    if(enemy) enemy->init();
+        else logErrorAndExit("CreateEnemy", SDL_GetError());
+
     bird = new Bird();
     if(bird) bird->init();
         else logErrorAndExit("CreateBird", SDL_GetError());
@@ -45,6 +52,7 @@ void Game::render() {
 
     //Render everything
     background->render();
+    enemy->render();
     bird->render();
 
     SDL_RenderPresent(renderer);
@@ -52,6 +60,7 @@ void Game::render() {
 
 void Game::clean() {
     delete background; background = nullptr;
+    delete enemy; enemy = nullptr;
     delete bird; bird = nullptr;
 }
 
@@ -85,5 +94,6 @@ void Game::handle_events() {
 
 void Game::update() {
     background->update();
+    enemy->update();
     bird->update();
 }

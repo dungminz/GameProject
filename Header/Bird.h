@@ -1,8 +1,6 @@
 #pragma once
 
 #include "Game.h"
-#include "Mouse.h"
-#include "Sprite.h"
 
 const int FLAMES_DINO = 9;
 const int SIZE_DINO = 57;
@@ -18,7 +16,7 @@ const int CLIPS_DINO[FLAMES_DINO][4] = {
 };
 
 const int FLAMES_EGG_BIRD = 8;
-const int RANGE_FLAME_EGG_BIRD = 1360;
+const int RANGE_FLAME_EGG_BIRD = 800+560;
 const int CLIPS_EGG_BIRD[FLAMES_EGG_BIRD][4] = {
     {405+RANGE_FLAME_EGG_BIRD*0, 50, 560, 420},
     {405+RANGE_FLAME_EGG_BIRD*1, 50, 560, 420},

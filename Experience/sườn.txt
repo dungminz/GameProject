@@ -42,4 +42,5 @@ Bố cục hàm:
 Bố cục chạy:
     
 - background
+- enemy
 - bird
