@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game.h"
+#include "Sprite.h"
 
 const int FLAMES_DIAMOND = 8;
 const int RANGE_FLAME_DIAMOND = 165+576;
@@ -20,11 +21,12 @@ struct Enemy {
     Enemy() {};
 
     SDL_Texture *diamond_img;
+    SDL_Rect diamond_dest;
 
     void init();
     void update();
     void render();
-    void checkCollision();
 
-    Sprite diamond;
+    Sprite diamond_spr;
+
 };

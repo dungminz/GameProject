@@ -22,6 +22,6 @@ void Sprite::update() {
     if(!ticks) tick();
 }
 
-SDL_Rect* Sprite::getCurrentClip() {
+SDL_Rect* Sprite::getSrc() {
     return &clips[currentFlame];
 }

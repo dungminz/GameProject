@@ -1,22 +1,21 @@
 #include <iostream>
 #include "../Header/Bird.h"
 
-Bird::Bird() {}
+
+Bird::Bird()
+    : bird_mouse(MAIN_BIRD_ORIGIN_POS_X, MAIN_BIRD_ORIGIN_POS_Y, 
+            EGG_BIRD_REAL_W, EGG_BIRD_REAL_H) {}
 
 void Bird::init() {
     bird_img = DrawTexture::loadTexture("../Image/Animation/eggbird.png");
-    bird.init(bird_img, FLAMES_EGG_BIRD, CLIPS_EGG_BIRD);
+    bird_spr.init(bird_img, FLAMES_EGG_BIRD, CLIPS_EGG_BIRD);
 }
 
 void Bird::update() {
-    if(Game::leftPressed) mouse.turnLeft();
-    if(Game::rightPressed) mouse.turnRight();
-    if(Game::upPressed) mouse.turnUp();
-    if(Game::downPressed) mouse.turnDown();
-    bird.update();
+    bird_mouse.update();
+    bird_spr.update();
 }
 
 void Bird::render() { 
-    SDL_Rect dest = {mouse.x, mouse.y, 560/8, 420/8};
-    DrawTexture::draw(bird_img, bird.getCurrentClip(), &dest);
+    DrawTexture::draw(bird_img, bird_spr.getSrc(), bird_mouse.getDest());
 }

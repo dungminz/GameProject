@@ -1,18 +1,22 @@
 #pragma once
 
-#ifndef __has_extension
-#define __has_extension(x) 0
-#endif
-
-#ifndef _GAME__H
-#define _GAME__H
+// #ifndef __has_extension
+// #define __has_extension(x) 0
+// #endif
 
 #include <iostream>
 #include <SDL.h>
 #include <SDL_image.h>
-#include "../Header/DrawTexture.h"
-#include "Sprite.h"
+
+#include "DrawTexture.h"
 #include "Mouse.h"
+#include "Sprite.h"
+
+struct Enemy;
+struct Bird;
+
+// #include "Enemy.h"
+// #include "Bird.h"
 
 void logErrorAndExit(const char* msg, const char* error);
 void waitUntilKeyPressed();
@@ -20,6 +24,7 @@ void waitUntilKeyPressed();
 struct Game {
 
     bool is_running;
+    bool is_enemy;
 
     static bool leftPressed;
     static bool rightPressed;
@@ -31,10 +36,9 @@ struct Game {
 
     void init();
     void render();
-    bool running() {return is_running;}
+    bool running() {return is_running;};
     void handle_events();
+    bool checkCollision(SDL_Rect* _bird, SDL_Rect* _enemy);
     void update();
     void clean();
 };
-
-#endif

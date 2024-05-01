@@ -1,7 +1,5 @@
 #pragma once
-#include <bits/stdc++.h>
 
+#include "SDL.h"
 
 #define ii pair<int, double>
-
-using namespace std;

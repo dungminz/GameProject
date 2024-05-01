@@ -14,6 +14,6 @@ struct Sprite {
     void init(SDL_Texture *_texture, const int flames, const int _clips[][4]);
     void tick();
     void update();
-    SDL_Rect *getCurrentClip();
+    SDL_Rect *getSrc();
 
 };
