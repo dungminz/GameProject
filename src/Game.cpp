@@ -127,8 +127,9 @@ bool Game::checkCollision(SDL_Rect* _bird, SDL_Rect* _enemy) {
 void Game::create_enemy(std::vector<Pos> &_pos, int numbers) {
     for(int i=1; i<=numbers; i++) {
         int rand_y = DISTANCE_TO_SCREEN + rand()%(SCREEN_HEIGHT - DIAMOND_REAL_H - DISTANCE_TO_SCREEN);
+        int rand_spr = rand()%FLAMES_DIAMOND;
         double rand_speed = ENEMY_MIN_SPEED + double(rand()%int(ENEMY_MAX_SPEED*100 - ENEMY_MIN_SPEED*100))/100;
-        _pos.push_back({SCREEN_WIDTH, rand_y, 0, rand_speed});
+        _pos.push_back({SCREEN_WIDTH, rand_y, rand_spr, rand_speed});
         // std::cerr<<"rand y : "<<rand_y<<"  rand speed : "<<rand_speed<<'\n';
     }
 }
