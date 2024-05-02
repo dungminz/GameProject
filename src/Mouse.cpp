@@ -7,7 +7,7 @@ Mouse::Mouse()
 Mouse::Mouse(int _x, int _y, int _w, int _h) 
     : x(_x), y(_y), w(_w), h(_h) 
     {
-        dx=0, dy=0, speed = STEPS_MOVE;
+        dx=0, dy=0, speed = STEPS_MOVE_BIRD;
     }
 
 void Mouse::turnLeft()  {

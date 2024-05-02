@@ -31,7 +31,7 @@ struct Enemy {
 
     void init();
     void update();
-    void update(int &pos_spr);
+    void update(Pos &pos);
     void render(int x, int y, int spr);
 
     Sprite enemy_spr;

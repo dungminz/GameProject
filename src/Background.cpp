@@ -1,11 +1,11 @@
 #include "../Header/Background.h"
-#include "../header/DrawTexture.h"
+#include "../header/TextureManager.h"
 
 void Background::init() {
-    ground = DrawTexture::loadTexture(bg_ground);
+    ground = TextureManager::loadTexture(bg_ground);
     for(int i=0; i<TOTAL_BACKGROUND_LAYERS; i++) {
         scrolling_layer[i] = width;
-        layer[i] = DrawTexture::loadTexture(bg_layer[i]);
+        layer[i] = TextureManager::loadTexture(bg_layer[i]);
     }
     SDL_QueryTexture(ground, NULL, NULL, &width, &height);
 }
@@ -22,9 +22,9 @@ void Background::update() {
 }
 
 void Background::render() {
-    DrawTexture::draw(ground);
+    TextureManager::draw(ground);
     for(int i=0; i<TOTAL_BACKGROUND_LAYERS; i++) {
-        DrawTexture::draw(layer[i], scrolling_layer[i] - width, 0);
-        DrawTexture::draw(layer[i], scrolling_layer[i], 0);
+        TextureManager::draw(layer[i], scrolling_layer[i] - width, 0);
+        TextureManager::draw(layer[i], scrolling_layer[i], 0);
     }    
 }

@@ -1,7 +1,7 @@
 #pragma once
 #include "Game.h"
 
-struct DrawTexture {
+struct TextureManager {
     static SDL_Texture *loadTexture(const std::string filename);
     static void draw(SDL_Texture *texture);
     static void draw(SDL_Texture *texture, int x, int y);

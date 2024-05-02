@@ -1,8 +1,7 @@
+#include "../Header/TextureManager.h"
 
-#include "../Header/DrawTexture.h"
 
-
-SDL_Texture *DrawTexture::loadTexture(const std::string filename)
+SDL_Texture *TextureManager::loadTexture(const std::string filename)
 {
     SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Loading %s", filename);
 
@@ -13,11 +12,11 @@ SDL_Texture *DrawTexture::loadTexture(const std::string filename)
     return texture;
 }
 
-void DrawTexture::draw(SDL_Texture *texture) {
+void TextureManager::draw(SDL_Texture *texture) {
     SDL_RenderCopy(Game::renderer, texture, NULL, NULL);
 }
 
-void DrawTexture::draw(SDL_Texture *texture, int x, int y) {
+void TextureManager::draw(SDL_Texture *texture, int x, int y) {
     SDL_Rect dest;
     dest.x = x;
     dest.y = y;
@@ -26,7 +25,7 @@ void DrawTexture::draw(SDL_Texture *texture, int x, int y) {
     SDL_RenderCopy(Game::renderer, texture, NULL, &dest);
 }
 
-void DrawTexture::draw(SDL_Texture *texture, SDL_Rect *src, int x, int y) {
+void TextureManager::draw(SDL_Texture *texture, SDL_Rect *src, int x, int y) {
     SDL_Rect dest;
     dest.x = x;
     dest.y = y;
@@ -36,6 +35,6 @@ void DrawTexture::draw(SDL_Texture *texture, SDL_Rect *src, int x, int y) {
     SDL_RenderCopy(Game::renderer, texture, src, &dest);
 }
 
-void DrawTexture::draw(SDL_Texture *texture, SDL_Rect *src, SDL_Rect *dest) {
+void TextureManager::draw(SDL_Texture *texture, SDL_Rect *src, SDL_Rect *dest) {
     SDL_RenderCopy(Game::renderer, texture, src, dest);
 }

@@ -1,7 +1,7 @@
 Bố cục Game:
 
 - . Chạy chương trình đầu tiên
-    + Tách DrawTexture thay vì Graphics (đổi tên phù hợp)
+    + Tách TextureManager thay vì Graphics (đổi tên phù hợp)
 - . Chim di chuyển
     + Hàm mouse: di chuyển bị khựng giữa chừng
     -> xử lý từng nút một
@@ -13,11 +13,12 @@ Bố cục Game:
 - . Màn hình di chuyển
     + Thêm phong cảnh (png)..
 - . Chim chuyển động tại chỗ (sprite)
-- Tạo diamond (tính điểm)
+- . Tạo diamond
     + Xử lý tạo nhiều dia, ý tưởng thô dùng vector;
-    + Xử lý gameover
+    + rand
 - Tạo quái (dùng rand)
 - Xử lý va chạm
+- Timer
 - Nhạc (mixer)
 - Menu (ttf)
 - Tạo đạn quái

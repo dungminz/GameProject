@@ -2,6 +2,7 @@
 #include "../Header/Bird.h"
 #include "../Header/Enemy.h"
 #include "../Header/Background.h"
+#include "../Header/CommonFunction.h"
 
 void logErrorAndExit(const char* msg, const char* error) {
     SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "%s : %s", msg, error);
@@ -40,9 +41,7 @@ void Game::init() {
     diamond = new Enemy();
     if(diamond) diamond->init();
         else logErrorAndExit("CreateEnemy", SDL_GetError());
-    diamond_pos.push_back({1280/2, 720/2, 0});
-    diamond_pos.push_back({1280/2+200, 720/2, 2});
-    diamond_pos.push_back({1280/2+400, 720/2, 4});
+    create_enemy(diamond_pos, 5);
 
     bird = new Bird();
     if(bird) bird->init();
@@ -103,7 +102,7 @@ void Game::update() {
     if(is_enemy) { 
         diamond->update();
         for(Pos &pos : diamond_pos) 
-            diamond->update(pos.spr);
+            diamond->update(pos);
     }
     bird->update();
     if(is_enemy) {
@@ -123,4 +122,13 @@ void Game::update() {
 
 bool Game::checkCollision(SDL_Rect* _bird, SDL_Rect* _enemy) {
     return SDL_HasIntersection(_bird, _enemy);
+}
+
+void Game::create_enemy(std::vector<Pos> &_pos, int numbers) {
+    for(int i=1; i<=numbers; i++) {
+        int rand_y = DISTANCE_TO_SCREEN + rand()%(SCREEN_HEIGHT - DIAMOND_REAL_H - DISTANCE_TO_SCREEN);
+        double rand_speed = ENEMY_MIN_SPEED + double(rand()%int(ENEMY_MAX_SPEED*100 - ENEMY_MIN_SPEED*100))/100;
+        _pos.push_back({SCREEN_WIDTH, rand_y, 0, rand_speed});
+        // std::cerr<<"rand y : "<<rand_y<<"  rand speed : "<<rand_speed<<'\n';
+    }
 }

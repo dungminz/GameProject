@@ -3,22 +3,22 @@
 
 void Enemy::init() {
     
-    enemy_img = DrawTexture::loadTexture(DIAMOND_IMG);
+    enemy_img = TextureManager::loadTexture(DIAMOND_IMG);
     enemy_spr.init(enemy_img, FLAMES_DIAMOND, CLIPS_DIAMOND);
 }
 
 void Enemy::update() {
     delay = ++delay%SPRITE_DELAY;
 }
-void Enemy::update(int &pos_spr) {
-    
+void Enemy::update(Pos &pos) {
     if(!delay) {
-        pos_spr = ++pos_spr%FLAMES_DIAMOND;
+        pos.spr = ++pos.spr%FLAMES_DIAMOND;
     }
+    pos.x-=pos.speed;
 }
 
 void Enemy::render(int x, int y, int spr) {
     SDL_Rect dest = {x, y, DIAMOND_REAL_W, DIAMOND_REAL_H};
     SDL_Rect src = enemy_spr.clips[spr];
-    DrawTexture::draw(enemy_img, &src, &dest);
+    TextureManager::draw(enemy_img, &src, &dest);
 }

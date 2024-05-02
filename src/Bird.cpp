@@ -7,7 +7,7 @@ Bird::Bird()
             EGG_BIRD_REAL_W, EGG_BIRD_REAL_H) {}
 
 void Bird::init() {
-    bird_img = DrawTexture::loadTexture(EGG_BIRD_IMG);
+    bird_img = TextureManager::loadTexture(EGG_BIRD_IMG);
     bird_spr.init(bird_img, FLAMES_EGG_BIRD, CLIPS_EGG_BIRD);
 }
 
@@ -17,5 +17,5 @@ void Bird::update() {
 }
 
 void Bird::render() { 
-    DrawTexture::draw(bird_img, bird_spr.getSrc(), bird_mouse.getDest());
+    TextureManager::draw(bird_img, bird_spr.getSrc(), bird_mouse.getDest());
 }

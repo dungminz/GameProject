@@ -13,7 +13,7 @@
 // #include <SDL_ttf.h>
 // #include <SDL_mixer.h>
 
-#include "DrawTexture.h"
+#include "TextureManager.h"
 #include "Mouse.h"
 #include "Sprite.h"
 
@@ -22,6 +22,7 @@ void waitUntilKeyPressed();
 
 struct Pos {
     int x, y, spr;
+    double speed;
 };
 
 struct Game {
@@ -46,4 +47,5 @@ struct Game {
     void update();
     void clean();
 
+    void create_enemy(std::vector<Pos> &_pos, int numbers);
 };
