@@ -6,18 +6,16 @@
 
 #include <iostream>
 #include <vector>
+#include <string>
+
 #include <SDL.h>
 #include <SDL_image.h>
+// #include <SDL_ttf.h>
+// #include <SDL_mixer.h>
 
 #include "DrawTexture.h"
 #include "Mouse.h"
 #include "Sprite.h"
-
-struct Enemy;
-struct Bird;
-
-// #include "Enemy.h"
-// #include "Bird.h"
 
 void logErrorAndExit(const char* msg, const char* error);
 void waitUntilKeyPressed();

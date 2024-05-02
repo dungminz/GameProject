@@ -1,4 +1,5 @@
 #include "../Header/Sprite.h"
+#include "../Header/CommonFunction.h"
 
 void Sprite::init(SDL_Texture *_texture, const int _flames, const int _clips[][4]) {
     texture = _texture;
@@ -18,8 +19,8 @@ void Sprite::tick() {
 }
 
 void Sprite::update() {
-    ticks = ++ticks%5;
-    if(!ticks) tick();
+    delay = ++delay%SPRITE_DELAY;
+    if(!delay) tick();
 }
 
 SDL_Rect* Sprite::getSrc() {

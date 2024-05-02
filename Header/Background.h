@@ -1,6 +1,5 @@
 #pragma once
 
-#include "string"
 #include "Game.h"
 
 const int INITIAL_DISTANCE = 3;
@@ -27,7 +26,6 @@ struct Background {
     };
     ~Background() {};
     
-    SDL_Texture *texture;
     SDL_Texture *ground;
     SDL_Texture *layer[TOTAL_BACKGROUND_LAYERS];
     int width, height;

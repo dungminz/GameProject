@@ -2,7 +2,6 @@
 #include "../header/DrawTexture.h"
 
 void Background::init() {
-    texture = DrawTexture::loadTexture("bg2.png");
     ground = DrawTexture::loadTexture(bg_ground);
     for(int i=0; i<TOTAL_BACKGROUND_LAYERS; i++) {
         scrolling_layer[i] = width;

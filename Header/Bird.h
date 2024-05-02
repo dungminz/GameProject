@@ -3,19 +3,7 @@
 #include "Game.h"
 #include "Sprite.h"
 
-const int FLAMES_DINO = 9;
-const int SIZE_DINO = 57;
-const int CLIPS_DINO[FLAMES_DINO][4] = {
-    {SIZE_DINO*0, 0, SIZE_DINO, SIZE_DINO},
-    {SIZE_DINO*1, 0, SIZE_DINO, SIZE_DINO},
-    {SIZE_DINO*2, 0, SIZE_DINO, SIZE_DINO},
-    {SIZE_DINO*3, 0, SIZE_DINO, SIZE_DINO},
-    {SIZE_DINO*4, 0, SIZE_DINO, SIZE_DINO},
-    {SIZE_DINO*5, 0, SIZE_DINO, SIZE_DINO},
-    {SIZE_DINO*6, 0, SIZE_DINO, SIZE_DINO},
-    {SIZE_DINO*7, 0, SIZE_DINO, SIZE_DINO}
-};
-
+const std::string EGG_BIRD_IMG = "../Image/Animation/eggbird.png";
 const int FLAMES_EGG_BIRD = 8;
 const int EGG_BIRD_REAL_W = 560/8;
 const int EGG_BIRD_REAL_H = 420/8;

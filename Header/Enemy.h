@@ -3,12 +3,11 @@
 #include "Game.h"
 #include "Sprite.h"
 
-const int SPRITE_DELAY = 5;
-
+const std::string DIAMOND_IMG = "../Image/Animation/diamond.png";
 const int FLAMES_DIAMOND = 8;
 const int DIAMOND_W = 576;
 const int DIAMOND_H = 512;
-const int DIAMOND_SCALE = 8;
+const int DIAMOND_SCALE = 10;
 const int DIAMOND_REAL_W = DIAMOND_W/DIAMOND_SCALE;
 const int DIAMOND_REAL_H = DIAMOND_H/DIAMOND_SCALE;
 const int RANGE_FLAME_DIAMOND = 165+576;

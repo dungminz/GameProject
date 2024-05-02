@@ -1,10 +1,14 @@
 #include "../Header/Mouse.h"
+#include "../Header/CommonFunction.h"
 
 Mouse::Mouse() 
     : x(100), y(100), w(0), h(0) {}
 
 Mouse::Mouse(int _x, int _y, int _w, int _h) 
-    : x(_x), y(_y), w(_w), h(_h) {}
+    : x(_x), y(_y), w(_w), h(_h) 
+    {
+        dx=0, dy=0, speed = STEPS_MOVE;
+    }
 
 void Mouse::turnLeft()  {
     dx=-speed; dy=0; move();

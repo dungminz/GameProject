@@ -1,5 +1,4 @@
 #include "../Header/Game.h"
-// #include "../Header/DrawTexture.h"
 #include "../Header/Bird.h"
 #include "../Header/Enemy.h"
 #include "../Header/Background.h"
