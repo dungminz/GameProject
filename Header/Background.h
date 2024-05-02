@@ -3,11 +3,9 @@
 #include "Game.h"
 
 const int INITIAL_DISTANCE = 3;
-
 const int TOTAL_BACKGROUND_LAYERS = 6;
-
 const double LAYER_SPEED[TOTAL_BACKGROUND_LAYERS] = {
-    0.5, 0.75, 1, 1.25, 1.5, 1.75
+    0.3, 0.5, 0.7, 0.9, 1.1, 1.3
 };
 
 struct Background {
@@ -28,7 +26,6 @@ struct Background {
     
     SDL_Texture *ground;
     SDL_Texture *layer[TOTAL_BACKGROUND_LAYERS];
-    int width, height;
     double scrolling_layer[TOTAL_BACKGROUND_LAYERS];
     
     void init();

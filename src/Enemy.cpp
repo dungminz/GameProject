@@ -14,17 +14,32 @@ void Enemy::update() {
 
     enemycollaption_spr.update();
 }
-void Enemy::update(Pos &pos) {
-    if(!delay) {
-        pos.spr = ++pos.spr%FLAMES_DIAMOND;
+void Enemy::update(Pos &pos, int typeOfEnemy) {
+    if(typeOfEnemy == DIAMOND) {
+        if(!delay) {
+            pos.spr = ++pos.spr%FLAMES_DIAMOND;
+        }
+        pos.x-=pos.speed;
     }
-    pos.x-=pos.speed;
+    if(typeOfEnemy == DIAMONDCOLLAPSION) {
+        if(!delay) {
+            pos.spr++;
+        }
+    }
 }
 
-void Enemy::render(int x, int y, int spr) {
-    SDL_Rect dest = {x, y, DIAMOND_REAL_W, DIAMOND_REAL_H};
-    SDL_Rect src = enemy_spr.clips[spr];
-    TextureManager::draw(enemy_img, &src, &dest);
 
-    TextureManager::draw(enemycollaption_img, enemycollaption_spr.getSrc(), &dest);
+void Enemy::render(int x, int y, int spr, int typeOfEnemy) {
+
+    if(typeOfEnemy == DIAMOND) {
+        SDL_Rect src = enemy_spr.clips[spr];
+        SDL_Rect dest = {x, y, DIAMOND_REAL_W, DIAMOND_REAL_H};
+        TextureManager::draw(enemy_img, &src, &dest);
+    }
+
+    if(typeOfEnemy == DIAMONDCOLLAPSION) {
+        SDL_Rect src = enemycollaption_spr.clips[spr];
+        SDL_Rect dest = {x, y, DIAMONDCOLLAPSION_REAL_W, DIAMONDCOLLAPSION_REAL_H};
+        TextureManager::draw(enemycollaption_img, &src, &dest);
+    }
 }

@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <vector>
+// #include <utility>
 #include <string>
 
 #include <SDL.h>
@@ -23,6 +24,9 @@ void waitUntilKeyPressed();
 struct Pos {
     int x, y, spr;
     double speed;
+    
+    Pos(int _x, int _y, int _spr) : x(_x), y(_y), spr(_spr) {};
+    Pos(int _x, int _y, int _spr, double _speed) : x(_x), y(_y), spr(_spr), speed(_speed) {};
 };
 
 struct Game {
@@ -30,6 +34,7 @@ struct Game {
     bool is_running;
     bool is_enemy;
     std::vector<Pos> diamond_pos;
+    std::vector<Pos> diamondcollapsion_pos;
 
     static bool leftPressed;
     static bool rightPressed;

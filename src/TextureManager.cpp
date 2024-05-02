@@ -1,5 +1,5 @@
 #include "../Header/TextureManager.h"
-
+#include "../Header/CommonFunction.h"
 
 SDL_Texture *TextureManager::loadTexture(const std::string filename)
 {
@@ -20,8 +20,10 @@ void TextureManager::draw(SDL_Texture *texture, int x, int y) {
     SDL_Rect dest;
     dest.x = x;
     dest.y = y;
+    dest.w = SCREEN_WIDTH;
+    dest.h = SCREEN_HEIGHT;
 
-    SDL_QueryTexture(texture, NULL, NULL, &dest.w, &dest.h);
+    // SDL_QueryTexture(texture, NULL, NULL, &dest.w, &dest.h);
     SDL_RenderCopy(Game::renderer, texture, NULL, &dest);
 }
 

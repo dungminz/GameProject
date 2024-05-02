@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "Sprite.h"
 
+
 const std::string DIAMOND_IMG = "../Image/Animation/diamond.png";
 const int FLAMES_DIAMOND = 8;
 const int DIAMOND_W = 576;
@@ -22,10 +23,14 @@ const int CLIPS_DIAMOND[FLAMES_DIAMOND][4] = {
     {70+RANGE_FLAME_DIAMOND*7, 0, 576, 512}
 };
 
+
 const std::string DIAMONDCOLLAPSION_IMG = "../Image/Animation/diamondcollapsion.png";
 const int FLAMES_DIAMONDCOLLAPSION = 16;
 const int DIAMONDCOLLAPSION_W = 180;
 const int DIAMONDCOLLAPSION_H = 180;
+const int DIAMONDCOLLAPSION_SCALE = 3;
+const int DIAMONDCOLLAPSION_REAL_W = DIAMONDCOLLAPSION_W/DIAMONDCOLLAPSION_SCALE;
+const int DIAMONDCOLLAPSION_REAL_H = DIAMONDCOLLAPSION_H/DIAMONDCOLLAPSION_SCALE;
 const int RANGE_FLAME_DIAMONDCOLLAPSION = 180;
 const int CLIPS_DIAMONDCOLLAPSION[FLAMES_DIAMONDCOLLAPSION][4] = {
     {RANGE_FLAME_DIAMONDCOLLAPSION*0, 0, 180, 180},
@@ -46,6 +51,10 @@ const int CLIPS_DIAMONDCOLLAPSION[FLAMES_DIAMONDCOLLAPSION][4] = {
     {RANGE_FLAME_DIAMONDCOLLAPSION*15, 0, 180, 180}
 };
 
+
+const std::string 
+
+
 struct Enemy {
 
     Enemy() {};
@@ -56,8 +65,8 @@ struct Enemy {
 
     void init();
     void update();
-    void update(Pos &pos);
-    void render(int x, int y, int spr);
+    void update(Pos &pos, int typeOfEnemy);
+    void render(int x, int y, int spr, int typeOfEnemy);
 
     Sprite enemy_spr;
     Sprite enemycollaption_spr;
