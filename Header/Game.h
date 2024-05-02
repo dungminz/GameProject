@@ -5,6 +5,7 @@
 // #endif
 
 #include <iostream>
+#include <vector>
 #include <SDL.h>
 #include <SDL_image.h>
 
@@ -21,10 +22,15 @@ struct Bird;
 void logErrorAndExit(const char* msg, const char* error);
 void waitUntilKeyPressed();
 
+struct Pos {
+    int x, y, spr;
+};
+
 struct Game {
 
     bool is_running;
     bool is_enemy;
+    std::vector<Pos> diamond_pos;
 
     static bool leftPressed;
     static bool rightPressed;
@@ -41,4 +47,5 @@ struct Game {
     bool checkCollision(SDL_Rect* _bird, SDL_Rect* _enemy);
     void update();
     void clean();
+
 };

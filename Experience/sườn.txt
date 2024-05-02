@@ -13,7 +13,8 @@ Bố cục Game:
 - . Màn hình di chuyển
     + Thêm phong cảnh (png)..
 - . Chim chuyển động tại chỗ (sprite)
-- Tạo đồ ăn (tính điểm)
+- Tạo diamond (tính điểm)
+    + Xử lý tạo nhiều dia, ý tưởng thô dùng vector;
     + Xử lý gameover
 - Tạo quái (dùng rand)
 - Xử lý va chạm

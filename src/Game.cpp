@@ -27,7 +27,7 @@ bool Game::upPressed = false;
 bool Game::downPressed = false;
 
 Background *background = nullptr;
-Enemy *enemy = nullptr;
+Enemy *diamond = nullptr;
 Bird *bird = nullptr;
 
 void Game::init() {
@@ -38,9 +38,12 @@ void Game::init() {
     if(background) background->init();
         else logErrorAndExit("CreateBackground", SDL_GetError());
 
-    enemy = new Enemy();
-    if(enemy) enemy->init();
+    diamond = new Enemy();
+    if(diamond) diamond->init();
         else logErrorAndExit("CreateEnemy", SDL_GetError());
+    diamond_pos.push_back({1280/2, 720/2, 0});
+    diamond_pos.push_back({1280/2+200, 720/2, 2});
+    diamond_pos.push_back({1280/2+400, 720/2, 4});
 
     bird = new Bird();
     if(bird) bird->init();
@@ -53,7 +56,10 @@ void Game::render() {
 
     //Render everything
     background->render();
-    if(is_enemy) enemy->render();
+
+    if(is_enemy) 
+        for(Pos &pos : diamond_pos) 
+            diamond->render(pos.x, pos.y, pos.spr);
     bird->render();
 
     SDL_RenderPresent(renderer);
@@ -61,7 +67,7 @@ void Game::render() {
 
 void Game::clean() {
     delete background; background = nullptr;
-    delete enemy; enemy = nullptr;
+    delete diamond; diamond = nullptr;
     delete bird; bird = nullptr;
 }
 
@@ -95,10 +101,25 @@ void Game::handle_events() {
 
 void Game::update() {
     background->update();
-    if(is_enemy) enemy->update();
+    if(is_enemy) { 
+        diamond->update();
+        for(Pos &pos : diamond_pos) 
+            diamond->update(pos.spr);
+    }
     bird->update();
-    if(is_enemy)
-        if(checkCollision(bird->bird_mouse.getDest(), &enemy->diamond_dest)) is_enemy = false;
+    if(is_enemy) {
+        std::vector<int> to_be_removed;
+        for(int pos = 0; pos<diamond_pos.size(); pos++) {
+            SDL_Rect diamond_dest = {diamond_pos[pos].x, diamond_pos[pos].y, DIAMOND_REAL_W, DIAMOND_REAL_H};
+            if(checkCollision(bird->bird_mouse.getDest(), &diamond_dest)) {
+                to_be_removed.push_back(pos);
+            }
+        }
+        for(int i=to_be_removed.size()-1; i>=0; i--) {
+            diamond_pos.erase(diamond_pos.begin()+to_be_removed[i]);
+        }
+        if(diamond_pos.empty()) is_enemy = false;
+    }
 }
 
 bool Game::checkCollision(SDL_Rect* _bird, SDL_Rect* _enemy) {

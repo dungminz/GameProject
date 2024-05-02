@@ -1,10 +1,7 @@
 #include <iostream>
 
 #include "../Header/Game.h"
-
-const int SCREEN_WIDTH = 1280;
-const int SCREEN_HEIGHT = 720;
-#define WINDOW_TITLE "Hello mn!!"
+#include "../Header/CommonFunction.h"
 
 Game game;
 

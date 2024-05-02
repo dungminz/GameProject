@@ -3,7 +3,14 @@
 #include "Game.h"
 #include "Sprite.h"
 
+const int SPRITE_DELAY = 5;
+
 const int FLAMES_DIAMOND = 8;
+const int DIAMOND_W = 576;
+const int DIAMOND_H = 512;
+const int DIAMOND_SCALE = 8;
+const int DIAMOND_REAL_W = DIAMOND_W/DIAMOND_SCALE;
+const int DIAMOND_REAL_H = DIAMOND_H/DIAMOND_SCALE;
 const int RANGE_FLAME_DIAMOND = 165+576;
 const int CLIPS_DIAMOND[FLAMES_DIAMOND][4] = {
     {70+RANGE_FLAME_DIAMOND*0, 0, 576, 512},
@@ -20,13 +27,13 @@ struct Enemy {
 
     Enemy() {};
 
-    SDL_Texture *diamond_img;
-    SDL_Rect diamond_dest;
+    SDL_Texture *enemy_img;
+    int delay = 0;
 
     void init();
     void update();
-    void render();
+    void update(int &pos_spr);
+    void render(int x, int y, int spr);
 
-    Sprite diamond_spr;
-
+    Sprite enemy_spr;
 };
