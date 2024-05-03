@@ -1,21 +1,32 @@
 #include <iostream>
 #include "../Header/Bird.h"
 
+MainBird::MainBird() :
+    bird_mouse(MAIN_BIRD_ORIGIN_POS_X, MAIN_BIRD_ORIGIN_POS_Y, 
+                            EGGBIRD_REAL_W, EGGBIRD_REAL_H) {}
 
-Bird::Bird()
-    : bird_mouse(MAIN_BIRD_ORIGIN_POS_X, MAIN_BIRD_ORIGIN_POS_Y, 
-            EGGBIRD_REAL_W, EGGBIRD_REAL_H) {}
+MainBird::MainBird(Animation* ani) :
+    bird_ani(ani),
+    bird_mouse(MAIN_BIRD_ORIGIN_POS_X, MAIN_BIRD_ORIGIN_POS_Y, 
+                                bird_ani->w, bird_ani->h) {}
 
-void Bird::init() {
-    bird_img = TextureManager::loadTexture(EGGBIRD_IMG);
-    bird_spr.init(bird_img, FLAMES_EGGBIRD, CLIPS_EGGBIRD);
+
+void MainBird::init() {
+
+    bird_img = TextureManager::loadTexture(bird_ani->img);
+    bird_ani->setTexture(bird_img);
+    bird_spr.init(bird_ani);
 }
 
-void Bird::update() {
+
+void MainBird::update() {
+
     bird_mouse.update();
     bird_spr.update();
 }
 
-void Bird::render() { 
+
+void MainBird::render() { 
+
     TextureManager::draw(bird_img, bird_spr.getSrc(), bird_mouse.getDest());
 }

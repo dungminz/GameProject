@@ -2,6 +2,7 @@
 #include "../Header/CommonFunction.h"
 
 void Sprite::init(SDL_Texture *_texture, const int _flames, const int _clips[][4]) {
+
     texture = _texture;
     flames = _flames;
     for(int i=0; i<flames; i++) {
@@ -14,22 +15,28 @@ void Sprite::init(SDL_Texture *_texture, const int _flames, const int _clips[][4
     }
 }
 
-// void Sprite::init(Animation* ani) {
-//     texture = ani->img;
-//     flames = ani->flames;
-//     int **_clips;
-//     switch (ani->type) 
-// }
+void Sprite::init(Animation* ani) {
+
+    texture = ani->texture;
+    flames = ani->flames;
+    clips = ani->clips;
+}
+
 
 void Sprite::tick() {
+
     currentFlame = ++currentFlame%flames;
 }
 
+
 void Sprite::update() {
+
     delay = ++delay%SPRITE_DELAY;
     if(!delay) tick();
 }
 
+
 SDL_Rect* Sprite::getSrc() {
+    
     return &clips[currentFlame];
 }

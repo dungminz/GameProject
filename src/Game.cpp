@@ -33,13 +33,13 @@ bool Game::downPressed = false;
 Background *background = nullptr;
 Enemy *diamond = nullptr;
 Enemy *enemybird = nullptr;
-Bird *mainbird = nullptr;
+MainBird *mainbird = nullptr;
 
 Pos p = {200, 200, 0};
 
 
 void Game::init(Animation* _mainbird, Animation* _supportbird,
-                        Animation* _diamond, Animation* _enemy)
+                        Animation* _diamond, Animation* _enemybird)
 
 {
     
@@ -50,7 +50,7 @@ void Game::init(Animation* _mainbird, Animation* _supportbird,
     if(background) background->init();
         else logErrorAndExit("CreateBackground", SDL_GetError());
 
-    diamond = new Enemy();
+    diamond = new Enemy(_diamond);
     if(diamond) diamond->init();
         else logErrorAndExit("CreateDiamon", SDL_GetError());
     create_enemy(diamond_pos, 5);
@@ -59,13 +59,13 @@ void Game::init(Animation* _mainbird, Animation* _supportbird,
     //     case : enemybird = new Enemy(diamond_ani);
     //     case 
     // }
-    enemybird = new Enemy();
+    enemybird = new Enemy(_enemybird);
     if(enemybird) enemybird->init();
         else logErrorAndExit("CreateEvilbird", SDL_GetError());
 
-    mainbird = new Bird();
+    mainbird = new MainBird(_mainbird);
     if(mainbird) mainbird->init();
-        else logErrorAndExit("CreateBird", SDL_GetError());
+        else logErrorAndExit("CreateMainBird", SDL_GetError());
 }
 
 void Game::render() {

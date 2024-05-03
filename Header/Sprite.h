@@ -11,7 +11,7 @@ struct Sprite {
     int delay=0;
 
     void init(SDL_Texture *_texture, const int flames, const int _clips[][4]);
-    // void init(Animation* ani);
+    void init(Animation* ani);
     void tick();
     void update();
     SDL_Rect *getSrc();

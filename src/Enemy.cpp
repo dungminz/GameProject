@@ -8,8 +8,9 @@ Enemy::Enemy(Animation* ani) : enemy_ani(ani) {}
 void Enemy::init() {
 
     // enemy_ani.setInformation()
-    enemy_img = TextureManager::loadTexture(DIAMOND_IMG);
-    enemy_spr.init(enemy_img, FLAMES_DIAMOND, CLIPS_DIAMOND);
+    enemy_img = TextureManager::loadTexture(enemy_ani->img);
+    enemy_ani->setTexture(enemy_img);
+    enemy_spr.init(enemy_ani->texture, FLAMES_DIAMOND, CLIPS_DIAMOND);
 
     enemycollaption_img = TextureManager::loadTexture(DIAMONDCOLLAPSION_IMG);
     enemycollaption_spr.init(enemycollaption_img, FLAMES_DIAMONDCOLLAPSION, CLIPS_DIAMONDCOLLAPSION);
@@ -37,7 +38,7 @@ void Enemy::renderEnemy(Pos &pos) {
 
         SDL_Rect src = enemy_spr.clips[pos.spr];
         SDL_Rect dest = {pos.x, pos.y, DIAMOND_REAL_W, DIAMOND_REAL_H};
-        TextureManager::draw(enemy_img, &src, &dest);
+        TextureManager::draw(enemy_ani->texture, &src, &dest);
 }
 
 void Enemy::renderCollapsion(Pos &pos) {

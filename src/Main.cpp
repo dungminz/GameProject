@@ -36,8 +36,8 @@ void init() {
 
 Animation* setEggBird() {
     Animation* eggbird_ani = new Animation;
-    eggbird_ani->setInformation(EGGBIRD, EGGBIRD_IMG, 
-            FLAMES_EGGBIRD, EGGBIRD_REAL_W, EGGBIRD_REAL_H);
+    eggbird_ani->setInformation(EGGBIRD, EGGBIRD_IMG, FLAMES_EGGBIRD, 
+                CLIPS_EGGBIRD, EGGBIRD_REAL_W, EGGBIRD_REAL_H);
     return eggbird_ani;
 }
 
@@ -46,6 +46,13 @@ Animation* setDiamond() {
     diamond_ani->setInformation(DIAMOND, DIAMOND_IMG, 
             FLAMES_DIAMOND, DIAMOND_REAL_W, DIAMOND_REAL_H);
     return diamond_ani;
+}
+
+Animation* setDiamondCollapsion() {
+    Animation* diamond_colappsion_ani = new Animation;
+    diamond_colappsion_ani->setInformation(DIAMONDCOLLAPSION, DIAMONDCOLLAPSION_IMG, 
+            FLAMES_DIAMONDCOLLAPSION, DIAMONDCOLLAPSION_REAL_W, DIAMONDCOLLAPSION_REAL_H);
+    return diamond_colappsion_ani;
 }
 
 Animation* setEvilBird() {

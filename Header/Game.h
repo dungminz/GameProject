@@ -52,7 +52,7 @@ struct Game {
     void render();
     bool running() {return is_running;};
     void handle_events();
-    bool checkCollision(SDL_Rect* _bird, SDL_Rect* _enemy);
+    bool checkCollision(SDL_Rect* _bird, SDL_Rect* _enemybird);
     void update();
     void clean();
 

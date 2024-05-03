@@ -1,11 +1,10 @@
 #pragma once
 
-#include "Game.h"
 #include "Sprite.h"
 #include "AnimationManager.h"
+#include "TextureManager.h"
 
 const std::string DIAMOND_IMG = "../Image/Animation/diamond.png";
-// SDL_Texture* DIAMOND_TEXTURE = TextureManager::loadTexture(DIAMOND_IMG);
 const int FLAMES_DIAMOND = 8;
 const int DIAMOND_W = 576;
 const int DIAMOND_H = 512;
@@ -78,6 +77,7 @@ struct Enemy {
     Sprite enemy_spr;
     Sprite enemycollaption_spr;
     Animation *enemy_ani;
+    Animation *collapsion_ani;
     
     SDL_Texture *enemy_img;
     SDL_Texture *enemycollaption_img;
