@@ -11,8 +11,8 @@ const int SPRITE_DELAY = 5;
 const int STEPS_MOVE_BIRD = 4;
 const int DISTANCE_TO_SCREEN = 10;
 
-const double ENEMY_MIN_SPEED = 0.75;
-const double ENEMY_MAX_SPEED = 2.5;
+const double ENEMY_MIN_SPEED = 1;
+const double ENEMY_MAX_SPEED = 5;
 
 enum typeOfCharacror {
     EAGLE,

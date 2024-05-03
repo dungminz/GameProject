@@ -38,9 +38,9 @@ MainBird *mainbird = nullptr;
 Pos p = {200, 200, 0};
 
 
-void Game::init(Animation* _mainbird, Animation* _supportbird,
-                        Animation* _diamond, Animation* _enemybird)
-
+void Game::init(Animation* _mainbird, Animation* _supportbird, 
+        Animation* _diamond, Animation* _diamond_collapsion, 
+        Animation* _enemy, Animation* _enemy_collapsion)
 {
     
     is_running = true;
@@ -50,18 +50,14 @@ void Game::init(Animation* _mainbird, Animation* _supportbird,
     if(background) background->init();
         else logErrorAndExit("CreateBackground", SDL_GetError());
 
-    diamond = new Enemy(_diamond);
+    diamond = new Enemy(_diamond, _diamond_collapsion);
     if(diamond) diamond->init();
         else logErrorAndExit("CreateDiamon", SDL_GetError());
     create_enemy(diamond_pos, 5);
 
-    // switch (typeOfEnemy) {
-    //     case : enemybird = new Enemy(diamond_ani);
-    //     case 
-    // }
-    enemybird = new Enemy(_enemybird);
-    if(enemybird) enemybird->init();
-        else logErrorAndExit("CreateEvilbird", SDL_GetError());
+    // enemybird = new Enemy(_enemybird);
+    // if(enemybird) enemybird->init();
+    //     else logErrorAndExit("CreateEvilbird", SDL_GetError());
 
     mainbird = new MainBird(_mainbird);
     if(mainbird) mainbird->init();
@@ -77,8 +73,7 @@ void Game::render() {
     background->render();
 
     
-    enemybird->renderEnemy(p);
-    // std::cerr<<
+    // enemybird->renderEnemy(p);
 
     for(Pos &pos : diamond_pos) 
         diamond->renderEnemy(pos);
@@ -131,8 +126,8 @@ void Game::handle_events() {
 void Game::update() {
     background->update();
 
-    enemybird->update();
-    enemybird->updateEnemy(p);
+    // enemybird->update();
+    // enemybird->updateEnemy(p);
 
     // create_enemy(diamond_pos, 10);
     diamond->update();
@@ -149,16 +144,23 @@ void Game::update() {
 
     mainbird->update();
 
+
 // CheckCollision
     if(is_enemy) {
+
         for(int pos = 0; pos<diamond_pos.size();) {
+
             SDL_Rect diamond_dest = {diamond_pos[pos].x, diamond_pos[pos].y, DIAMOND_REAL_W, DIAMOND_REAL_H};
+
             if(checkCollision(mainbird->bird_mouse.getDest(), &diamond_dest)) {
+
                 diamondcollapsion_pos.push_back({diamond_pos[pos].x, diamond_pos[pos].y, 0});
                 diamond_pos.erase(diamond_pos.begin()+pos);
             }
+
             else pos++;
         }
+
         if(diamond_pos.empty()) is_enemy = false;
     }
 }

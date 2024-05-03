@@ -26,8 +26,10 @@ struct Pos {
     int x, y, spr;
     double speed;
     
-    Pos(int _x, int _y, int _spr) : x(_x), y(_y), spr(_spr) {};
-    Pos(int _x, int _y, int _spr, double _speed) : x(_x), y(_y), spr(_spr), speed(_speed) {};
+    Pos(int _x, int _y, int _spr) 
+        : x(_x), y(_y), spr(_spr) {}
+    Pos(int _x, int _y, int _spr, double _speed) 
+        : x(_x), y(_y), spr(_spr), speed(_speed) {}
 };
 
 struct Game {
@@ -48,7 +50,9 @@ struct Game {
     static SDL_Window *window;
     static SDL_Renderer *renderer;
 
-    void init(Animation* _mainbird, Animation* _supportbird, Animation* _diamond, Animation* _enemy);
+    void init(Animation* _mainbird, Animation* _supportbird, 
+        Animation* _diamond, Animation* _diamond_collapsion, 
+        Animation* _enemy, Animation* _enemy_collapsion);
     void render();
     bool running() {return is_running;};
     void handle_events();

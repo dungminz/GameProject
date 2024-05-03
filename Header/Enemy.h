@@ -72,19 +72,18 @@ const int CLIPS_EVILBIRD[FLAMES_EVILBIRD][4] = {
     {120+RANGE_FLAME_EVILBIRD*7, 116, 342, 280}
 };
 
+
 struct Enemy {
 
     Sprite enemy_spr;
-    Sprite enemycollaption_spr;
+    Sprite collapsion_spr;
     Animation *enemy_ani;
     Animation *collapsion_ani;
-    
-    SDL_Texture *enemy_img;
-    SDL_Texture *enemycollaption_img;
     int delay_spr = 0;
 
     Enemy();
     Enemy(Animation* ani);
+    Enemy(Animation* _enemy_ani, Animation* _collapsion_ani);
 
     void init();
     void update();

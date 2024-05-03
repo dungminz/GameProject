@@ -1,19 +1,24 @@
 #include "../Header/Enemy.h"
 #include "../Header/CommonFunction.h"
 
+
 Enemy::Enemy() {}
+
 Enemy::Enemy(Animation* ani) : enemy_ani(ani) {}
+
+Enemy::Enemy(Animation* _enemy_ani, Animation* _collapsion_ani)
+    : enemy_ani(_enemy_ani), collapsion_ani(_collapsion_ani) {}
 
 
 void Enemy::init() {
 
-    // enemy_ani.setInformation()
-    enemy_img = TextureManager::loadTexture(enemy_ani->img);
+    SDL_Texture* enemy_img = TextureManager::loadTexture(enemy_ani->img);
     enemy_ani->setTexture(enemy_img);
-    enemy_spr.init(enemy_ani->texture, FLAMES_DIAMOND, CLIPS_DIAMOND);
+    enemy_spr.init(enemy_ani);
 
-    enemycollaption_img = TextureManager::loadTexture(DIAMONDCOLLAPSION_IMG);
-    enemycollaption_spr.init(enemycollaption_img, FLAMES_DIAMONDCOLLAPSION, CLIPS_DIAMONDCOLLAPSION);
+    SDL_Texture* collapsion_img = TextureManager::loadTexture(collapsion_ani->img);
+    collapsion_ani->setTexture(collapsion_img);
+    collapsion_spr.init(collapsion_ani);
 }
 
 
@@ -36,14 +41,14 @@ void Enemy::updateCollapsion(Pos &pos) {
 
 void Enemy::renderEnemy(Pos &pos) {
 
-        SDL_Rect src = enemy_spr.clips[pos.spr];
-        SDL_Rect dest = {pos.x, pos.y, DIAMOND_REAL_W, DIAMOND_REAL_H};
-        TextureManager::draw(enemy_ani->texture, &src, &dest);
+    SDL_Rect src = enemy_spr.clips[pos.spr];
+    SDL_Rect dest = {pos.x, pos.y, enemy_ani->w, enemy_ani->h};
+    TextureManager::draw(enemy_ani->texture, &src, &dest);
 }
 
 void Enemy::renderCollapsion(Pos &pos) {
 
-        SDL_Rect src = enemycollaption_spr.clips[pos.spr];
-        SDL_Rect dest = {pos.x, pos.y, DIAMONDCOLLAPSION_REAL_W, DIAMONDCOLLAPSION_REAL_H};
-        TextureManager::draw(enemycollaption_img, &src, &dest);
+    SDL_Rect src = collapsion_spr.clips[pos.spr];
+    SDL_Rect dest = {pos.x, pos.y, collapsion_ani->w, collapsion_ani->h};
+    TextureManager::draw(collapsion_ani->texture, &src, &dest);
 }

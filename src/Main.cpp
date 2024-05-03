@@ -34,35 +34,55 @@ void init() {
     SDL_RenderSetLogicalSize(Game::renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
+
 Animation* setEggBird() {
+
     Animation* eggbird_ani = new Animation;
+
     eggbird_ani->setInformation(EGGBIRD, EGGBIRD_IMG, FLAMES_EGGBIRD, 
                 CLIPS_EGGBIRD, EGGBIRD_REAL_W, EGGBIRD_REAL_H);
+    
     return eggbird_ani;
 }
 
+
 Animation* setDiamond() {
+
     Animation* diamond_ani = new Animation;
-    diamond_ani->setInformation(DIAMOND, DIAMOND_IMG, 
-            FLAMES_DIAMOND, DIAMOND_REAL_W, DIAMOND_REAL_H);
+
+    diamond_ani->setInformation(DIAMOND, DIAMOND_IMG, FLAMES_DIAMOND,
+                CLIPS_DIAMOND, DIAMOND_REAL_W, DIAMOND_REAL_H);
+    
     return diamond_ani;
 }
 
+
 Animation* setDiamondCollapsion() {
+
     Animation* diamond_colappsion_ani = new Animation;
+
     diamond_colappsion_ani->setInformation(DIAMONDCOLLAPSION, DIAMONDCOLLAPSION_IMG, 
-            FLAMES_DIAMONDCOLLAPSION, DIAMONDCOLLAPSION_REAL_W, DIAMONDCOLLAPSION_REAL_H);
+            FLAMES_DIAMONDCOLLAPSION, CLIPS_DIAMONDCOLLAPSION, 
+            DIAMONDCOLLAPSION_REAL_W, DIAMONDCOLLAPSION_REAL_H);
+
     return diamond_colappsion_ani;
 }
 
+
 Animation* setEvilBird() {
+
     Animation* evilbird_ani = new Animation;
+
     evilbird_ani->setInformation(EVILBIRD, EVILBIRD_IMG, 
-            FLAMES_EVILBIRD, EVILBIRD_REAL_W, EVILBIRD_REAL_H);
+                       FLAMES_EVILBIRD, CLIPS_EVILBIRD,
+                       EVILBIRD_REAL_W, EVILBIRD_REAL_H);
+
     return evilbird_ani;
 }
 
+
 void clean() {
+
     SDL_DestroyRenderer(game.renderer); game.renderer = nullptr;
     SDL_DestroyWindow(game.window); game.window = nullptr;
 
@@ -70,12 +90,15 @@ void clean() {
     SDL_Quit();
 }
 
+
 int main(int argc, char *argv[])
 {
     srand(time(0));
     init();
     
-    game.init(setEggBird(), nullptr, setDiamond(), setEvilBird());
+    game.init(setEggBird(), nullptr, 
+        setDiamond(), setDiamondCollapsion(), 
+        setEvilBird(), nullptr);
     while(game.running()) {
         game.handle_events();
         game.update();
