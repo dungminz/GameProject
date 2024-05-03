@@ -16,18 +16,16 @@ Bố cục Game:
 - . Tạo diamond
     + Xử lý tạo nhiều dia, ý tưởng thô dùng vector;
     + rand
-- Tổ chức lại chương trình 
-    + Tạo từng struct riêng cho mainbird, supportbird, enemy, diamon
+- . Tổ chức lại chương trình 
+    + Tạo từng struct riêng cho mainbird, supportbird, enemy
     + Tạo struct animation -> có lựa chọn loại nhân vật
-- Tạo quái (dùng rand)
-- Xử lý va chạm
-- Timer
+- . Tạo quái (dùng rand)
+- . Xử lý va chạm, xử lý sau va chạm
+- (Timer)
 - Nhạc (mixer)
 - Menu (ttf)
-- Tạo đạn quái
-- Tạo chim2 
-- Tạo tên lửa (hướng tới chim)
-- Tạo boss 
+- (Tạo đạn quái)
+- Tạo đặc biệt (hướng tới chim)
 
 
 Bố cục hàm:

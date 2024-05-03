@@ -29,7 +29,7 @@ void Enemy::update() {
 
 void Enemy::updateEnemy(Pos &pos) {
 
-    if(!delay_spr) pos.spr = ++pos.spr%FLAMES_DIAMOND;
+    if(!delay_spr) pos.spr = ++pos.spr%SPRITE_DELAY;
     pos.x-=pos.speed;
 }
 

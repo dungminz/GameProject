@@ -9,7 +9,7 @@
 - Xử lý sdl_quit
 ->chương trình có thể thoát 'bình thường'
 
-- Xử lý sdl_delay
+- Xử lý sdl_delay / sử dụng Timer
 ->giảm tải cpu
 
 - Về biến static : sau khi khởi tạo ở .h, cần gán giá trị mặc định ở .cpp để dùng chung toàn bộ file
@@ -17,3 +17,8 @@
 - Về destructor, free()
 
 - Hàm SDL_HasIntersection
+
+- Ưu điêm : 
+    + Có thể add thêm chim mới mainbird, spbird, enemy dễ dàng
+    + Tinh chỉnh tỉ lệ chim đơn giản
+    + Lưu vị trí, render vị trị -> tốn ít bộ nhớ

@@ -81,6 +81,17 @@ Animation* setEvilBird() {
 }
 
 
+Animation* setCollapsionByEagle() {
+
+    Animation* colapssion_by_eagle = new Animation;
+
+    colapssion_by_eagle->setInformation(COLLAPSIONBYEAGLE, COLLAPSION_BY_EAGLE_IMG, 
+        FLAMES_COLLAPSION_BY_EAGLE, CLIPS_COLLAPSION_BY_EAGLE,
+        COLLAPSION_BY_EAGLE_REAL_W, COLLAPSION_BY_EAGLE_REAL_H);
+
+    return colapssion_by_eagle;
+}
+
 void clean() {
 
     SDL_DestroyRenderer(game.renderer); game.renderer = nullptr;
@@ -97,8 +108,9 @@ int main(int argc, char *argv[])
     init();
     
     game.init(setEggBird(), nullptr, 
-        setDiamond(), setDiamondCollapsion(), 
-        setEvilBird(), nullptr);
+                setDiamond(), setDiamondCollapsion(), 
+                    setEvilBird(), setCollapsionByEagle());
+                    
     while(game.running()) {
         game.handle_events();
         game.update();

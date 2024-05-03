@@ -39,8 +39,8 @@ struct Game {
 
     std::vector<Pos> diamond_pos;
     std::vector<Pos> diamondcollapsion_pos;
-    std::vector<Pos> enemy_pos;
-    std::vector<Pos> enemycollapsion_pos;
+    std::vector<Pos> enemybird_pos;
+    std::vector<Pos> enemybirdcollapsion_pos;
 
     static bool leftPressed;
     static bool rightPressed;
@@ -52,11 +52,12 @@ struct Game {
 
     void init(Animation* _mainbird, Animation* _supportbird, 
         Animation* _diamond, Animation* _diamond_collapsion, 
-        Animation* _enemy, Animation* _enemy_collapsion);
+        Animation* _enemybird, Animation* _enemy_collapsion);
     void render();
     bool running() {return is_running;};
     void handle_events();
-    bool checkCollision(SDL_Rect* _bird, SDL_Rect* _enemybird);
+    bool collision(SDL_Rect* _bird, SDL_Rect* _enemybird);
+    void checkCollision(SDL_Rect* _bird, std::vector<Pos> &enemy_pos, std::vector<Pos> &collapsion_pos);
     void update();
     void clean();
 

@@ -35,12 +35,11 @@ Enemy *diamond = nullptr;
 Enemy *enemybird = nullptr;
 MainBird *mainbird = nullptr;
 
-Pos p = {200, 200, 0};
 
 
 void Game::init(Animation* _mainbird, Animation* _supportbird, 
         Animation* _diamond, Animation* _diamond_collapsion, 
-        Animation* _enemy, Animation* _enemy_collapsion)
+        Animation* _enemybird, Animation* _enemy_collapsion)
 {
     
     is_running = true;
@@ -55,33 +54,35 @@ void Game::init(Animation* _mainbird, Animation* _supportbird,
         else logErrorAndExit("CreateDiamon", SDL_GetError());
     create_enemy(diamond_pos, 5);
 
-    // enemybird = new Enemy(_enemybird);
-    // if(enemybird) enemybird->init();
-    //     else logErrorAndExit("CreateEvilbird", SDL_GetError());
+    enemybird = new Enemy(_enemybird, _enemy_collapsion);
+    if(enemybird) enemybird->init();
+        else logErrorAndExit("CreateEvilbird", SDL_GetError());
+    create_enemy(enemybird_pos, 3);
 
     mainbird = new MainBird(_mainbird);
     if(mainbird) mainbird->init();
         else logErrorAndExit("CreateMainBird", SDL_GetError());
 }
 
-void Game::render() {
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    SDL_RenderClear(renderer);
 
+void Game::render() {
+    // SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    SDL_RenderClear(renderer);
 
     //Render everything
     background->render();
-
-    
-    // enemybird->renderEnemy(p);
 
     for(Pos &pos : diamond_pos) 
         diamond->renderEnemy(pos);
     for(Pos &pos : diamondcollapsion_pos)
         diamond->renderCollapsion(pos);
 
+    for(Pos &pos : enemybird_pos) 
+        enemybird->renderEnemy(pos);
+    for(Pos &pos : enemybirdcollapsion_pos)
+        enemybird->renderCollapsion(pos);
+    
     mainbird->render();
-
 
     SDL_RenderPresent(renderer);
 }
@@ -96,7 +97,7 @@ void Game::clean() {
 
 void Game::handle_events() {
     SDL_Event event;
-    if (SDL_PollEvent(&event)) {
+    while (SDL_PollEvent(&event)) {
         switch(event.type) {
             case SDL_QUIT: is_running = false; break;
             case SDL_KEYDOWN:
@@ -126,9 +127,6 @@ void Game::handle_events() {
 void Game::update() {
     background->update();
 
-    // enemybird->update();
-    // enemybird->updateEnemy(p);
-
     // create_enemy(diamond_pos, 10);
     diamond->update();
     for(Pos &pos : diamond_pos) 
@@ -141,41 +139,60 @@ void Game::update() {
         else pos++;
     }
     
+    // create_enemy(enemybird_pos, 10);
+    enemybird->update();
+    for(Pos &pos : enemybird_pos) 
+        enemybird->updateEnemy(pos);
+
+    for(int pos = 0; pos<enemybirdcollapsion_pos.size();) {
+        enemybird->updateCollapsion(enemybirdcollapsion_pos[pos]);
+        if(enemybirdcollapsion_pos[pos].spr > FLAMES_DIAMONDCOLLAPSION)
+            enemybirdcollapsion_pos.erase(enemybirdcollapsion_pos.begin()+pos);
+        else pos++;
+    }
 
     mainbird->update();
 
-
 // CheckCollision
-    if(is_enemy) {
+    checkCollision(mainbird->bird_mouse.getDest(), diamond_pos, diamondcollapsion_pos);
+    checkCollision(mainbird->bird_mouse.getDest(), enemybird_pos, enemybirdcollapsion_pos);
+    
 
-        for(int pos = 0; pos<diamond_pos.size();) {
-
-            SDL_Rect diamond_dest = {diamond_pos[pos].x, diamond_pos[pos].y, DIAMOND_REAL_W, DIAMOND_REAL_H};
-
-            if(checkCollision(mainbird->bird_mouse.getDest(), &diamond_dest)) {
-
-                diamondcollapsion_pos.push_back({diamond_pos[pos].x, diamond_pos[pos].y, 0});
-                diamond_pos.erase(diamond_pos.begin()+pos);
-            }
-
-            else pos++;
-        }
-
-        if(diamond_pos.empty()) is_enemy = false;
-    }
 }
 
 
-bool Game::checkCollision(SDL_Rect* _bird, SDL_Rect* _enemy) {
+bool Game::collision(SDL_Rect* _bird, SDL_Rect* _enemy) {
     return SDL_HasIntersection(_bird, _enemy);
 }
 
 
+void Game::checkCollision(SDL_Rect* _bird, std::vector<Pos> &enemy_pos, std::vector<Pos> &collapsion_pos) {
+
+    for(int pos = 0; pos<enemy_pos.size();) {
+
+        SDL_Rect enemy_dest = {enemy_pos[pos].x, enemy_pos[pos].y, DIAMOND_REAL_W, DIAMOND_REAL_H};
+
+        if(collision(_bird, &enemy_dest)) {
+
+            collapsion_pos.push_back({enemy_pos[pos].x, enemy_pos[pos].y, 0});
+            enemy_pos.erase(enemy_pos.begin()+pos);
+        }
+
+        else pos++;
+    }
+
+        if(enemy_pos.empty()) is_enemy = false;
+}
+
+
 void Game::create_enemy(std::vector<Pos> &_pos, int numbers) {
+
     for(int i=1; i<=numbers; i++) {
+
         int rand_y = DISTANCE_TO_SCREEN + rand()%(SCREEN_HEIGHT - DIAMOND_REAL_H - DISTANCE_TO_SCREEN);
         int rand_spr = rand()%FLAMES_DIAMOND;
         double rand_speed = ENEMY_MIN_SPEED + double(rand()%int(ENEMY_MAX_SPEED*100 - ENEMY_MIN_SPEED*100))/100;
+
         _pos.push_back({SCREEN_WIDTH, rand_y, rand_spr, rand_speed});
         // std::cerr<<"speed : " << rand_speed<<'\n';
     }
