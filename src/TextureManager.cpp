@@ -3,7 +3,7 @@
 
 SDL_Texture *TextureManager::loadTexture(const std::string filename)
 {
-    SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Loading %s", filename);
+    SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Loading %s", filename.c_str());
 
     SDL_Texture *texture = IMG_LoadTexture(Game::renderer, filename.c_str());
     if (texture == NULL)

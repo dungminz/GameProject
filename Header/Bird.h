@@ -4,6 +4,7 @@
 #include "Sprite.h"
 
 const std::string EGGBIRD_IMG = "../Image/Animation/eggbird.png";
+// SDL_Texture* EGGBIRD_TEXTURE = TextureManager::loadTexture(EGGBIRD_IMG);
 const int FLAMES_EGGBIRD = 8;
 const int EGGBIRD_REAL_W = 560/8;
 const int EGGBIRD_REAL_H = 420/8;

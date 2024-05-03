@@ -14,6 +14,13 @@ void Sprite::init(SDL_Texture *_texture, const int _flames, const int _clips[][4
     }
 }
 
+// void Sprite::init(Animation* ani) {
+//     texture = ani->img;
+//     flames = ani->flames;
+//     int **_clips;
+//     switch (ani->type) 
+// }
+
 void Sprite::tick() {
     currentFlame = ++currentFlame%flames;
 }

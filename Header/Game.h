@@ -14,6 +14,7 @@
 // #include <SDL_ttf.h>
 // #include <SDL_mixer.h>
 
+#include "AnimationManager.h"
 #include "TextureManager.h"
 #include "Mouse.h"
 #include "Sprite.h"
@@ -33,8 +34,11 @@ struct Game {
 
     bool is_running;
     bool is_enemy;
+
     std::vector<Pos> diamond_pos;
     std::vector<Pos> diamondcollapsion_pos;
+    std::vector<Pos> enemy_pos;
+    std::vector<Pos> enemycollapsion_pos;
 
     static bool leftPressed;
     static bool rightPressed;
@@ -44,7 +48,7 @@ struct Game {
     static SDL_Window *window;
     static SDL_Renderer *renderer;
 
-    void init();
+    void init(Animation* _mainbird, Animation* _supportbird, Animation* _diamond, Animation* _enemy);
     void render();
     bool running() {return is_running;};
     void handle_events();

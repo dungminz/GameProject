@@ -1,7 +1,13 @@
 #include "../Header/Enemy.h"
 #include "../Header/CommonFunction.h"
 
+Enemy::Enemy() {}
+Enemy::Enemy(Animation* ani) : enemy_ani(ani) {}
+
+
 void Enemy::init() {
+
+    // enemy_ani.setInformation()
     enemy_img = TextureManager::loadTexture(DIAMOND_IMG);
     enemy_spr.init(enemy_img, FLAMES_DIAMOND, CLIPS_DIAMOND);
 
@@ -9,37 +15,34 @@ void Enemy::init() {
     enemycollaption_spr.init(enemycollaption_img, FLAMES_DIAMONDCOLLAPSION, CLIPS_DIAMONDCOLLAPSION);
 }
 
+
 void Enemy::update() {
-    delay = ++delay%SPRITE_DELAY;
 
-    enemycollaption_spr.update();
+    delay_spr = ++delay_spr%SPRITE_DELAY;
 }
-void Enemy::update(Pos &pos, int typeOfEnemy) {
-    if(typeOfEnemy == DIAMOND) {
-        if(!delay) {
-            pos.spr = ++pos.spr%FLAMES_DIAMOND;
-        }
-        pos.x-=pos.speed;
-    }
-    if(typeOfEnemy == DIAMONDCOLLAPSION) {
-        if(!delay) {
-            pos.spr++;
-        }
-    }
+
+void Enemy::updateEnemy(Pos &pos) {
+
+    if(!delay_spr) pos.spr = ++pos.spr%FLAMES_DIAMOND;
+    pos.x-=pos.speed;
+}
+
+void Enemy::updateCollapsion(Pos &pos) { 
+
+    if(!delay_spr) pos.spr++;
 }
 
 
-void Enemy::render(int x, int y, int spr, int typeOfEnemy) {
+void Enemy::renderEnemy(Pos &pos) {
 
-    if(typeOfEnemy == DIAMOND) {
-        SDL_Rect src = enemy_spr.clips[spr];
-        SDL_Rect dest = {x, y, DIAMOND_REAL_W, DIAMOND_REAL_H};
+        SDL_Rect src = enemy_spr.clips[pos.spr];
+        SDL_Rect dest = {pos.x, pos.y, DIAMOND_REAL_W, DIAMOND_REAL_H};
         TextureManager::draw(enemy_img, &src, &dest);
-    }
+}
 
-    if(typeOfEnemy == DIAMONDCOLLAPSION) {
-        SDL_Rect src = enemycollaption_spr.clips[spr];
-        SDL_Rect dest = {x, y, DIAMONDCOLLAPSION_REAL_W, DIAMONDCOLLAPSION_REAL_H};
+void Enemy::renderCollapsion(Pos &pos) {
+
+        SDL_Rect src = enemycollaption_spr.clips[pos.spr];
+        SDL_Rect dest = {pos.x, pos.y, DIAMONDCOLLAPSION_REAL_W, DIAMONDCOLLAPSION_REAL_H};
         TextureManager::draw(enemycollaption_img, &src, &dest);
-    }
 }

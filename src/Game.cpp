@@ -32,10 +32,17 @@ bool Game::downPressed = false;
 
 Background *background = nullptr;
 Enemy *diamond = nullptr;
-Bird *bird = nullptr;
+Enemy *enemybird = nullptr;
+Bird *mainbird = nullptr;
+
+Pos p = {200, 200, 0};
 
 
-void Game::init() {
+void Game::init(Animation* _mainbird, Animation* _supportbird,
+                        Animation* _diamond, Animation* _enemy)
+
+{
+    
     is_running = true;
     is_enemy=true;
 
@@ -45,11 +52,19 @@ void Game::init() {
 
     diamond = new Enemy();
     if(diamond) diamond->init();
-        else logErrorAndExit("CreateEnemy", SDL_GetError());
+        else logErrorAndExit("CreateDiamon", SDL_GetError());
     create_enemy(diamond_pos, 5);
 
-    bird = new Bird();
-    if(bird) bird->init();
+    // switch (typeOfEnemy) {
+    //     case : enemybird = new Enemy(diamond_ani);
+    //     case 
+    // }
+    enemybird = new Enemy();
+    if(enemybird) enemybird->init();
+        else logErrorAndExit("CreateEvilbird", SDL_GetError());
+
+    mainbird = new Bird();
+    if(mainbird) mainbird->init();
         else logErrorAndExit("CreateBird", SDL_GetError());
 }
 
@@ -61,14 +76,16 @@ void Game::render() {
     //Render everything
     background->render();
 
-    if(is_enemy) {
-        for(Pos &pos : diamond_pos) 
-            diamond->render(pos.x, pos.y, pos.spr, DIAMOND);
-        for(Pos &pos : diamondcollapsion_pos)
-            diamond->render(pos.x, pos.y, pos.spr, DIAMONDCOLLAPSION);
-    }
+    
+    enemybird->renderEnemy(p);
+    // std::cerr<<
 
-    bird->render();
+    for(Pos &pos : diamond_pos) 
+        diamond->renderEnemy(pos);
+    for(Pos &pos : diamondcollapsion_pos)
+        diamond->renderCollapsion(pos);
+
+    mainbird->render();
 
 
     SDL_RenderPresent(renderer);
@@ -78,7 +95,7 @@ void Game::render() {
 void Game::clean() {
     delete background; background = nullptr;
     delete diamond; diamond = nullptr;
-    delete bird; bird = nullptr;
+    delete mainbird; mainbird = nullptr;
 }
 
 
@@ -113,25 +130,30 @@ void Game::handle_events() {
 
 void Game::update() {
     background->update();
-    create_enemy(diamond_pos, 10);
-    if(is_enemy) { 
-        diamond->update();
-        for(Pos &pos : diamond_pos) 
-            diamond->update(pos, DIAMOND);
-        for(int pos = 0; pos<diamondcollapsion_pos.size();) {
-            diamond->update(diamondcollapsion_pos[pos], DIAMONDCOLLAPSION);
-            if(diamondcollapsion_pos[pos].spr > FLAMES_DIAMONDCOLLAPSION)
-                diamondcollapsion_pos.erase(diamondcollapsion_pos.begin()+pos);
-            else pos++;
-        }
+
+    enemybird->update();
+    enemybird->updateEnemy(p);
+
+    // create_enemy(diamond_pos, 10);
+    diamond->update();
+    for(Pos &pos : diamond_pos) 
+        diamond->updateEnemy(pos);
+
+    for(int pos = 0; pos<diamondcollapsion_pos.size();) {
+        diamond->updateCollapsion(diamondcollapsion_pos[pos]);
+        if(diamondcollapsion_pos[pos].spr > FLAMES_DIAMONDCOLLAPSION)
+            diamondcollapsion_pos.erase(diamondcollapsion_pos.begin()+pos);
+        else pos++;
     }
+    
 
-    bird->update();
+    mainbird->update();
 
+// CheckCollision
     if(is_enemy) {
         for(int pos = 0; pos<diamond_pos.size();) {
             SDL_Rect diamond_dest = {diamond_pos[pos].x, diamond_pos[pos].y, DIAMOND_REAL_W, DIAMOND_REAL_H};
-            if(checkCollision(bird->bird_mouse.getDest(), &diamond_dest)) {
+            if(checkCollision(mainbird->bird_mouse.getDest(), &diamond_dest)) {
                 diamondcollapsion_pos.push_back({diamond_pos[pos].x, diamond_pos[pos].y, 0});
                 diamond_pos.erase(diamond_pos.begin()+pos);
             }
@@ -153,5 +175,6 @@ void Game::create_enemy(std::vector<Pos> &_pos, int numbers) {
         int rand_spr = rand()%FLAMES_DIAMOND;
         double rand_speed = ENEMY_MIN_SPEED + double(rand()%int(ENEMY_MAX_SPEED*100 - ENEMY_MIN_SPEED*100))/100;
         _pos.push_back({SCREEN_WIDTH, rand_y, rand_spr, rand_speed});
+        // std::cerr<<"speed : " << rand_speed<<'\n';
     }
 }

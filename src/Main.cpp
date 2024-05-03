@@ -2,8 +2,14 @@
 
 #include "../Header/Game.h"
 #include "../Header/CommonFunction.h"
+#include "../Header/AnimationManager.h"
+#include "../Header/Enemy.h"
+#include "../Header/Bird.h"
+
 
 Game game;
+
+// static Animation eggbird_ani, diamond_ani, evilbird_ani;
 
 void init() {
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
@@ -27,6 +33,28 @@ void init() {
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
     SDL_RenderSetLogicalSize(Game::renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
+
+Animation* setEggBird() {
+    Animation* eggbird_ani = new Animation;
+    eggbird_ani->setInformation(EGGBIRD, EGGBIRD_IMG, 
+            FLAMES_EGGBIRD, EGGBIRD_REAL_W, EGGBIRD_REAL_H);
+    return eggbird_ani;
+}
+
+Animation* setDiamond() {
+    Animation* diamond_ani = new Animation;
+    diamond_ani->setInformation(DIAMOND, DIAMOND_IMG, 
+            FLAMES_DIAMOND, DIAMOND_REAL_W, DIAMOND_REAL_H);
+    return diamond_ani;
+}
+
+Animation* setEvilBird() {
+    Animation* evilbird_ani = new Animation;
+    evilbird_ani->setInformation(EVILBIRD, EVILBIRD_IMG, 
+            FLAMES_EVILBIRD, EVILBIRD_REAL_W, EVILBIRD_REAL_H);
+    return evilbird_ani;
+}
+
 void clean() {
     SDL_DestroyRenderer(game.renderer); game.renderer = nullptr;
     SDL_DestroyWindow(game.window); game.window = nullptr;
@@ -40,7 +68,7 @@ int main(int argc, char *argv[])
     srand(time(0));
     init();
     
-    game.init();
+    game.init(setEggBird(), nullptr, setDiamond(), setEvilBird());
     while(game.running()) {
         game.handle_events();
         game.update();

@@ -2,9 +2,10 @@
 
 #include "Game.h"
 #include "Sprite.h"
-
+#include "AnimationManager.h"
 
 const std::string DIAMOND_IMG = "../Image/Animation/diamond.png";
+// SDL_Texture* DIAMOND_TEXTURE = TextureManager::loadTexture(DIAMOND_IMG);
 const int FLAMES_DIAMOND = 8;
 const int DIAMOND_W = 576;
 const int DIAMOND_H = 512;
@@ -52,22 +53,44 @@ const int CLIPS_DIAMONDCOLLAPSION[FLAMES_DIAMONDCOLLAPSION][4] = {
 };
 
 
-const std::string 
-
+const std::string EVILBIRD_IMG = "../Image/Animation/evilbird.png";
+// SDL_Texture* EVILBIRD_TEXTURE = TextureManager::loadTexture(EVILBIRD_IMG);
+const int FLAMES_EVILBIRD = 8;
+const int EVILBIRD_W = 342;
+const int EVILBIRD_H = 280;
+const int EVILBIRD_SCALE = 1;
+const int EVILBIRD_REAL_W = EVILBIRD_W/EVILBIRD_SCALE;
+const int EVILBIRD_REAL_H = EVILBIRD_H/EVILBIRD_SCALE;
+const int RANGE_FLAME_EVILBIRD = 600;
+const int CLIPS_EVILBIRD[FLAMES_EVILBIRD][4] = {
+    {120+RANGE_FLAME_EVILBIRD*0, 116, 342, 280},
+    {120+RANGE_FLAME_EVILBIRD*1, 116, 342, 280},
+    {120+RANGE_FLAME_EVILBIRD*2, 116, 342, 280},
+    {120+RANGE_FLAME_EVILBIRD*3, 116, 342, 280},
+    {120+RANGE_FLAME_EVILBIRD*4, 116, 342, 280},
+    {120+RANGE_FLAME_EVILBIRD*5, 116, 342, 280},
+    {120+RANGE_FLAME_EVILBIRD*6, 116, 342, 280},
+    {120+RANGE_FLAME_EVILBIRD*7, 116, 342, 280}
+};
 
 struct Enemy {
 
-    Enemy() {};
-
+    Sprite enemy_spr;
+    Sprite enemycollaption_spr;
+    Animation *enemy_ani;
+    
     SDL_Texture *enemy_img;
     SDL_Texture *enemycollaption_img;
-    int delay = 0;
+    int delay_spr = 0;
+
+    Enemy();
+    Enemy(Animation* ani);
 
     void init();
     void update();
-    void update(Pos &pos, int typeOfEnemy);
-    void render(int x, int y, int spr, int typeOfEnemy);
+    void updateEnemy(Pos &pos);
+    void updateCollapsion(Pos &pos);
+    void renderEnemy(Pos &pos);
+    void renderCollapsion(Pos &pos);
 
-    Sprite enemy_spr;
-    Sprite enemycollaption_spr;
 };

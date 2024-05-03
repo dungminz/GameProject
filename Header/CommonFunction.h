@@ -12,8 +12,13 @@ const int DISTANCE_TO_SCREEN = 10;
 const double ENEMY_MIN_SPEED = 0.75;
 const double ENEMY_MAX_SPEED = 2.5;
 
-enum typeOfEnemy {
+enum typeOfCharacror {
+    EAGLE,
+    EAGLECOLLAPSION,
+    EGGBIRD,
+    EGGBIRDCOLLAPSION,
     DIAMOND,
     DIAMONDCOLLAPSION,
-    EVILBIRD
+    EVILBIRD,
+    EVILBIRDCOLLAPSION
 };
