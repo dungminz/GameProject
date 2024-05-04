@@ -51,8 +51,8 @@ struct Game {
     static SDL_Renderer *renderer;
 
     void init(Animation* _mainbird, Animation* _supportbird, 
-        Animation* _diamond, Animation* _diamond_collapsion, 
-        Animation* _enemybird, Animation* _enemy_collapsion);
+        Animation* _collapsion_by_bird, Animation* _enemybird,
+        Animation* _diamond, Animation* _diamond_collapsion);
     void render();
     bool running() {return is_running;};
     void handle_events();

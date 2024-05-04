@@ -38,8 +38,8 @@ MainBird *mainbird = nullptr;
 
 
 void Game::init(Animation* _mainbird, Animation* _supportbird, 
-        Animation* _diamond, Animation* _diamond_collapsion, 
-        Animation* _enemybird, Animation* _enemy_collapsion)
+        Animation* _collapsion_by_bird, Animation* _enemybird,
+        Animation* _diamond, Animation* _diamond_collapsion)
 {
     
     is_running = true;
@@ -54,7 +54,7 @@ void Game::init(Animation* _mainbird, Animation* _supportbird,
         else logErrorAndExit("CreateDiamon", SDL_GetError());
     create_enemy(diamond_pos, 5);
 
-    enemybird = new Enemy(_enemybird, _enemy_collapsion);
+    enemybird = new Enemy(_enemybird, _collapsion_by_bird);
     if(enemybird) enemybird->init();
         else logErrorAndExit("CreateEvilbird", SDL_GetError());
     create_enemy(enemybird_pos, 3);

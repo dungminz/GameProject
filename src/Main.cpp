@@ -45,6 +45,65 @@ Animation* setEggBird() {
     return eggbird_ani;
 }
 
+Animation* setEagleFlying() {
+
+    Animation* eagleflying_ani = new Animation;
+
+    eagleflying_ani->setInformation(EAGLEFLYING, EAGLE_IMG, FLAMES_EAGLE_FLYING, 
+                CLIPS_EAGLE_FLYING, EAGLE_REAL_W, EAGLE_REAL_H);
+    
+    return eagleflying_ani;
+}
+
+Animation* setEagleGotHit() {
+
+    Animation* eaglegothit_ani = new Animation;
+
+    eaglegothit_ani->setInformation(EAGLEGOTHIT, EAGLE_IMG, FLAMES_EAGLE_GOT_HIT, 
+                CLIPS_EAGLE_GOT_HIT, EAGLE_REAL_W, EAGLE_REAL_H);
+    
+    return eaglegothit_ani;
+}
+
+Animation* setEagleRam() {
+
+    Animation* eagleram_ani = new Animation;
+
+    eagleram_ani->setInformation(EAGLERAM, EAGLE_IMG, FLAMES_EAGLE_RAM, 
+                CLIPS_EAGLE_RAM, EAGLE_REAL_W, EAGLE_REAL_H);
+    
+    return eagleram_ani;
+}
+
+Animation* setEagleDead() {
+
+    Animation* eagledead_ani = new Animation;
+
+    eagledead_ani->setInformation(EAGLEDEAD, EAGLE_IMG, FLAMES_EAGLE_DEAD, 
+                CLIPS_EAGLE_DEAD, EAGLE_REAL_W, EAGLE_REAL_H);
+    
+    return eagledead_ani;
+}
+
+Animation* setEagleHenshin() {
+
+    Animation* eaglehenshin_ani = new Animation;
+
+    eaglehenshin_ani->setInformation(EAGLEHENSHIN, EAGLE_IMG, FLAMES_EAGLE_HENSHIN, 
+                CLIPS_EAGLE_HENSHIN, EAGLE_REAL_W, EAGLE_REAL_H);
+    
+    return eaglehenshin_ani;
+}
+
+Animation* setEagleHenshinShot() {
+
+    Animation* eaglehenshinshot_ani = new Animation;
+
+    eaglehenshinshot_ani->setInformation(EAGLEHENSHINSHOT, EAGLE_IMG, FLAMES_EAGLE_HENSHIN_SHOT, 
+                CLIPS_EAGLE_HENSHIN_SHOT, EAGLE_REAL_W, EAGLE_REAL_H);
+    
+    return eaglehenshinshot_ani;
+}
 
 Animation* setDiamond() {
 
@@ -101,15 +160,22 @@ void clean() {
     SDL_Quit();
 }
 
+bool play_again = true;
 
 int main(int argc, char *argv[])
 {
     srand(time(0));
     init();
     
-    game.init(setEggBird(), nullptr, 
-                setDiamond(), setDiamondCollapsion(), 
-                    setEvilBird(), setCollapsionByEagle());
+    Animation* mainBird = setEggBird();
+    Animation* supportBird = nullptr;
+    Animation* collapsionbyByBird = setCollapsionByEagle();
+    Animation* diamond = setDiamond();
+    Animation* diamondCollapsion = setDiamondCollapsion();
+    Animation* enemyBird = setEvilBird();
+
+    game.init(mainBird, supportBird, collapsionbyByBird, 
+                    enemyBird, diamond, diamondCollapsion);
                     
     while(game.running()) {
         game.handle_events();
