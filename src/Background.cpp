@@ -1,17 +1,23 @@
 #include "../Header/Background.h"
-#include "../Header/TextureManager.h"
 #include "../Header/CommonFunction.h"
 
+Background::Background() {}
+
+Background::Background(BackgroundManager* bgr) 
+    : background_bgr(bgr) {}
+
 void Background::init() {
-    ground = TextureManager::loadTexture(bg_ground);
-    for(int i=0; i<TOTAL_BACKGROUND_LAYERS; i++) {
+    SDL_Texture* ground = TextureManager::loadTexture(background_bgr->ground_img);
+    background_bgr->setGround(ground);
+    for(int i=0; i<background_bgr->flames_layer; i++) {
         scrolling_layer[i] = 0;
-        layer[i] = TextureManager::loadTexture(bg_layer[i]);
+        SDL_Texture* layer = TextureManager::loadTexture(background_bgr->layer_img[i]);
+        background_bgr->setLayer(layer);
     }
 }
 
 void Background::scroll() {
-    for(int i=0; i<TOTAL_BACKGROUND_LAYERS; i++) {
+    for(int i=0; i<background_bgr->flames_layer; i++) {
         scrolling_layer[i] -= LAYER_SPEED[i];
         if(scrolling_layer[i]<0) scrolling_layer[i] += SCREEN_WIDTH;
     }
@@ -22,9 +28,9 @@ void Background::update() {
 }
 
 void Background::render() {
-    TextureManager::draw(ground);
-    for(int i=0; i<TOTAL_BACKGROUND_LAYERS; i++) {
-        TextureManager::draw(layer[i], scrolling_layer[i] - SCREEN_WIDTH, 0);
-        TextureManager::draw(layer[i], scrolling_layer[i], 0);
+    TextureManager::draw(background_bgr->ground_texture);
+    for(int i=0; i<background_bgr->flames_layer; i++) {
+        TextureManager::draw(background_bgr->layer_texture[i], scrolling_layer[i] - SCREEN_WIDTH, 0);
+        TextureManager::draw(background_bgr->layer_texture[i], scrolling_layer[i], 0);
     }    
 }

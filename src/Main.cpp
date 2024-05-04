@@ -2,7 +2,9 @@
 
 #include "../Header/Game.h"
 #include "../Header/CommonFunction.h"
+#include "../Header/BackgroundManager.h"
 #include "../Header/AnimationManager.h"
+#include "../Header/Background.h"
 #include "../Header/Enemy.h"
 #include "../Header/Bird.h"
 
@@ -34,6 +36,27 @@ void init() {
     SDL_RenderSetLogicalSize(Game::renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
+
+
+BackgroundManager* setDay() {
+
+    BackgroundManager* day_ani = new BackgroundManager;
+
+    day_ani->setInformation(DAY, DAY_BG, 
+                        FLAMES_LAYER_DAY, DAY_LAYER);
+    
+    return day_ani;
+}
+
+BackgroundManager* setNight() {
+
+    BackgroundManager* night_ani = new BackgroundManager;
+
+    night_ani->setInformation(NIGHT, NIGHT_BG, 
+                        FLAMES_LAYER_NIGHT, NIGHT_LAYER);
+    
+    return night_ani;
+}
 
 Animation* setEggBird() {
 
@@ -167,6 +190,8 @@ int main(int argc, char *argv[])
     srand(time(0));
     init();
     
+    BackgroundManager* background = setDay();
+
     Animation* mainBird = setEggBird();
     Animation* supportBird = nullptr;
     Animation* collapsionbyByBird = setCollapsionByEagle();
@@ -174,8 +199,8 @@ int main(int argc, char *argv[])
     Animation* diamondCollapsion = setDiamondCollapsion();
     Animation* enemyBird = setEvilBird();
 
-    game.init(mainBird, supportBird, collapsionbyByBird, 
-                    enemyBird, diamond, diamondCollapsion);
+    game.init(background, mainBird, supportBird, 
+        collapsionbyByBird, enemyBird, diamond, diamondCollapsion);
                     
     while(game.running()) {
         game.handle_events();

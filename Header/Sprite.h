@@ -2,6 +2,7 @@
 
 #include "Game.h"
 
+
 struct Sprite {
 
     SDL_Texture* texture;

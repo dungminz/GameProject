@@ -4,7 +4,8 @@
 - SDL_PumpEvents();
 
 - Dùng con trỏ
-->tiện sử dụng contructor, destructor
+->quản lý bộ nhớ linh hoạt
+->chỉ cần dùng tác vụ cơ bản thì ko cần
 
 - Xử lý sdl_quit
 ->chương trình có thể thoát 'bình thường'
@@ -19,6 +20,6 @@
 - Hàm SDL_HasIntersection
 
 - Ưu điêm : 
-    + Có thể add thêm chim mới mainbird, spbird, enemy dễ dàng
+    + Có thể add thêm charactor mới dễ dàng
     + Tinh chỉnh tỉ lệ chim đơn giản
     + Lưu vị trí, render vị trị -> tốn ít bộ nhớ

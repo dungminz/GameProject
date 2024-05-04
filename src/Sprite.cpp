@@ -1,6 +1,7 @@
 #include "../Header/Sprite.h"
 #include "../Header/CommonFunction.h"
 
+
 void Sprite::init(SDL_Texture *_texture, const int _flames, const int _clips[][4]) {
 
     texture = _texture;

@@ -13,7 +13,7 @@ Bố cục Game:
 - . Màn hình di chuyển
     + Thêm phong cảnh (png)..
 - . Chim chuyển động tại chỗ (sprite)
-- . Tạo diamond
+- . Tạo diamond (đồ ăn -> tính điểm)
     + Xử lý tạo nhiều dia, ý tưởng thô dùng vector;
     + rand
 - . Tổ chức lại chương trình 
@@ -21,9 +21,11 @@ Bố cục Game:
     + Tạo struct animation -> có lựa chọn loại nhân vật
 - . Tạo quái (dùng rand)
 - . Xử lý va chạm, xử lý sau va chạm
-- (Timer)
-- Nhạc (mixer)
+- Tạo bird sp
 - Menu (ttf)
+    + (Timer)
+- Nhạc (mixer)
+
 - (Tạo đạn quái)
 - Tạo đặc biệt (hướng tới chim)
 
@@ -39,11 +41,13 @@ Bố cục hàm:
 - hàm phụ
 - update
 - render
-- (clean)
+- (clean) -> destructor
 
 
 Bố cục chạy:
     
-- background
+- Background
+- diamond
 - enemy
-- bird
+- mainbird
+- spbird

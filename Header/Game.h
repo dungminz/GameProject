@@ -6,7 +6,6 @@
 
 #include <iostream>
 #include <vector>
-// #include <utility>
 #include <string>
 
 #include <SDL.h>
@@ -14,13 +13,17 @@
 // #include <SDL_ttf.h>
 // #include <SDL_mixer.h>
 
+#include "Exception.h"
+#include "BackgroundManager.h"
 #include "AnimationManager.h"
 #include "TextureManager.h"
 #include "Mouse.h"
 #include "Sprite.h"
 
+
 void logErrorAndExit(const char* msg, const char* error);
 void waitUntilKeyPressed();
+
 
 struct Pos {
     int x, y, spr;
@@ -31,6 +34,7 @@ struct Pos {
     Pos(int _x, int _y, int _spr, double _speed) 
         : x(_x), y(_y), spr(_spr), speed(_speed) {}
 };
+
 
 struct Game {
 
@@ -50,16 +54,18 @@ struct Game {
     static SDL_Window *window;
     static SDL_Renderer *renderer;
 
-    void init(Animation* _mainbird, Animation* _supportbird, 
+    void init(BackgroundManager* _background, 
+        Animation* _mainbird, Animation* _supportbird, 
         Animation* _collapsion_by_bird, Animation* _enemybird,
         Animation* _diamond, Animation* _diamond_collapsion);
     void render();
     bool running() {return is_running;};
     void handle_events();
-    bool collision(SDL_Rect* _bird, SDL_Rect* _enemybird);
-    void checkCollision(SDL_Rect* _bird, std::vector<Pos> &enemy_pos, std::vector<Pos> &collapsion_pos);
     void update();
     void clean();
 
+    bool collision(SDL_Rect* _bird, SDL_Rect* _enemybird);
+    void checkCollision(SDL_Rect* _bird, std::vector<Pos> &enemy_pos, 
+                            std::vector<Pos> &collapsion_pos);
     void create_enemy(std::vector<Pos> &_pos, int numbers);
 };

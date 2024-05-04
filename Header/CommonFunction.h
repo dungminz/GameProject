@@ -4,20 +4,11 @@ const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
 #define WINDOW_TITLE "~New Game~"
 
-const std::string EAGLE_IMG = "../Image/Animation/eagle.png";
-const int EAGLE_SCALE = 1;
-const int EAGLE_W = 121;
-const int EAGLE_H = 85;
-const int EAGLE_REAL_W = EAGLE_W/EAGLE_SCALE;
-const int EAGLE_REAL_H = EAGLE_H/EAGLE_SCALE;
-const int EAGLE_0 = 117;
-const int EAGLE_1 = 201;
-const int EAGLE_2 = 292;
-const int EAGLE_3 = 383;
-const int EAGLE_4 = 471;
-const int EAGLE_5 = 563;
-const int EAGLE_6 = 648;
-const int EAGLE_7 = 738;
+const int INITIAL_DISTANCE = 3;
+const int MAX_LAYER = 6;
+const double LAYER_SPEED[MAX_LAYER] = {
+    0.3, 0.5, 0.7, 0.9, 1.1, 1.3
+};
 
 const double EGGBIRD_SCALE = 6;
 const double COLLAPSION_BY_EAGLE_SCALE = 1.9;
@@ -52,4 +43,9 @@ enum typeOfCharacror {
     DIAMONDCOLLAPSION,
     EVILBIRD,
     EVILBIRDCOLLAPSION
+};
+
+enum typeOfBackground {
+    DAY,
+    NIGHT
 };

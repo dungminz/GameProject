@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Game.h"
-#include "Sprite.h"
 
 const std::string EGGBIRD_IMG = "../Image/Animation/eggbird.png";
 const int FLAMES_EGGBIRD = 8;
@@ -20,6 +19,22 @@ const int CLIPS_EGGBIRD[FLAMES_EGGBIRD][4] = {
     {405+RANGE_FLAME_EGGBIRD*6, 50, 560, 420},
     {405+RANGE_FLAME_EGGBIRD*7, 50, 560, 420},
 };
+
+
+const std::string EAGLE_IMG = "../Image/Animation/eagle.png";
+const int EAGLE_SCALE = 1;
+const int EAGLE_W = 121;
+const int EAGLE_H = 85;
+const int EAGLE_REAL_W = EAGLE_W/EAGLE_SCALE;
+const int EAGLE_REAL_H = EAGLE_H/EAGLE_SCALE;
+const int EAGLE_0 = 117;
+const int EAGLE_1 = 201;
+const int EAGLE_2 = 292;
+const int EAGLE_3 = 383;
+const int EAGLE_4 = 471;
+const int EAGLE_5 = 563;
+const int EAGLE_6 = 648;
+const int EAGLE_7 = 738;
 
 
 const int FLAMES_EAGLE_FLYING = 8;
@@ -102,6 +117,7 @@ const int CLIPS_EAGLE_HENSHIN_SHOT[FLAMES_EAGLE_HENSHIN_SHOT][4] = {
     {RANGE_FLAME_EAGLE_HENSHIN_SHOT, EAGLE_1, EAGLE_W, EAGLE_H},
     {RANGE_FLAME_EAGLE_HENSHIN_SHOT, EAGLE_2, EAGLE_W, EAGLE_H},
 };
+
 
 const std::string COLLAPSION_BY_EAGLE_IMG = "../Image/Animation/explosion_eagle.png";
 const int FLAMES_COLLAPSION_BY_EAGLE = 8;

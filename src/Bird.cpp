@@ -1,5 +1,5 @@
-#include <iostream>
 #include "../Header/Bird.h"
+
 
 MainBird::MainBird() :
     bird_mouse(MAIN_BIRD_ORIGIN_POS_X, MAIN_BIRD_ORIGIN_POS_Y, 

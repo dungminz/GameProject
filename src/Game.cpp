@@ -4,31 +4,14 @@
 #include "../Header/Background.h"
 #include "../Header/CommonFunction.h"
 
-void logErrorAndExit(const char* msg, const char* error) {
-    SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "%s : %s", msg, error);
-    SDL_Quit();
-}
-
-void waitUntilKeyPressed() {
-    SDL_Event e;
-    while(true) {
-        if(SDL_PollEvent(&e) != 0)
-            if(e.type == SDL_KEYDOWN || e.type == SDL_QUIT)
-                return;
-        SDL_Delay(100);
-    }
-}
-
 
 SDL_Renderer *Game::renderer = nullptr;
 SDL_Window *Game::window = nullptr;
-
 
 bool Game::leftPressed = false;
 bool Game::rightPressed = false;
 bool Game::upPressed = false;
 bool Game::downPressed = false;
-
 
 Background *background = nullptr;
 Enemy *diamond = nullptr;
@@ -36,16 +19,15 @@ Enemy *enemybird = nullptr;
 MainBird *mainbird = nullptr;
 
 
-
-void Game::init(Animation* _mainbird, Animation* _supportbird, 
+void Game::init(BackgroundManager* _background, 
+        Animation* _mainbird, Animation* _supportbird, 
         Animation* _collapsion_by_bird, Animation* _enemybird,
         Animation* _diamond, Animation* _diamond_collapsion)
 {
-    
     is_running = true;
     is_enemy=true;
 
-    background = new Background();
+    background = new Background(_background);
     if(background) background->init();
         else logErrorAndExit("CreateBackground", SDL_GetError());
 
@@ -66,6 +48,7 @@ void Game::init(Animation* _mainbird, Animation* _supportbird,
 
 
 void Game::render() {
+
     // SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderClear(renderer);
 
@@ -89,6 +72,7 @@ void Game::render() {
 
 
 void Game::clean() {
+
     delete background; background = nullptr;
     delete diamond; diamond = nullptr;
     delete mainbird; mainbird = nullptr;
@@ -96,6 +80,7 @@ void Game::clean() {
 
 
 void Game::handle_events() {
+
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
         switch(event.type) {
@@ -125,6 +110,7 @@ void Game::handle_events() {
 
 
 void Game::update() {
+
     background->update();
 
     // create_enemy(diamond_pos, 10);
@@ -156,12 +142,12 @@ void Game::update() {
 // CheckCollision
     checkCollision(mainbird->bird_mouse.getDest(), diamond_pos, diamondcollapsion_pos);
     checkCollision(mainbird->bird_mouse.getDest(), enemybird_pos, enemybirdcollapsion_pos);
-    
 
 }
 
 
 bool Game::collision(SDL_Rect* _bird, SDL_Rect* _enemy) {
+    
     return SDL_HasIntersection(_bird, _enemy);
 }
 

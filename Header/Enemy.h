@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Sprite.h"
-#include "AnimationManager.h"
-#include "TextureManager.h"
+
+
 
 const std::string DIAMOND_IMG = "../Image/Animation/diamond.png";
 const int FLAMES_DIAMOND = 8;
