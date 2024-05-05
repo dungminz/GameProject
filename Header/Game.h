@@ -21,8 +21,8 @@
 #include "Sprite.h"
 
 
-void logErrorAndExit(const char* msg, const char* error);
-void waitUntilKeyPressed();
+// void logErrorAndExit(const char* msg, const char* error);
+// void waitUntilKeyPressed();
 
 
 struct Pos {
@@ -35,6 +35,12 @@ struct Pos {
         : x(_x), y(_y), spr(_spr), speed(_speed) {}
 };
 
+    // static bool mainbird_left = false;
+    // static bool mainbird_right = false;
+    // static bool mainbird_up = false;
+    // static bool mainbird_down = false;
+
+
 
 struct Game {
 
@@ -46,26 +52,29 @@ struct Game {
     std::vector<Pos> enemybird_pos;
     std::vector<Pos> enemybirdcollapsion_pos;
 
-    static bool leftPressed;
-    static bool rightPressed;
-    static bool upPressed;
-    static bool downPressed;
+    // static bool mainbird_left;
+    // static bool mainbird_right;
+    // static bool mainbird_up;
+    // static bool mainbird_down;
 
     static SDL_Window *window;
     static SDL_Renderer *renderer;
 
-    void init(BackgroundManager* _background, 
-        Animation* _mainbird, Animation* _supportbird, 
-        Animation* _collapsion_by_bird, Animation* _enemybird,
-        Animation* _diamond, Animation* _diamond_collapsion);
+    void init(BackgroundManager* _background, Animation* _mainbird, 
+        Animation* _supportBird_flying, Animation* _supportBird_gothit, 
+        Animation* _supportBird_shot, Animation* _supportBird_ram, 
+        Animation* _supportBird_dead, Animation* _supportBird_henshin, 
+        Animation* _supportBird_henshinshot, Animation* _collapsion_by_bird,
+        Animation* _enemybird, Animation* _diamond, Animation* _diamond_collapsion);
+    
     void render();
     bool running() {return is_running;};
     void handle_events();
     void update();
     void clean();
 
-    bool collision(SDL_Rect* _bird, SDL_Rect* _enemybird);
-    void checkCollision(SDL_Rect* _bird, std::vector<Pos> &enemy_pos, 
+    bool hasCollision(SDL_Rect* _char_first, SDL_Rect* _char_second);
+    bool checkCollision(SDL_Rect* _bird, std::vector<Pos> &enemy_pos, 
                             std::vector<Pos> &collapsion_pos);
     void create_enemy(std::vector<Pos> &_pos, int numbers);
 };

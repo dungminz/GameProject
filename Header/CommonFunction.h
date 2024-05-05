@@ -10,7 +10,7 @@ const double LAYER_SPEED[MAX_LAYER] = {
     0.3, 0.5, 0.7, 0.9, 1.1, 1.3
 };
 
-const double EGGBIRD_SCALE = 6;
+const double EGGBIRD_SCALE = 7;
 const double COLLAPSION_BY_EAGLE_SCALE = 1.9;
 const double DIAMOND_SCALE = 10;
 const double DIAMONDCOLLAPSION_SCALE = 2.5;
@@ -19,12 +19,26 @@ const double EVILBIRD_SCALE = 3.75;
 const int MAIN_BIRD_ORIGIN_POS_X = 100;
 const int MAIN_BIRD_ORIGIN_POS_Y = 100;
 
+const int SUPPORT_BIRT_ORIGIN_POS_X = 200;
+const int SUPPORT_BIRT_ORIGIN_POS_Y = 100;
+
 const int SPRITE_DELAY = 5;
 const int STEPS_MOVE_BIRD = 4;
 const int DISTANCE_TO_SCREEN = 15;
 
 const double ENEMY_MIN_SPEED = 1;
 const double ENEMY_MAX_SPEED = 5;
+
+namespace KeyPressed {
+    extern bool mainbird_left;
+    extern bool mainbird_right;
+    extern bool mainbird_up;
+    extern bool mainbird_down;
+    extern bool supportbird_left;
+    extern bool supportbird_right;
+    extern bool supportbird_up;
+    extern bool supportbird_down;
+}
 
 enum typeOfCharacror {
     EAGLE,

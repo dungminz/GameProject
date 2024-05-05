@@ -9,9 +9,7 @@
 #include "../Header/Bird.h"
 
 
-Game game;
-
-// static Animation eggbird_ani, diamond_ani, evilbird_ani;
+Game* game = nullptr;
 
 void init() {
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
@@ -86,6 +84,16 @@ Animation* setEagleGotHit() {
                 CLIPS_EAGLE_GOT_HIT, EAGLE_REAL_W, EAGLE_REAL_H);
     
     return eaglegothit_ani;
+}
+
+Animation* setEagleShot() {
+
+    Animation* eagleshot_ani = new Animation;
+
+    eagleshot_ani->setInformation(EAGLESHOT, EAGLE_IMG, FLAMES_EAGLE_SHOT, 
+                CLIPS_EAGLE_SHOT, EAGLE_REAL_W, EAGLE_REAL_H);
+    
+    return eagleshot_ani;
 }
 
 Animation* setEagleRam() {
@@ -176,8 +184,8 @@ Animation* setCollapsionByEagle() {
 
 void clean() {
 
-    SDL_DestroyRenderer(game.renderer); game.renderer = nullptr;
-    SDL_DestroyWindow(game.window); game.window = nullptr;
+    SDL_DestroyRenderer(game->renderer); game->renderer = nullptr;
+    SDL_DestroyWindow(game->window); game->window = nullptr;
 
     IMG_Quit();
     SDL_Quit();
@@ -185,32 +193,56 @@ void clean() {
 
 bool play_again = true;
 
-int main(int argc, char *argv[])
-{
-    srand(time(0));
-    init();
-    
+void PlayGame() {
+        
+    game = new Game();
+
     BackgroundManager* background = setDay();
 
     Animation* mainBird = setEggBird();
-    Animation* supportBird = nullptr;
+    Animation* supportBird_flying = setEagleFlying();
+    Animation* supportBird_gothit = setEagleGotHit();
+    Animation* supportBird_shot = setEagleShot();
+    Animation* supportBird_ram = setEagleRam();
+    Animation* supportBird_dead = setEagleDead();
+    Animation* supportBird_henshin = setEagleHenshin();
+    Animation* supportBird_henshinshot = setEagleHenshinShot();
     Animation* collapsionbyByBird = setCollapsionByEagle();
     Animation* diamond = setDiamond();
     Animation* diamondCollapsion = setDiamondCollapsion();
     Animation* enemyBird = setEvilBird();
 
-    game.init(background, mainBird, supportBird, 
-        collapsionbyByBird, enemyBird, diamond, diamondCollapsion);
+    game->init(background, mainBird, 
+            supportBird_flying, supportBird_gothit, 
+            supportBird_shot, supportBird_ram, 
+            supportBird_dead, supportBird_henshin, 
+            supportBird_henshinshot, collapsionbyByBird, 
+            enemyBird, diamond, diamondCollapsion);
                     
-    while(game.running()) {
-        game.handle_events();
-        game.update();
-        game.render();
+    while(game->running()) {
+        game->handle_events();
+        game->update();
+        game->render();
         // waitUntilKeyPressed();
         SDL_Delay(10);
     }
-    game.clean();
-    clean();
+
+    game->clean();
+}
+
+void Menu() {
+
+}
+
+int main(int argc, char *argv[])
+{
+    srand(time(0));
+    init();
     
+    
+    PlayGame();
+
+    clean();
+
     return 0;
 }

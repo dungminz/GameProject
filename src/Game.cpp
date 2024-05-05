@@ -8,21 +8,28 @@
 SDL_Renderer *Game::renderer = nullptr;
 SDL_Window *Game::window = nullptr;
 
-bool Game::leftPressed = false;
-bool Game::rightPressed = false;
-bool Game::upPressed = false;
-bool Game::downPressed = false;
+bool KeyPressed::mainbird_left = false;
+bool KeyPressed::mainbird_right = false;
+bool KeyPressed::mainbird_up = false;
+bool KeyPressed::mainbird_down = false;
+bool KeyPressed::supportbird_left = false;
+bool KeyPressed::supportbird_right = false;
+bool KeyPressed::supportbird_up = false;
+bool KeyPressed::supportbird_down = false;
 
 Background *background = nullptr;
 Enemy *diamond = nullptr;
 Enemy *enemybird = nullptr;
 MainBird *mainbird = nullptr;
+SupportBird *supportbird = nullptr;
 
 
-void Game::init(BackgroundManager* _background, 
-        Animation* _mainbird, Animation* _supportbird, 
-        Animation* _collapsion_by_bird, Animation* _enemybird,
-        Animation* _diamond, Animation* _diamond_collapsion)
+void Game::init(BackgroundManager* _background, Animation* _mainbird, 
+        Animation* _supportBird_flying, Animation* _supportBird_gothit, 
+        Animation* _supportBird_shot, Animation* _supportBird_ram, 
+        Animation* _supportBird_dead, Animation* _supportBird_henshin, 
+        Animation* _supportBird_henshinshot, Animation* _collapsion_by_bird,
+        Animation* _enemybird, Animation* _diamond, Animation* _diamond_collapsion)
 {
     is_running = true;
     is_enemy=true;
@@ -44,6 +51,13 @@ void Game::init(BackgroundManager* _background,
     mainbird = new MainBird(_mainbird);
     if(mainbird) mainbird->init();
         else logErrorAndExit("CreateMainBird", SDL_GetError());
+    
+    supportbird = new SupportBird(_supportBird_flying, 
+                _supportBird_gothit, _supportBird_shot, 
+                _supportBird_ram, _supportBird_dead, 
+                _supportBird_henshin, _supportBird_henshinshot);
+    if(supportbird) supportbird->init();
+        else logErrorAndExit("CreateSupportBird", SDL_GetError());
 }
 
 
@@ -66,6 +80,7 @@ void Game::render() {
         enemybird->renderCollapsion(pos);
     
     mainbird->render();
+    supportbird->render();
 
     SDL_RenderPresent(renderer);
 }
@@ -83,28 +98,16 @@ void Game::handle_events() {
 
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
+
         switch(event.type) {
+
             case SDL_QUIT: is_running = false; break;
-            case SDL_KEYDOWN:
-                switch (event.key.keysym.sym) {
-                    case SDLK_LEFT:  leftPressed=true;  rightPressed=false; break;
-                    case SDLK_RIGHT: rightPressed=true; leftPressed=false;  break;
-                    case SDLK_UP:    upPressed=true;    downPressed=false;  break;
-                    case SDLK_DOWN:  downPressed=true;  upPressed=false;    break;
-                    default: break;
-                }
-                break;
-            case SDL_KEYUP:
-                switch (event.key.keysym.sym) {
-                    case SDLK_LEFT:  leftPressed=false;  break;
-                    case SDLK_RIGHT: rightPressed=false; break;
-                    case SDLK_UP:    upPressed=false;    break;
-                    case SDLK_DOWN:  downPressed=false;  break;
-                    default: break;
-                }
-                break;
             default: break;
         }
+
+        mainbird->handle_events(event);
+
+        supportbird->handle_events(event);
     }
 }
 
@@ -138,36 +141,43 @@ void Game::update() {
     }
 
     mainbird->update();
+    supportbird->update();
 
 // CheckCollision
     checkCollision(mainbird->bird_mouse.getDest(), diamond_pos, diamondcollapsion_pos);
-    checkCollision(mainbird->bird_mouse.getDest(), enemybird_pos, enemybirdcollapsion_pos);
+    if(checkCollision(mainbird->bird_mouse.getDest(), enemybird_pos, enemybirdcollapsion_pos)) is_running = false;
+    checkCollision(supportbird->spbird_mouse.getDest(), enemybird_pos, enemybirdcollapsion_pos);
 
 }
 
 
-bool Game::collision(SDL_Rect* _bird, SDL_Rect* _enemy) {
-    
-    return SDL_HasIntersection(_bird, _enemy);
+bool Game::hasCollision(SDL_Rect* _char_first, SDL_Rect* _char_second) {
+
+    return SDL_HasIntersection(_char_first, _char_second);
 }
 
 
-void Game::checkCollision(SDL_Rect* _bird, std::vector<Pos> &enemy_pos, std::vector<Pos> &collapsion_pos) {
+bool Game::checkCollision(SDL_Rect* _bird, std::vector<Pos> &enemy_pos, std::vector<Pos> &collapsion_pos) {
+
+    bool check = false;
 
     for(int pos = 0; pos<enemy_pos.size();) {
 
         SDL_Rect enemy_dest = {enemy_pos[pos].x, enemy_pos[pos].y, DIAMOND_REAL_W, DIAMOND_REAL_H};
 
-        if(collision(_bird, &enemy_dest)) {
+        if(hasCollision(_bird, &enemy_dest)) {
 
             collapsion_pos.push_back({enemy_pos[pos].x, enemy_pos[pos].y, 0});
             enemy_pos.erase(enemy_pos.begin()+pos);
+            check = true;
         }
 
         else pos++;
     }
 
         if(enemy_pos.empty()) is_enemy = false;
+
+    return check;
 }
 
 
