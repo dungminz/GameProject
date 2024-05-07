@@ -7,15 +7,11 @@ MainBird::MainBird(Animation* ani) : bird_ani(ani) {}
 
 MainBird::~MainBird() {
 
-    // if(bird_ani) delete bird_ani;
-    // if(bird_mouse) delete bird_mouse;
-    // if(bird_spr) delete bird_spr;
+    if(bird_mouse) delete bird_mouse;
+    if(bird_spr) delete bird_spr;
 }
 
 void MainBird::init() {
-
-    SDL_Texture* bird = TextureManager::loadTexture(bird_ani->img);
-    bird_ani->setTexture(bird);
 
     bird_spr = new Sprite();
     bird_spr->init(bird_ani);
@@ -101,22 +97,6 @@ SupportBird::~SupportBird() {
 }
 
 void SupportBird::init() {
-
-    SDL_Texture* spbird_flying = TextureManager::loadTexture(flying_ani->img);
-    SDL_Texture* spbird_gothit = TextureManager::loadTexture(gothit_ani->img);
-    SDL_Texture* spbird_shot = TextureManager::loadTexture(shot_ani->img);
-    SDL_Texture* spbird_ram = TextureManager::loadTexture(ram_ani->img);
-    SDL_Texture* spbird_dead = TextureManager::loadTexture(dead_ani->img);
-    SDL_Texture* spbird_henshin = TextureManager::loadTexture(henshin_ani->img);
-    SDL_Texture* spbird_henshinshot = TextureManager::loadTexture(henshinshot_ani->img);
-    
-    flying_ani->setTexture(spbird_flying);
-    gothit_ani->setTexture(spbird_gothit);
-    shot_ani->setTexture(spbird_shot);
-    ram_ani->setTexture(spbird_ram);
-    dead_ani->setTexture(spbird_dead);
-    henshin_ani->setTexture(spbird_henshin);
-    henshinshot_ani->setTexture(spbird_henshinshot);
 
     if(henshin_ani) spbird_ani = henshin_ani;
     

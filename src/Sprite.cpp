@@ -4,39 +4,20 @@
 
 Sprite::Sprite () {}
 
-Sprite::~Sprite() {
-    
-    // if(texture) SDL_DestroyTexture(texture);
-    // if(clips) delete[] clips;
-}
+Sprite::~Sprite() {}
 
-// void Sprite::init(SDL_Texture *_texture, const int _flames, const int _clips[][4]) {
-
-//     texture = _texture;
-//     flames = _flames;
-//     for(int i=0; i<flames; i++) {
-//         SDL_Rect clip;
-//         clip.x = _clips[i][0];
-//         clip.y = _clips[i][1];
-//         clip.w = _clips[i][2];
-//         clip.h = _clips[i][3];
-//         clips.push_back(clip);
-//     }
-//     currentFlame = 0;
-//     delay=0;
-// }
 
 void Sprite::init(Animation* ani) {
 
     texture = ani->texture;
-    flames = ani->flames;
+    frames = ani->frames;
     clips = ani->clips;
 }
 
 
 void Sprite::tick() {
 
-    currentFlame = ++currentFlame%flames;
+    currentFrame = ++currentFrame%frames;
 }
 
 
@@ -49,5 +30,5 @@ void Sprite::update() {
 
 SDL_Rect* Sprite::getSrc() {
     
-    return &clips[currentFlame];
+    return &clips[currentFrame];
 }

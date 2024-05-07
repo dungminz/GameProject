@@ -7,7 +7,7 @@ const int SCREEN_HEIGHT = 720;
 #define WINDOW_TITLE "~New Game~"
 
 const int ICON_SIZE = 100;
-const double ICON_R = 50;
+const double ICON_R = ICON_SIZE/2;
 
 const int INITIAL_DISTANCE = 3;
 const int MAX_LAYER = 6;
@@ -22,14 +22,14 @@ const double DIAMONDCOLLAPSION_SCALE = 2.5;
 const double EVILBIRD_SCALE = 3.75;
 
 const int MAIN_BIRD_ORIGIN_POS_X = 100;
-const int MAIN_BIRD_ORIGIN_POS_Y = 100;
+const int MAIN_BIRD_ORIGIN_POS_Y = SCREEN_HEIGHT/2;
 
 const int SUPPORT_BIRT_ORIGIN_POS_X = 200;
-const int SUPPORT_BIRT_ORIGIN_POS_Y = 100;
+const int SUPPORT_BIRT_ORIGIN_POS_Y = SCREEN_HEIGHT/2;
 
 const int SPRITE_DELAY = 5;
 const int STEPS_MOVE_BIRD = 4;
-const int DISTANCE_TO_SCREEN = 15;
+const int DISTANCE_TO_SCREEN = 30;
 
 const double ENEMY_MIN_SPEED = 1;
 const double ENEMY_MAX_SPEED = 5;

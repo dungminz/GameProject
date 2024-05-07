@@ -10,16 +10,14 @@ struct Animation {
     typeOfCharacror type;
     std::string img;
     SDL_Texture* texture;
-    int flames;
+    int frames;
     int w, h;
     SDL_Rect* clips;
 
     Animation();
+    Animation(typeOfCharacror _type, std::string _img, 
+                int _frames, const int _clips[][4], int _w, int _h);
     ~Animation();
     
-    void setInformation(typeOfCharacror _type, std::string _img, 
-                                int _flames, int _w, int _h);
-    void setInformation(typeOfCharacror _type, std::string _img, 
-                int _flames, const int _clips[][4], int _w, int _h);                                
-    void setTexture(SDL_Texture* _texture);
+    void setTexture();
 };

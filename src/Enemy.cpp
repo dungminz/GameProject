@@ -11,25 +11,14 @@ Enemy::Enemy(Animation* _enemy_ani, Animation* _collapsion_ani)
 
 Enemy::~Enemy() {
     
-    // if(enemy_spr) delete enemy_spr;
-    // if(collapsion_spr) delete collapsion_spr;
-    // if(enemy_ani) delete enemy_ani;
-    // if(collapsion_ani) delete collapsion_ani;
+    if(enemy_spr) delete enemy_spr;
+    if(collapsion_spr) delete collapsion_spr;
 }
 
 void Enemy::init() {
 
     enemy_spr = new Sprite();
-    collapsion_spr = new Sprite();
-
-    SDL_Texture* enemy_img = TextureManager::loadTexture(enemy_ani->img);
-    enemy_ani->setTexture(enemy_img);
-
-    enemy_spr = new Sprite();
     enemy_spr->init(enemy_ani);
-
-    SDL_Texture* collapsion_img = TextureManager::loadTexture(collapsion_ani->img);
-    collapsion_ani->setTexture(collapsion_img);
 
     collapsion_spr = new Sprite();
     collapsion_spr->init(collapsion_ani);

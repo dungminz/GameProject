@@ -3,9 +3,9 @@
 #include "Game.h"
 
 
-const int FLAMES_LAYER_NIGHT = 6;
+const int FRAMES_LAYER_NIGHT = 6;
 const std::string NIGHT_BG = "../Image/Background/bg2.png";
-const std::string NIGHT_LAYER[FLAMES_LAYER_NIGHT] = {
+const std::string NIGHT_LAYER[FRAMES_LAYER_NIGHT] = {
     "../Image/Background/21.png",
     "../Image/Background/22.png",
     "../Image/Background/23.png",
@@ -14,9 +14,9 @@ const std::string NIGHT_LAYER[FLAMES_LAYER_NIGHT] = {
     "../Image/Background/26.png",
 };
 
-const int FLAMES_LAYER_DAY = 6;
+const int FRAMES_LAYER_DAY = 6;
 const std::string DAY_BG = "../Image/Background/bg1.png";
-const std::string DAY_LAYER[FLAMES_LAYER_DAY] = {
+const std::string DAY_LAYER[FRAMES_LAYER_DAY] = {
     "../Image/Background/11.png",
     "../Image/Background/12.png",
     "../Image/Background/13.png",

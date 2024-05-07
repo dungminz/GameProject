@@ -39,151 +39,26 @@ void init() {
 
 
 
-BackgroundManager* setDay() {
+// BackgroundManager* setDay() {
 
-    BackgroundManager* day_ani = new BackgroundManager;
+//     BackgroundManager* day_ani = new BackgroundManager;
 
-    day_ani->setInformation(DAY, DAY_BG, 
-                        FLAMES_LAYER_DAY, DAY_LAYER);
+//     day_ani->setInformation(DAY, DAY_BG, 
+//                         FRAMES_LAYER_DAY, DAY_LAYER);
     
-    return day_ani;
-}
+//     return day_ani;
+// }
 
-BackgroundManager* setNight() {
+// BackgroundManager* setNight() {
 
-    BackgroundManager* night_ani = new BackgroundManager;
+//     BackgroundManager* night_ani = new BackgroundManager;
 
-    night_ani->setInformation(NIGHT, NIGHT_BG, 
-                        FLAMES_LAYER_NIGHT, NIGHT_LAYER);
+//     night_ani->setInformation(NIGHT, NIGHT_BG, 
+//                         FRAMES_LAYER_NIGHT, NIGHT_LAYER);
     
-    return night_ani;
-}
+//     return night_ani;
+// }
 
-Animation* setEggBird() {
-
-    Animation* eggbird_ani = new Animation;
-
-    eggbird_ani->setInformation(EGGBIRD, EGGBIRD_IMG, FLAMES_EGGBIRD, 
-                CLIPS_EGGBIRD, EGGBIRD_REAL_W, EGGBIRD_REAL_H);
-    
-    return eggbird_ani;
-}
-
-Animation* setEagleFlying() {
-
-    Animation* eagleflying_ani = new Animation;
-
-    eagleflying_ani->setInformation(EAGLEFLYING, EAGLE_IMG, FLAMES_EAGLE_FLYING, 
-                CLIPS_EAGLE_FLYING, EAGLE_REAL_W, EAGLE_REAL_H);
-    
-    return eagleflying_ani;
-}
-
-Animation* setEagleGotHit() {
-
-    Animation* eaglegothit_ani = new Animation;
-
-    eaglegothit_ani->setInformation(EAGLEGOTHIT, EAGLE_IMG, FLAMES_EAGLE_GOT_HIT, 
-                CLIPS_EAGLE_GOT_HIT, EAGLE_REAL_W, EAGLE_REAL_H);
-    
-    return eaglegothit_ani;
-}
-
-Animation* setEagleShot() {
-
-    Animation* eagleshot_ani = new Animation;
-
-    eagleshot_ani->setInformation(EAGLESHOT, EAGLE_IMG, FLAMES_EAGLE_SHOT, 
-                CLIPS_EAGLE_SHOT, EAGLE_REAL_W, EAGLE_REAL_H);
-    
-    return eagleshot_ani;
-}
-
-Animation* setEagleRam() {
-
-    Animation* eagleram_ani = new Animation;
-
-    eagleram_ani->setInformation(EAGLERAM, EAGLE_IMG, FLAMES_EAGLE_RAM, 
-                CLIPS_EAGLE_RAM, EAGLE_REAL_W, EAGLE_REAL_H);
-    
-    return eagleram_ani;
-}
-
-Animation* setEagleDead() {
-
-    Animation* eagledead_ani = new Animation;
-
-    eagledead_ani->setInformation(EAGLEDEAD, EAGLE_IMG, FLAMES_EAGLE_DEAD, 
-                CLIPS_EAGLE_DEAD, EAGLE_REAL_W, EAGLE_REAL_H);
-    
-    return eagledead_ani;
-}
-
-Animation* setEagleHenshin() {
-
-    Animation* eaglehenshin_ani = new Animation;
-
-    eaglehenshin_ani->setInformation(EAGLEHENSHIN, EAGLE_IMG, FLAMES_EAGLE_HENSHIN, 
-                CLIPS_EAGLE_HENSHIN, EAGLE_REAL_W, EAGLE_REAL_H);
-    
-    return eaglehenshin_ani;
-}
-
-Animation* setEagleHenshinShot() {
-
-    Animation* eaglehenshinshot_ani = new Animation;
-
-    eaglehenshinshot_ani->setInformation(EAGLEHENSHINSHOT, EAGLE_IMG, FLAMES_EAGLE_HENSHIN_SHOT, 
-                CLIPS_EAGLE_HENSHIN_SHOT, EAGLE_REAL_W, EAGLE_REAL_H);
-    
-    return eaglehenshinshot_ani;
-}
-
-Animation* setDiamond() {
-
-    Animation* diamond_ani = new Animation;
-
-    diamond_ani->setInformation(DIAMOND, DIAMOND_IMG, FLAMES_DIAMOND,
-                CLIPS_DIAMOND, DIAMOND_REAL_W, DIAMOND_REAL_H);
-    
-    return diamond_ani;
-}
-
-
-Animation* setDiamondCollapsion() {
-
-    Animation* diamond_colappsion_ani = new Animation;
-
-    diamond_colappsion_ani->setInformation(DIAMONDCOLLAPSION, DIAMONDCOLLAPSION_IMG, 
-            FLAMES_DIAMONDCOLLAPSION, CLIPS_DIAMONDCOLLAPSION, 
-            DIAMONDCOLLAPSION_REAL_W, DIAMONDCOLLAPSION_REAL_H);
-
-    return diamond_colappsion_ani;
-}
-
-
-Animation* setEvilBird() {
-
-    Animation* evilbird_ani = new Animation;
-
-    evilbird_ani->setInformation(EVILBIRD, EVILBIRD_IMG, 
-                       FLAMES_EVILBIRD, CLIPS_EVILBIRD,
-                       EVILBIRD_REAL_W, EVILBIRD_REAL_H);
-
-    return evilbird_ani;
-}
-
-
-Animation* setCollapsionByEagle() {
-
-    Animation* colapssion_by_eagle = new Animation;
-
-    colapssion_by_eagle->setInformation(COLLAPSIONBYEAGLE, COLLAPSION_BY_EAGLE_IMG, 
-        FLAMES_COLLAPSION_BY_EAGLE, CLIPS_COLLAPSION_BY_EAGLE,
-        COLLAPSION_BY_EAGLE_REAL_W, COLLAPSION_BY_EAGLE_REAL_H);
-
-    return colapssion_by_eagle;
-}
 
 void clean() {
 
@@ -198,20 +73,48 @@ bool play_again = true;
 
 GameState doPlay() {
         
-    BackgroundManager* background = setDay();
+    BackgroundManager* background = new BackgroundManager(DAY, DAY_BG, 
+                        FRAMES_LAYER_DAY, DAY_LAYER);
 
-    Animation* mainBird = setEggBird();
-    Animation* supportBird_flying = setEagleFlying();
-    Animation* supportBird_gothit = setEagleGotHit();
-    Animation* supportBird_shot = setEagleShot();
-    Animation* supportBird_ram = setEagleRam();
-    Animation* supportBird_dead = setEagleDead();
-    Animation* supportBird_henshin = setEagleHenshin();
-    Animation* supportBird_henshinshot = setEagleHenshinShot();
-    Animation* collapsionbyByBird = setCollapsionByEagle();
-    Animation* diamond = setDiamond();
-    Animation* diamondCollapsion = setDiamondCollapsion();
-    Animation* enemyBird = setEvilBird();
+    Animation* mainBird = new Animation(EGGBIRD, EGGBIRD_IMG, FRAMES_EGGBIRD, 
+                CLIPS_EGGBIRD, EGGBIRD_REAL_W, EGGBIRD_REAL_H);
+
+    Animation* supportBird_flying = new Animation(EAGLEFLYING, EAGLE_IMG, FRAMES_EAGLE_FLYING, 
+                CLIPS_EAGLE_FLYING, EAGLE_REAL_W, EAGLE_REAL_H);
+    
+    Animation* supportBird_gothit = new Animation(EAGLEGOTHIT, EAGLE_IMG, FRAMES_EAGLE_GOT_HIT, 
+                CLIPS_EAGLE_GOT_HIT, EAGLE_REAL_W, EAGLE_REAL_H);
+    
+    Animation* supportBird_shot = new Animation(EAGLESHOT, EAGLE_IMG, FRAMES_EAGLE_SHOT, 
+                CLIPS_EAGLE_SHOT, EAGLE_REAL_W, EAGLE_REAL_H);
+    
+    Animation* supportBird_ram = new Animation(EAGLERAM, EAGLE_IMG, FRAMES_EAGLE_RAM, 
+                CLIPS_EAGLE_RAM, EAGLE_REAL_W, EAGLE_REAL_H);
+    
+    Animation* supportBird_dead = new Animation(EAGLEDEAD, EAGLE_IMG, FRAMES_EAGLE_DEAD, 
+                CLIPS_EAGLE_DEAD, EAGLE_REAL_W, EAGLE_REAL_H);
+    
+    Animation* supportBird_henshin = new Animation(EAGLEHENSHIN, EAGLE_IMG, FRAMES_EAGLE_HENSHIN, 
+                CLIPS_EAGLE_HENSHIN, EAGLE_REAL_W, EAGLE_REAL_H);
+    
+    Animation* supportBird_henshinshot = new Animation(EAGLEHENSHINSHOT, EAGLE_IMG, FRAMES_EAGLE_HENSHIN_SHOT, 
+                CLIPS_EAGLE_HENSHIN_SHOT, EAGLE_REAL_W, EAGLE_REAL_H);
+    
+    Animation* collapsionbyByBird = new Animation(COLLAPSIONBYEAGLE, COLLAPSION_BY_EAGLE_IMG, 
+        FRAMES_COLLAPSION_BY_EAGLE, CLIPS_COLLAPSION_BY_EAGLE,
+        COLLAPSION_BY_EAGLE_REAL_W, COLLAPSION_BY_EAGLE_REAL_H);
+
+    Animation* diamond = new Animation(DIAMOND, DIAMOND_IMG, FRAMES_DIAMOND,
+                CLIPS_DIAMOND, DIAMOND_REAL_W, DIAMOND_REAL_H);
+    
+    Animation* diamondCollapsion = new Animation(DIAMONDCOLLAPSION, DIAMONDCOLLAPSION_IMG, 
+            FRAMES_DIAMONDCOLLAPSION, CLIPS_DIAMONDCOLLAPSION, 
+            DIAMONDCOLLAPSION_REAL_W, DIAMONDCOLLAPSION_REAL_H);
+
+    Animation* enemyBird = new Animation(EVILBIRD, EVILBIRD_IMG, 
+                       FRAMES_EVILBIRD, CLIPS_EVILBIRD,
+                       EVILBIRD_REAL_W, EVILBIRD_REAL_H);
+
 
     game->init(background, mainBird, 
             supportBird_flying, supportBird_gothit, 
@@ -220,7 +123,7 @@ GameState doPlay() {
             supportBird_henshinshot, collapsionbyByBird, 
             enemyBird, diamond, diamondCollapsion);
                     
-    while(game->running()) {
+    while(game->next_state == GameState::Null) {
         game->handle_events();
         game->update();
         game->render();
@@ -229,7 +132,21 @@ GameState doPlay() {
     }
 
     game->clean();
+    delete background; 
+    delete diamond; 
+    delete diamondCollapsion; 
+    delete enemyBird; 
+    delete mainBird; 
+    delete supportBird_flying; 
+    delete supportBird_gothit; 
+    delete supportBird_shot; 
+    delete supportBird_ram; 
+    delete supportBird_dead; 
+    delete supportBird_henshin; 
+    delete supportBird_henshinshot; 
+    delete collapsionbyByBird; 
 
+    if(game->next_state == GameState::Quit) return GameState::Quit;
     return GameState::End;
 }
 

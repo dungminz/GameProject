@@ -24,8 +24,7 @@ bool Menu::check_mouse(int pos_x, int pos_y) {
     int mouse_x, mouse_y;
     SDL_GetMouseState(&mouse_x, &mouse_y);
 
-    if(sqrt((pos_x-mouse_x)*(pos_x-mouse_x)
-        +(pos_y-mouse_y)*(pos_y-mouse_y))<ICON_R) return true;
+    if(std::hypot(pos_x-mouse_x, pos_y-mouse_y)<=ICON_R) return true;
     else return false;
 }
 

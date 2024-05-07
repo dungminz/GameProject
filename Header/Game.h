@@ -36,16 +36,16 @@ struct Pos {
 
 struct Game {
 
-    bool is_running;
+    static SDL_Window *window;
+    static SDL_Renderer *renderer;
+
+    GameState next_state;
     bool is_enemy;
 
     std::vector<Pos> diamond_pos;
     std::vector<Pos> diamondcollapsion_pos;
     std::vector<Pos> enemybird_pos;
     std::vector<Pos> enemybirdcollapsion_pos;
-
-    static SDL_Window *window;
-    static SDL_Renderer *renderer;
 
     Game();
 
@@ -57,12 +57,11 @@ struct Game {
         Animation* _enemybird, Animation* _diamond, Animation* _diamond_collapsion);
     
     void render();
-    bool running() {return is_running;};
     void handle_events();
     void update();
     void clean();
 
-    bool hasCollision(SDL_Rect* _char_first, SDL_Rect* _char_second);
+    bool checkCollision(SDL_Rect* _char_first, SDL_Rect* _char_second);
     bool checkCollision(SDL_Rect* _bird, std::vector<Pos> &enemy_pos, 
                             std::vector<Pos> &collapsion_pos);
     void create_enemy(std::vector<Pos> &_pos, int numbers);

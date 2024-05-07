@@ -21,11 +21,12 @@ Bố cục Game:
     + Tạo struct animation -> có lựa chọn loại nhân vật
 - . Tạo quái (dùng rand)
 - . Xử lý va chạm, xử lý sau va chạm
-- Tạo bird sp
-- Menu (ttf)
-    + (Timer)
-- Nhạc (mixer)
+- . Tạo bird sp
+- . Menu 
 
+- Nhạc (mixer)
+- Cơ chế tính điểm (ttf)
+    + (Timer)
 - (Tạo đạn quái)
 - Tạo đặc biệt (hướng tới chim)
 
@@ -37,11 +38,11 @@ Bố cục hàm:
 - constructor
 - destructor
 
-- init -> constructor
+- init <-> constructor
 - hàm phụ
 - update
 - render
-- (clean) -> destructor
+- (clean) <-> destructor
 
 
 Bố cục chạy:
