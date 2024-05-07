@@ -1,8 +1,13 @@
 #pragma once
 
+
+
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
 #define WINDOW_TITLE "~New Game~"
+
+const int ICON_SIZE = 100;
+const double ICON_R = 50;
 
 const int INITIAL_DISTANCE = 3;
 const int MAX_LAYER = 6;
@@ -11,7 +16,7 @@ const double LAYER_SPEED[MAX_LAYER] = {
 };
 
 const double EGGBIRD_SCALE = 7;
-const double COLLAPSION_BY_EAGLE_SCALE = 1.9;
+const double COLLAPSION_BY_EAGLE_SCALE = 1;
 const double DIAMOND_SCALE = 10;
 const double DIAMONDCOLLAPSION_SCALE = 2.5;
 const double EVILBIRD_SCALE = 3.75;
@@ -62,4 +67,14 @@ enum typeOfCharacror {
 enum typeOfBackground {
     DAY,
     NIGHT
+};
+
+enum class GameState {
+    Begin,
+    ChooseMainBird,
+    ChooseSupportBird,
+    Play,
+    End,
+    Quit,
+    Null
 };

@@ -21,7 +21,7 @@ void TextureManager::draw(SDL_Texture *texture) {
 }
 
 
-void TextureManager::draw(SDL_Texture *texture, int x, int y) {
+void TextureManager::drawBackground(SDL_Texture *texture, int x, int y) {
 
     SDL_Rect dest;
     dest.x = x;
@@ -36,10 +36,10 @@ void TextureManager::draw(SDL_Texture *texture, int x, int y) {
 void TextureManager::draw(SDL_Texture *texture, SDL_Rect *src, int x, int y) {
 
     SDL_Rect dest;
-    dest.x = x;
-    dest.y = y;
     dest.h = src->h;
     dest.w = src->w;
+    dest.x = x-dest.w/2;
+    dest.y = y-dest.h/2;
 
     SDL_RenderCopy(Game::renderer, texture, src, &dest);
 }
@@ -47,5 +47,19 @@ void TextureManager::draw(SDL_Texture *texture, SDL_Rect *src, int x, int y) {
 
 void TextureManager::draw(SDL_Texture *texture, SDL_Rect *src, SDL_Rect *dest) {
 
+    dest->x-=dest->w/2;
+    dest->y-=dest->h/2;
+
     SDL_RenderCopy(Game::renderer, texture, src, dest);
+}
+
+void TextureManager::drawIcon(SDL_Texture *texture, int x, int y) {
+
+    SDL_Rect dest;
+    dest.x = x-ICON_SIZE/2;
+    dest.y = y-ICON_SIZE/2;
+    dest.h = ICON_SIZE;
+    dest.w = ICON_SIZE;
+
+    SDL_RenderCopy(Game::renderer, texture, NULL, &dest);  
 }

@@ -6,9 +6,18 @@ Background::Background() {}
 Background::Background(BackgroundManager* bgr) 
     : background_bgr(bgr) {}
 
+Background::~Background() {
+
+    delete background_bgr;
+    delete scrolling_layer;
+}
+
 void Background::init() {
+
     SDL_Texture* ground = TextureManager::loadTexture(background_bgr->ground_img);
     background_bgr->setGround(ground);
+
+    scrolling_layer = new double[background_bgr->flames_layer];
     for(int i=0; i<background_bgr->flames_layer; i++) {
         scrolling_layer[i] = 0;
         SDL_Texture* layer = TextureManager::loadTexture(background_bgr->layer_img[i]);
@@ -30,7 +39,7 @@ void Background::update() {
 void Background::render() {
     TextureManager::draw(background_bgr->ground_texture);
     for(int i=0; i<background_bgr->flames_layer; i++) {
-        TextureManager::draw(background_bgr->layer_texture[i], scrolling_layer[i] - SCREEN_WIDTH, 0);
-        TextureManager::draw(background_bgr->layer_texture[i], scrolling_layer[i], 0);
+        TextureManager::drawBackground(background_bgr->layer_texture[i], scrolling_layer[i] - SCREEN_WIDTH, 0);
+        TextureManager::drawBackground(background_bgr->layer_texture[i], scrolling_layer[i], 0);
     }    
 }

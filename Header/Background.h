@@ -29,13 +29,11 @@ const std::string DAY_LAYER[FLAMES_LAYER_DAY] = {
 struct Background {
 
     BackgroundManager* background_bgr;
-    double scrolling_layer[FLAMES_LAYER_NIGHT];
-
+    double *scrolling_layer;
 
     Background();
     Background(BackgroundManager* bgr);
-    ~Background() {};
-    
+    ~Background() ;
     
     void init();
     void scroll();

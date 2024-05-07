@@ -12,7 +12,10 @@ struct Animation {
     SDL_Texture* texture;
     int flames;
     int w, h;
-    std::vector<SDL_Rect> clips;
+    SDL_Rect* clips;
+
+    Animation();
+    ~Animation();
     
     void setInformation(typeOfCharacror _type, std::string _img, 
                                 int _flames, int _w, int _h);

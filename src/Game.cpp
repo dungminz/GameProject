@@ -3,6 +3,7 @@
 #include "../Header/Enemy.h"
 #include "../Header/Background.h"
 #include "../Header/CommonFunction.h"
+#include "../Header/Screen.h"
 
 
 SDL_Renderer *Game::renderer = nullptr;
@@ -23,6 +24,8 @@ Enemy *enemybird = nullptr;
 MainBird *mainbird = nullptr;
 SupportBird *supportbird = nullptr;
 
+
+Game::Game() {}
 
 void Game::init(BackgroundManager* _background, Animation* _mainbird, 
         Animation* _supportBird_flying, Animation* _supportBird_gothit, 
@@ -88,9 +91,16 @@ void Game::render() {
 
 void Game::clean() {
 
-    delete background; background = nullptr;
-    delete diamond; diamond = nullptr;
-    delete mainbird; mainbird = nullptr;
+    // diamond_pos.clear();
+    // diamondcollapsion_pos.clear();
+    // enemybird_pos.clear();
+    // enemybirdcollapsion_pos.clear();
+    
+    // delete background;
+    // delete diamond;
+    // delete enemybird;
+    // delete mainbird;
+    // delete supportbird;
 }
 
 
@@ -144,9 +154,9 @@ void Game::update() {
     supportbird->update();
 
 // CheckCollision
-    checkCollision(mainbird->bird_mouse.getDest(), diamond_pos, diamondcollapsion_pos);
-    if(checkCollision(mainbird->bird_mouse.getDest(), enemybird_pos, enemybirdcollapsion_pos)) is_running = false;
-    checkCollision(supportbird->spbird_mouse.getDest(), enemybird_pos, enemybirdcollapsion_pos);
+    checkCollision(mainbird->bird_mouse->getDest(), diamond_pos, diamondcollapsion_pos);
+    if(checkCollision(mainbird->bird_mouse->getDest(), enemybird_pos, enemybirdcollapsion_pos)) is_running = false;
+    checkCollision(supportbird->spbird_mouse->getDest(), enemybird_pos, enemybirdcollapsion_pos);
 
 }
 

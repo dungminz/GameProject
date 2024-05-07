@@ -142,11 +142,12 @@ const int CLIPS_COLLAPSION_BY_EAGLE[FLAMES_COLLAPSION_BY_EAGLE][4] = {
 struct MainBird {
 
     Animation* bird_ani;
-    Mouse bird_mouse;
-    Sprite bird_spr;
+    Mouse* bird_mouse;
+    Sprite* bird_spr;
 
     MainBird();
     MainBird(Animation* bird);
+    ~MainBird();
 
     void init();
     void handle_events(SDL_Event& event);
@@ -166,14 +167,15 @@ struct SupportBird {
     Animation* dead_ani;
     Animation* henshin_ani;
     Animation* henshinshot_ani;
-    Mouse spbird_mouse;
-    Sprite spbird_spr;
+    Mouse* spbird_mouse;
+    Sprite* spbird_spr;
 
     SupportBird();
     SupportBird(Animation* _flying_ani, 
                 Animation* _gothit_ani, Animation* _shot_ani, 
                 Animation* _ram_ani, Animation* _dead_ani, 
                 Animation* _henshin_ani, Animation* _henshinshot_ani);
+    ~SupportBird();
 
     void init();
     void handle_events(SDL_Event& event);

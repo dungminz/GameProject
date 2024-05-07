@@ -4,6 +4,10 @@
 
 Mouse::Mouse() {}
 
+Mouse::~Mouse() {
+    x = y = w = h = dx = dy = speed = 0;
+}
+
 
 void Mouse::init(int _x, int _y, int _w, int _h) {
 

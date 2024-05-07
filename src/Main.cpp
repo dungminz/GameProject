@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "../Header/Game.h"
+#include "../Header/Screen.h"
 #include "../Header/CommonFunction.h"
 #include "../Header/BackgroundManager.h"
 #include "../Header/AnimationManager.h"
@@ -10,6 +11,8 @@
 
 
 Game* game = nullptr;
+Menu* menu = nullptr;
+
 
 void init() {
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
@@ -193,10 +196,8 @@ void clean() {
 
 bool play_again = true;
 
-void PlayGame() {
+GameState doPlay() {
         
-    game = new Game();
-
     BackgroundManager* background = setDay();
 
     Animation* mainBird = setEggBird();
@@ -228,10 +229,62 @@ void PlayGame() {
     }
 
     game->clean();
+
+    return GameState::End;
 }
 
-void Menu() {
+GameState doBegin() {
 
+    SDL_Event event;
+    menu->initBegin();
+
+    while(true) {
+
+        menu->renderBegin();
+        
+        if(SDL_PollEvent(&event)) {
+
+            switch (event.type)
+            {
+            case SDL_QUIT:
+                return GameState::Quit;
+            
+            case SDL_MOUSEBUTTONUP:
+                if(menu->choose_play) return GameState::Play;
+
+            default: break;
+            }
+            
+        }
+        
+    }
+}
+
+GameState doEnd() {
+
+    SDL_Event event;
+    menu->initEnd();
+
+    while(true) {
+
+        menu->renderEnd();
+        
+        if(SDL_PollEvent(&event)) {
+
+            switch (event.type)
+            {
+            case SDL_QUIT:
+                return GameState::Quit;
+            
+            case SDL_MOUSEBUTTONUP:
+                if(menu->choose_replay) return GameState::Begin;
+
+            default: break;
+            }
+            
+        }
+        
+    }
 }
 
 int main(int argc, char *argv[])
@@ -239,8 +292,28 @@ int main(int argc, char *argv[])
     srand(time(0));
     init();
     
-    
-    PlayGame();
+    GameState state = GameState::Begin;
+
+    game = new Game();
+    menu = new Menu();
+
+    while(state != GameState::Quit) {
+
+        switch (state)
+        {
+        case GameState::Begin: 
+            state = doBegin(); 
+            break;
+        case GameState::Play:
+            state = doPlay();
+            break;
+        case GameState::End:
+            state = doEnd();
+            break;
+        default:
+            logErrorAndExit("SwitchState", SDL_GetError());
+        }        
+    }
 
     clean();
 

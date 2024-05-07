@@ -6,10 +6,13 @@
 struct Sprite {
 
     SDL_Texture* texture;
-    std::vector<SDL_Rect> clips;
-    int currentFlame = 0;
+    SDL_Rect *clips;
+    int currentFlame;
     int flames;
-    int delay=0;
+    int delay;
+
+    Sprite();
+    ~Sprite();
 
     void init(SDL_Texture *_texture, const int flames, const int _clips[][4]);
     void init(Animation* ani);

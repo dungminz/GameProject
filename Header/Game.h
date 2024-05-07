@@ -7,6 +7,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <cmath>
 
 #include <SDL.h>
 #include <SDL_image.h>
@@ -21,9 +22,6 @@
 #include "Sprite.h"
 
 
-// void logErrorAndExit(const char* msg, const char* error);
-// void waitUntilKeyPressed();
-
 
 struct Pos {
     int x, y, spr;
@@ -34,12 +32,6 @@ struct Pos {
     Pos(int _x, int _y, int _spr, double _speed) 
         : x(_x), y(_y), spr(_spr), speed(_speed) {}
 };
-
-    // static bool mainbird_left = false;
-    // static bool mainbird_right = false;
-    // static bool mainbird_up = false;
-    // static bool mainbird_down = false;
-
 
 
 struct Game {
@@ -52,13 +44,10 @@ struct Game {
     std::vector<Pos> enemybird_pos;
     std::vector<Pos> enemybirdcollapsion_pos;
 
-    // static bool mainbird_left;
-    // static bool mainbird_right;
-    // static bool mainbird_up;
-    // static bool mainbird_down;
-
     static SDL_Window *window;
     static SDL_Renderer *renderer;
+
+    Game();
 
     void init(BackgroundManager* _background, Animation* _mainbird, 
         Animation* _supportBird_flying, Animation* _supportBird_gothit, 
