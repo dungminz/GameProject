@@ -16,6 +16,8 @@ const double LAYER_SPEED[MAX_LAYER] = {
 };
 
 const double EGGBIRD_SCALE = 7;
+const double UNICORNBIRD_SCALE = 7;
+const double ROCKET_SCALE = 5;
 const double COLLAPSION_BY_EAGLE_SCALE = 1;
 const double DIAMOND_SCALE = 10;
 const double DIAMONDCOLLAPSION_SCALE = 2.5;
@@ -58,7 +60,9 @@ enum typeOfCharacror {
     COLLAPSIONBYEAGLE,
     EGGBIRD,
     EGGBIRDCOLLAPSION,
+    UNICORNBIRD,
     DIAMOND,
+    ROCKET,
     DIAMONDCOLLAPSION,
     EVILBIRD,
     EVILBIRDCOLLAPSION

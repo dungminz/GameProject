@@ -3,7 +3,6 @@
 #include "Sprite.h"
 
 
-
 const std::string DIAMOND_IMG = "../Image/Animation/diamond.png";
 const int FRAMES_DIAMOND = 8;
 const int DIAMOND_W = 576;
@@ -21,7 +20,6 @@ const int CLIPS_DIAMOND[FRAMES_DIAMOND][4] = {
     {70+RANGE_FRAME_DIAMOND*6, 0, 576, 512},
     {70+RANGE_FRAME_DIAMOND*7, 0, 576, 512}
 };
-
 
 const std::string DIAMONDCOLLAPSION_IMG = "../Image/Animation/diamondcollapsion.png";
 const int FRAMES_DIAMONDCOLLAPSION = 16;
@@ -49,9 +47,22 @@ const int CLIPS_DIAMONDCOLLAPSION[FRAMES_DIAMONDCOLLAPSION][4] = {
     {RANGE_FRAME_DIAMONDCOLLAPSION*15, 0, 180, 180}
 };
 
+const std::string ROCKET_IMG = "../Image/Animation/rocket1.png";
+const int FRAMES_ROCKET = 4;
+const int ROCKET_W = 1075;
+const int ROCKET_H = 350/2;
+const int ROCKET_REAL_W = ROCKET_W/ROCKET_SCALE;
+const int ROCKET_REAL_H = ROCKET_H/ROCKET_SCALE;
+const int RANGE_FRAME_ROCKET = 1246;
+const int CLIPS_ROCKET[FRAMES_ROCKET][4] = {
+    {58, 65, 1075, 350},
+    {1314, 65, 1075, 350},
+    {2600, 65, 1075, 350},
+    {3880, 65, 1075, 350},
+};
+
 
 const std::string EVILBIRD_IMG = "../Image/Animation/evilbird.png";
-// SDL_Texture* EVILBIRD_TEXTURE = TextureManager::loadTexture(EVILBIRD_IMG);
 const int FRAMES_EVILBIRD = 8;
 const int EVILBIRD_W = 342;
 const int EVILBIRD_H = 280;
@@ -77,6 +88,8 @@ struct Enemy {
     Animation* enemy_ani;
     Animation* collapsion_ani;
     int delay_spr = 0;
+    std::vector<Pos> enemy_pos;
+    std::vector<Pos> collapsion_pos;
 
     Enemy();
     Enemy(Animation* ani);
@@ -85,9 +98,6 @@ struct Enemy {
 
     void init();
     void update();
-    void updateEnemy(Pos &pos);
-    void updateCollapsion(Pos &pos);
-    void renderEnemy(Pos &pos);
-    void renderCollapsion(Pos &pos);
+    void render();
 
 };

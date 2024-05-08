@@ -42,11 +42,6 @@ struct Game {
     GameState next_state;
     bool is_enemy;
 
-    std::vector<Pos> diamond_pos;
-    std::vector<Pos> diamondcollapsion_pos;
-    std::vector<Pos> enemybird_pos;
-    std::vector<Pos> enemybirdcollapsion_pos;
-
     Game();
 
     void init(BackgroundManager* _background, Animation* _mainbird, 

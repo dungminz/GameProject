@@ -53,12 +53,12 @@ void Game::init(BackgroundManager* _background, Animation* _mainbird,
     diamond = new Enemy(_diamond, _diamond_collapsion);
     if(diamond) diamond->init();
         else logErrorAndExit("CreateDiamon", SDL_GetError());
-    create_enemy(diamond_pos, 5);
+    create_enemy(diamond->enemy_pos, 5);
 
     enemybird = new Enemy(_enemybird, _collapsion_by_bird);
     if(enemybird) enemybird->init();
         else logErrorAndExit("CreateEvilbird", SDL_GetError());
-    create_enemy(enemybird_pos, 3);
+    create_enemy(enemybird->enemy_pos, 3);
 
     mainbird = new MainBird(_mainbird);
     if(mainbird) mainbird->init();
@@ -74,11 +74,6 @@ void Game::init(BackgroundManager* _background, Animation* _mainbird,
 
 
 void Game::clean() {
-
-    diamond_pos.clear();
-    diamondcollapsion_pos.clear();
-    enemybird_pos.clear();
-    enemybirdcollapsion_pos.clear();
     
     if(background) delete background;
     if(diamond) delete diamond;
@@ -95,17 +90,8 @@ void Game::render() {
 
     //Render everything
     background->render();
-
-    for(Pos &pos : diamond_pos) 
-        diamond->renderEnemy(pos);
-    for(Pos &pos : diamondcollapsion_pos)
-        diamond->renderCollapsion(pos);
-
-    for(Pos &pos : enemybird_pos) 
-        enemybird->renderEnemy(pos);
-    for(Pos &pos : enemybirdcollapsion_pos)
-        enemybird->renderCollapsion(pos);
-    
+    diamond->render();
+    enemybird->render();
     mainbird->render();
     supportbird->render();
 
@@ -139,35 +125,15 @@ void Game::update() {
 
     // create_enemy(diamond_pos, 10);
     diamond->update();
-    for(Pos &pos : diamond_pos) 
-        diamond->updateEnemy(pos);
-
-    for(int pos = 0; pos<diamondcollapsion_pos.size();) {
-        diamond->updateCollapsion(diamondcollapsion_pos[pos]);
-        if(diamondcollapsion_pos[pos].spr > FRAMES_DIAMONDCOLLAPSION)
-            diamondcollapsion_pos.erase(diamondcollapsion_pos.begin()+pos);
-        else pos++;
-    }
-    
     // create_enemy(enemybird_pos, 10);
     enemybird->update();
-    for(Pos &pos : enemybird_pos) 
-        enemybird->updateEnemy(pos);
-
-    for(int pos = 0; pos<enemybirdcollapsion_pos.size();) {
-        enemybird->updateCollapsion(enemybirdcollapsion_pos[pos]);
-        if(enemybirdcollapsion_pos[pos].spr > FRAMES_DIAMONDCOLLAPSION)
-            enemybirdcollapsion_pos.erase(enemybirdcollapsion_pos.begin()+pos);
-        else pos++;
-    }
-
     mainbird->update();
     supportbird->update();
 
 // CheckCollision
-    checkCollision(mainbird->bird_mouse->getDest(), diamond_pos, diamondcollapsion_pos);
-    if(checkCollision(mainbird->bird_mouse->getDest(), enemybird_pos, enemybirdcollapsion_pos)) next_state=GameState::End;
-    checkCollision(supportbird->spbird_mouse->getDest(), enemybird_pos, enemybirdcollapsion_pos);
+    checkCollision(mainbird->bird_mouse->getDest(), diamond->enemy_pos, diamond->collapsion_pos);
+    if(checkCollision(mainbird->bird_mouse->getDest(), enemybird->enemy_pos, enemybird->collapsion_pos)) next_state=GameState::End;
+    checkCollision(supportbird->spbird_mouse->getDest(), enemybird->enemy_pos, enemybird->collapsion_pos);
 
 }
 

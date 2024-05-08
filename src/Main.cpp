@@ -76,8 +76,11 @@ GameState doPlay() {
     BackgroundManager* background = new BackgroundManager(DAY, DAY_BG, 
                         FRAMES_LAYER_DAY, DAY_LAYER);
 
-    Animation* mainBird = new Animation(EGGBIRD, EGGBIRD_IMG, FRAMES_EGGBIRD, 
-                CLIPS_EGGBIRD, EGGBIRD_REAL_W, EGGBIRD_REAL_H);
+    // Animation* mainBird = new Animation(EGGBIRD, EGGBIRD_IMG, FRAMES_EGGBIRD, 
+    //             CLIPS_EGGBIRD, EGGBIRD_REAL_W, EGGBIRD_REAL_H);
+
+    Animation* mainBird = new Animation(UNICORNBIRD, UNICORNBIRD_IMG, FRAMES_UNICORNBIRD, 
+                CLIPS_UNICORNBIRD, UNICORNBIRD_REAL_W, UNICORNBIRD_REAL_H);
 
     Animation* supportBird_flying = new Animation(EAGLEFLYING, EAGLE_IMG, FRAMES_EAGLE_FLYING, 
                 CLIPS_EAGLE_FLYING, EAGLE_REAL_W, EAGLE_REAL_H);
@@ -111,9 +114,13 @@ GameState doPlay() {
             FRAMES_DIAMONDCOLLAPSION, CLIPS_DIAMONDCOLLAPSION, 
             DIAMONDCOLLAPSION_REAL_W, DIAMONDCOLLAPSION_REAL_H);
 
-    Animation* enemyBird = new Animation(EVILBIRD, EVILBIRD_IMG, 
-                       FRAMES_EVILBIRD, CLIPS_EVILBIRD,
-                       EVILBIRD_REAL_W, EVILBIRD_REAL_H);
+    // Animation* enemyBird = new Animation(EVILBIRD, EVILBIRD_IMG, 
+    //                    FRAMES_EVILBIRD, CLIPS_EVILBIRD,
+    //                    EVILBIRD_REAL_W, EILBIRD_REAL_H);
+
+    Animation* enemyBird = new Animation(ROCKET, ROCKET_IMG, 
+                       FRAMES_ROCKET, CLIPS_ROCKET,
+                       ROCKET_REAL_W, ROCKET_REAL_H);
 
 
     game->init(background, mainBird, 
