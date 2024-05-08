@@ -5,7 +5,7 @@
 Mouse::Mouse() {}
 
 Mouse::~Mouse() {
-    x = y = w = h = dx = dy = speed = 0;
+    x = y = w = h = dx = dy = speed = angle = 0;
 }
 
 
@@ -15,13 +15,29 @@ void Mouse::init(int _x, int _y, int _w, int _h) {
     w=_w, h=_h;
     dx=0; dy=0;
     speed = STEPS_MOVE_BIRD;
+    angle = 0;
 }
 
 
-void Mouse::update() {
+void Mouse::updateMainBird() {
 
-    // move();
-    // dest = {x, y, w, h};
+    if(KeyPressed::mainbird_left) turnLeft();
+    if(KeyPressed::mainbird_right) turnRight();
+    if(KeyPressed::mainbird_up) turnUp();
+        else if(angle<0) angle+=ANGLE_STEP;
+    if(KeyPressed::mainbird_down) turnDown();
+        else if(angle>0) angle-=ANGLE_STEP;
+}
+
+
+void Mouse::updateSupportBird() {
+    
+    if(KeyPressed::supportbird_left) turnLeft();
+    if(KeyPressed::supportbird_right) turnRight();
+    if(KeyPressed::supportbird_up) turnUp();
+        else if(angle<0) angle+=ANGLE_STEP;
+    if(KeyPressed::supportbird_down) turnDown();
+        else if(angle>0) angle-=ANGLE_STEP;
 }
 
 
@@ -41,14 +57,18 @@ void Mouse::turnRight() {
 
 void Mouse::turnUp()    {
 
-    dx=0; dy=-speed; 
+    dx=0; dy=-speed;
+    angle-=ANGLE_STEP;
+    if(angle<-MAX_ANGLE) angle=-MAX_ANGLE;
     move();
 }
 
 
 void Mouse::turnDown()  {
 
-    dx=0; dy=speed;  
+    dx=0; dy=speed;
+    angle+=ANGLE_STEP;
+    if(angle>MAX_ANGLE) angle=MAX_ANGLE;
     move();
 }
 

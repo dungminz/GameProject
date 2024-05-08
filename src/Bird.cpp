@@ -53,11 +53,13 @@ void MainBird::handle_events(SDL_Event& event) {
 
 void MainBird::update() {
 
-    if(KeyPressed::mainbird_left) bird_mouse->turnLeft();
-    if(KeyPressed::mainbird_right) bird_mouse->turnRight();
-    if(KeyPressed::mainbird_up) bird_mouse->turnUp();
-    if(KeyPressed::mainbird_down) bird_mouse->turnDown();
-    bird_mouse->update();
+    // if(KeyPressed::mainbird_left) bird_mouse->turnLeft();
+    // if(KeyPressed::mainbird_right) bird_mouse->turnRight();
+    // if(KeyPressed::mainbird_up) bird_mouse->turnUp();
+    //     else if(bird_mouse->angle<0) bird_mouse->angle+=ANGLE_STEP;
+    // if(KeyPressed::mainbird_down) bird_mouse->turnDown();
+    //     else if(bird_mouse->angle>0) bird_mouse->angle-=ANGLE_STEP;
+    bird_mouse->updateMainBird();
 
     bird_spr->update();
 }
@@ -65,7 +67,7 @@ void MainBird::update() {
 
 void MainBird::render() { 
 
-    TextureManager::draw(bird_ani->texture, bird_spr->getSrc(), bird_mouse->getDest());
+    TextureManager::drawAngle(bird_ani->texture, bird_spr->getSrc(), bird_mouse->getDest(), bird_mouse->angle);
 }
 
 
@@ -140,17 +142,19 @@ void SupportBird::handle_events(SDL_Event& event) {
 
 void SupportBird::update() {
     
-    if(KeyPressed::supportbird_left) spbird_mouse->turnLeft();
-    if(KeyPressed::supportbird_right) spbird_mouse->turnRight();
-    if(KeyPressed::supportbird_up) spbird_mouse->turnUp();
-    if(KeyPressed::supportbird_down) spbird_mouse->turnDown();
-    spbird_mouse->update();
-
+    // if(KeyPressed::supportbird_left) spbird_mouse->turnLeft();
+    // if(KeyPressed::supportbird_right) spbird_mouse->turnRight();
+    // if(KeyPressed::supportbird_up) spbird_mouse->turnUp();
+    //     else if(spbird_mouse->angle<0) spbird_mouse->angle+=ANGLE_STEP;
+    // if(KeyPressed::supportbird_down) spbird_mouse->turnDown();
+    //     else if(spbird_mouse->angle>0) spbird_mouse->angle-=ANGLE_STEP;
+    
+    spbird_mouse->updateSupportBird();
     spbird_spr->update();
 }
 
 
 void SupportBird::render() { 
 
-    TextureManager::draw(spbird_ani->texture, spbird_spr->getSrc(), spbird_mouse->getDest());
+    TextureManager::drawAngle(spbird_ani->texture, spbird_spr->getSrc(), spbird_mouse->getDest(), spbird_mouse->angle);
 }

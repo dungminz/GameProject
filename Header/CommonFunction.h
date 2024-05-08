@@ -1,10 +1,10 @@
 #pragma once
 
-
-
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
 #define WINDOW_TITLE "~New Game~"
+
+static int highscore = 0;
 
 const int ICON_SIZE = 100;
 const double ICON_R = ICON_SIZE/2;
@@ -31,10 +31,14 @@ const int SUPPORT_BIRT_ORIGIN_POS_Y = SCREEN_HEIGHT/2;
 
 const int SPRITE_DELAY = 5;
 const int STEPS_MOVE_BIRD = 4;
-const int DISTANCE_TO_SCREEN = 10;
+const int DISTANCE_TO_SCREEN = 20;
+const int MAX_ANGLE = 30;
+const int ANGLE_STEP = 4;
 
 const int ENEMY_MIN_SPEED = 1;
 const int ENEMY_MAX_SPEED = 5;
+
+const SDL_Color white = {255, 255, 255, 255};
 
 namespace KeyPressed {
     extern bool mainbird_left;
@@ -82,3 +86,4 @@ enum class GameState {
     Quit,
     Null
 };
+

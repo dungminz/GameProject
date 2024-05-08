@@ -33,8 +33,21 @@ void init() {
 
     if (Game::renderer == nullptr) logErrorAndExit("CreateRenderer", SDL_GetError());
 
+    if (TTF_Init() == -1) 
+            logErrorAndExit("SDL_ttf could not initialize! SDL_ttf Error: ",
+                                        TTF_GetError());
+
+    Game::bigfont = TTF_OpenFont("../Font/OCRAEXT.TTF", 100);
+    if (Game::bigfont == nullptr) 
+        logErrorAndExit("Load bigfont : ", SDL_GetError());
+    
+    Game::smallfont = TTF_OpenFont("../Font/OCRAEXT.TTF", 30);
+    if (Game::smallfont == nullptr) 
+        logErrorAndExit("Load smallfont : ", SDL_GetError());
+
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
     SDL_RenderSetLogicalSize(Game::renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+
 }
 
 
@@ -64,7 +77,10 @@ void clean() {
 
     SDL_DestroyRenderer(game->renderer); game->renderer = nullptr;
     SDL_DestroyWindow(game->window); game->window = nullptr;
+    TTF_CloseFont(game->bigfont);
+    TTF_CloseFont(game->smallfont);
 
+    TTF_Quit();
     IMG_Quit();
     SDL_Quit();
 }
@@ -138,8 +154,10 @@ GameState doPlay() {
         SDL_Delay(10);
     }
 
+    highscore = std::max(highscore, game->score);
+
     game->clean();
-    delete background; 
+    delete background;
     delete diamond; 
     delete diamondCollapsion; 
     delete enemyBird; 

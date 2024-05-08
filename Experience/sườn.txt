@@ -24,9 +24,9 @@ Bố cục Game:
 - . Tạo bird sp
 - . Menu 
 
-- Nhạc (mixer)
-- Cơ chế tính điểm (ttf)
+- . Cơ chế tính điểm (ttf)
     + (Timer)
+- Nhạc (mixer)
 - (Tạo đạn quái)
 - Tạo tên lửa (hướng tới chim)
 

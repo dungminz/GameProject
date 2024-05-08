@@ -8,6 +8,8 @@
 
 SDL_Renderer *Game::renderer = nullptr;
 SDL_Window *Game::window = nullptr;
+TTF_Font *Game::bigfont = nullptr;
+TTF_Font *Game::smallfont = nullptr;
 
 bool KeyPressed::mainbird_left = false;
 bool KeyPressed::mainbird_right = false;
@@ -36,6 +38,8 @@ void Game::init(BackgroundManager* _background, Animation* _mainbird,
 {
     next_state = GameState::Null;
     is_enemy=true;
+    score = 0;
+    sp_health = 100;
 
     KeyPressed::mainbird_left = false;
     KeyPressed::mainbird_right = false;
@@ -94,8 +98,21 @@ void Game::render() {
     enemybird->render();
     mainbird->render();
     supportbird->render();
+    renderText_Play();
 
     SDL_RenderPresent(renderer);
+}
+
+
+void Game::renderText_Play() {
+
+    free();
+    texture = TextureManager::loadTexture(std::to_string(score), bigfont, white);
+    TextureManager::drawText(texture, SCREEN_WIDTH/2, SCREEN_HEIGHT/4);
+
+    free();
+    texture = TextureManager::loadTexture("SUPPORT BIRD HEALTH: "+std::to_string(highscore), smallfont, white);
+    TextureManager::drawText(texture, 250, SCREEN_HEIGHT-40);
 }
 
 
@@ -130,7 +147,9 @@ void Game::update() {
     supportbird->update();
 
 // CheckCollision
-    checkCollision(mainbird->bird_mouse->getDest(), diamond);
+    if(checkCollision(mainbird->bird_mouse->getDest(), diamond)) {
+        score++;
+    }
     if(checkCollision(mainbird->bird_mouse->getDest(), enemybird)) next_state=GameState::End;
     checkCollision(supportbird->spbird_mouse->getDest(), enemybird);
 
@@ -142,6 +161,9 @@ bool Game::checkCollision(SDL_Rect* _char_first, SDL_Rect* _char_second) {
     return SDL_HasIntersection(_char_first, _char_second);
 }
 
+void cerrrect(SDL_Rect* rect){
+    std::cerr<<rect->x<<' '<<rect->y<<' '<<rect->w<<' '<<rect->h<<'\n';
+}
 
 bool Game::checkCollision(SDL_Rect* _bird, Enemy* _enemy) {
     
@@ -156,6 +178,8 @@ bool Game::checkCollision(SDL_Rect* _bird, Enemy* _enemy) {
         rect.h = _enemy->enemy_ani->h;
 
         if(checkCollision(_bird, &rect)) {
+            // cerrrect(_bird);
+            // cerrrect(&rect);
             check = true;
             _enemy->collapsion_pos.push_back({_enemy->enemy_pos[i].x, _enemy->enemy_pos[i].y, 0});
             _enemy->enemy_pos.erase(_enemy->enemy_pos.begin()+i);
@@ -169,11 +193,15 @@ void Game::create_enemy(Enemy* _enemy, int numbers) {
 
     for(int i=1; i<=numbers; i++) {
 
-        int rand_y = _enemy->enemy_ani->h + DISTANCE_TO_SCREEN + rand()%(SCREEN_HEIGHT - _enemy->enemy_ani->h - DISTANCE_TO_SCREEN);
+        int rand_y = DISTANCE_TO_SCREEN + rand()%(SCREEN_HEIGHT - _enemy->enemy_ani->h/2 - DISTANCE_TO_SCREEN*2);
         int rand_spr = rand()%_enemy->enemy_ani->frames;
-        int rand_speed = ENEMY_MIN_SPEED + rand()%(ENEMY_MAX_SPEED - ENEMY_MIN_SPEED);
+        int rand_speed = ENEMY_MIN_SPEED + rand()%(ENEMY_MAX_SPEED - ENEMY_MIN_SPEED*2);
 
         _enemy->enemy_pos.push_back({SCREEN_WIDTH, rand_y, rand_spr, rand_speed});
-        // std::cerr<<"speed : " << rand_speed<<'\n';
+        // std::cerr<<"rand y : " << rand_y<<'\n';
     }
+}
+
+void Game::free() {
+    if(texture) SDL_DestroyTexture(texture);
 }

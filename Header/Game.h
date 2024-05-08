@@ -11,7 +11,7 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
-// #include <SDL_ttf.h>
+#include <SDL_ttf.h>
 // #include <SDL_mixer.h>
 
 #include "Exception.h"
@@ -24,13 +24,14 @@
 
 
 
-
-
 struct Game {
 
     static SDL_Window *window;
     static SDL_Renderer *renderer;
+    static TTF_Font *bigfont;
+    static TTF_Font *smallfont;
 
+    SDL_Texture *texture;
     GameState next_state;
     bool is_enemy;
 
@@ -51,4 +52,10 @@ struct Game {
     bool checkCollision(SDL_Rect* _char_first, SDL_Rect* _char_second);
     bool checkCollision(SDL_Rect* _bird, class Enemy* _enemy);
     void create_enemy(Enemy* _enemy, int numbers);
+
+    void renderText_Play();
+    void free();
+
+    int score;
+    int sp_health;
 };
