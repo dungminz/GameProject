@@ -53,12 +53,12 @@ void Game::init(BackgroundManager* _background, Animation* _mainbird,
     diamond = new Enemy(_diamond, _diamond_collapsion);
     if(diamond) diamond->init();
         else logErrorAndExit("CreateDiamon", SDL_GetError());
-    create_enemy(diamond->enemy_pos, 5);
+    create_enemy(diamond, 5);
 
     enemybird = new Enemy(_enemybird, _collapsion_by_bird);
     if(enemybird) enemybird->init();
         else logErrorAndExit("CreateEvilbird", SDL_GetError());
-    create_enemy(enemybird->enemy_pos, 3);
+    create_enemy(enemybird, 3);
 
     mainbird = new MainBird(_mainbird);
     if(mainbird) mainbird->init();
@@ -113,7 +113,6 @@ void Game::handle_events() {
         }
 
         mainbird->handle_events(event);
-
         supportbird->handle_events(event);
     }
 }
@@ -131,9 +130,9 @@ void Game::update() {
     supportbird->update();
 
 // CheckCollision
-    checkCollision(mainbird->bird_mouse->getDest(), diamond->enemy_pos, diamond->collapsion_pos);
-    if(checkCollision(mainbird->bird_mouse->getDest(), enemybird->enemy_pos, enemybird->collapsion_pos)) next_state=GameState::End;
-    checkCollision(supportbird->spbird_mouse->getDest(), enemybird->enemy_pos, enemybird->collapsion_pos);
+    checkCollision(mainbird->bird_mouse->getDest(), diamond);
+    if(checkCollision(mainbird->bird_mouse->getDest(), enemybird)) next_state=GameState::End;
+    checkCollision(supportbird->spbird_mouse->getDest(), enemybird);
 
 }
 
@@ -144,39 +143,37 @@ bool Game::checkCollision(SDL_Rect* _char_first, SDL_Rect* _char_second) {
 }
 
 
-bool Game::checkCollision(SDL_Rect* _bird, std::vector<Pos> &enemy_pos, std::vector<Pos> &collapsion_pos) {
-
+bool Game::checkCollision(SDL_Rect* _bird, Enemy* _enemy) {
+    
     bool check = false;
 
-    for(int pos = 0; pos<enemy_pos.size();) {
+    for(int i=0; i<_enemy->enemy_pos.size(); i++) {
 
-        SDL_Rect enemy_dest = {enemy_pos[pos].x, enemy_pos[pos].y, DIAMOND_REAL_W, DIAMOND_REAL_H};
+        SDL_Rect rect;
+        rect.x = _enemy->enemy_pos[i].x;
+        rect.y = _enemy->enemy_pos[i].y;
+        rect.w = _enemy->enemy_ani->w;
+        rect.h = _enemy->enemy_ani->h;
 
-        if(checkCollision(_bird, &enemy_dest)) {
-
-            collapsion_pos.push_back({enemy_pos[pos].x, enemy_pos[pos].y, 0});
-            enemy_pos.erase(enemy_pos.begin()+pos);
+        if(checkCollision(_bird, &rect)) {
             check = true;
+            _enemy->collapsion_pos.push_back({_enemy->enemy_pos[i].x, _enemy->enemy_pos[i].y, 0});
+            _enemy->enemy_pos.erase(_enemy->enemy_pos.begin()+i);
         }
-
-        else pos++;
     }
-
-    if(enemy_pos.empty()) is_enemy = false;
-
     return check;
 }
 
 
-void Game::create_enemy(std::vector<Pos> &_pos, int numbers) {
+void Game::create_enemy(Enemy* _enemy, int numbers) {
 
     for(int i=1; i<=numbers; i++) {
 
-        int rand_y = DISTANCE_TO_SCREEN + rand()%(SCREEN_HEIGHT- DISTANCE_TO_SCREEN);
-        int rand_spr = rand()%FRAMES_DIAMOND;
-        double rand_speed = ENEMY_MIN_SPEED + double(rand()%int(ENEMY_MAX_SPEED*100 - ENEMY_MIN_SPEED*100))/100;
+        int rand_y = _enemy->enemy_ani->h + DISTANCE_TO_SCREEN + rand()%(SCREEN_HEIGHT - _enemy->enemy_ani->h - DISTANCE_TO_SCREEN);
+        int rand_spr = rand()%_enemy->enemy_ani->frames;
+        int rand_speed = ENEMY_MIN_SPEED + rand()%(ENEMY_MAX_SPEED - ENEMY_MIN_SPEED);
 
-        _pos.push_back({SCREEN_WIDTH, rand_y, rand_spr, rand_speed});
+        _enemy->enemy_pos.push_back({SCREEN_WIDTH, rand_y, rand_spr, rand_speed});
         // std::cerr<<"speed : " << rand_speed<<'\n';
     }
 }

@@ -20,18 +20,10 @@
 #include "TextureManager.h"
 #include "Mouse.h"
 #include "Sprite.h"
+#include "Enemy.h"
 
 
 
-struct Pos {
-    int x, y, spr;
-    double speed;
-    
-    Pos(int _x, int _y, int _spr) 
-        : x(_x), y(_y), spr(_spr) {}
-    Pos(int _x, int _y, int _spr, double _speed) 
-        : x(_x), y(_y), spr(_spr), speed(_speed) {}
-};
 
 
 struct Game {
@@ -57,7 +49,6 @@ struct Game {
     void clean();
 
     bool checkCollision(SDL_Rect* _char_first, SDL_Rect* _char_second);
-    bool checkCollision(SDL_Rect* _bird, std::vector<Pos> &enemy_pos, 
-                            std::vector<Pos> &collapsion_pos);
-    void create_enemy(std::vector<Pos> &_pos, int numbers);
+    bool checkCollision(SDL_Rect* _bird, class Enemy* _enemy);
+    void create_enemy(Enemy* _enemy, int numbers);
 };

@@ -31,10 +31,10 @@ const int SUPPORT_BIRT_ORIGIN_POS_Y = SCREEN_HEIGHT/2;
 
 const int SPRITE_DELAY = 5;
 const int STEPS_MOVE_BIRD = 4;
-const int DISTANCE_TO_SCREEN = 30;
+const int DISTANCE_TO_SCREEN = 10;
 
-const double ENEMY_MIN_SPEED = 1;
-const double ENEMY_MAX_SPEED = 5;
+const int ENEMY_MIN_SPEED = 1;
+const int ENEMY_MAX_SPEED = 5;
 
 namespace KeyPressed {
     extern bool mainbird_left;

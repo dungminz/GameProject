@@ -1,5 +1,6 @@
 #pragma once
 
+// #include "Game.h"
 #include "Sprite.h"
 
 
@@ -50,7 +51,7 @@ const int CLIPS_DIAMONDCOLLAPSION[FRAMES_DIAMONDCOLLAPSION][4] = {
 const std::string ROCKET_IMG = "../Image/Animation/rocket1.png";
 const int FRAMES_ROCKET = 4;
 const int ROCKET_W = 1075;
-const int ROCKET_H = 350/2;
+const int ROCKET_H = 350;
 const int ROCKET_REAL_W = ROCKET_W/ROCKET_SCALE;
 const int ROCKET_REAL_H = ROCKET_H/ROCKET_SCALE;
 const int RANGE_FRAME_ROCKET = 1246;
@@ -81,10 +82,20 @@ const int CLIPS_EVILBIRD[FRAMES_EVILBIRD][4] = {
 };
 
 
+struct Pos {
+    int x, y, spr;
+    int speed;
+    
+    Pos(int _x, int _y, int _spr) 
+        : x(_x), y(_y), spr(_spr) {}
+    Pos(int _x, int _y, int _spr, int _speed) 
+        : x(_x), y(_y), spr(_spr), speed(_speed) {}
+};
+
 struct Enemy {
 
-    Sprite* enemy_spr;
-    Sprite* collapsion_spr;
+    class Sprite* enemy_spr;
+    class Sprite* collapsion_spr;
     Animation* enemy_ani;
     Animation* collapsion_ani;
     int delay_spr = 0;
