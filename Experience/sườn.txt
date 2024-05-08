@@ -28,7 +28,7 @@ Bố cục Game:
 - Cơ chế tính điểm (ttf)
     + (Timer)
 - (Tạo đạn quái)
-- Tạo đặc biệt (hướng tới chim)
+- Tạo tên lửa (hướng tới chim)
 
 
 Bố cục hàm:
