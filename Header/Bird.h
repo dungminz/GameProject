@@ -200,5 +200,10 @@ struct SupportBird {
     void handle_events(SDL_Event& event);
     void update();
     void render();
+    void clean();
 
+    int health;
+    bool alive;
+    void check_sp(int _add);
+    void setBird(Animation* ani);
 };

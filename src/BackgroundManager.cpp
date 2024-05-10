@@ -1,5 +1,5 @@
 #include "../Header/BackgroundManager.h"
-#include "../Header/TextureManager.h"
+#include "../Header/Graphics.h"
 
 
 BackgroundManager::BackgroundManager() {}

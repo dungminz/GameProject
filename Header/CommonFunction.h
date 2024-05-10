@@ -2,9 +2,12 @@
 
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
-#define WINDOW_TITLE "~New Game~"
+#define WINDOW_TITLE "~Flapy Couple~"
 
-static int highscore = 0;
+const int FPS = 60;
+const int FRAME_MAX_DELAY = 1000/FPS;
+
+extern int highscore;
 
 const int ICON_SIZE = 100;
 const double ICON_R = ICON_SIZE/2;
@@ -39,6 +42,7 @@ const int ENEMY_MIN_SPEED = 1;
 const int ENEMY_MAX_SPEED = 5;
 
 const SDL_Color white = {255, 255, 255, 255};
+const SDL_Color black = {0, 0, 0, 0};
 
 namespace KeyPressed {
     extern bool mainbird_left;
@@ -87,3 +91,7 @@ enum class GameState {
     Null
 };
 
+const int MAX_BIRD_HEALTH = 100;
+const int BIRD_HEALTH_BY_DIAMOND = 5;
+const int BIRD_HEALTH_BY_ENEMYBIRD = -50;
+const int BIRD_HEALTH_BY_ROCKET = -50;

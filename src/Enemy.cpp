@@ -60,7 +60,7 @@ void Enemy::render() {
     for(int i=0; i<collapsion_pos.size(); i++) {
         SDL_Rect src = collapsion_spr->clips[collapsion_pos[i].spr];
         SDL_Rect dest = {collapsion_pos[i].x, collapsion_pos[i].y, collapsion_ani->w, collapsion_ani->h};
-        TextureManager::draw(collapsion_ani->texture, &src, &dest);
+        TextureManager::drawCollaption(collapsion_ani->texture, &src, &dest);
     }
 
 }

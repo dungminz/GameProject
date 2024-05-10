@@ -4,6 +4,13 @@
 
 Sprite::Sprite () {}
 
+Sprite::Sprite(Animation* ani) {
+    
+    texture = ani->texture;
+    frames = ani->frames;
+    clips = ani->clips;
+}
+
 Sprite::~Sprite() {}
 
 

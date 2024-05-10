@@ -12,12 +12,13 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
-// #include <SDL_mixer.h>
+#include <SDL_mixer.h>
 
 #include "Exception.h"
+#include "Timer.h"
 #include "BackgroundManager.h"
 #include "AnimationManager.h"
-#include "TextureManager.h"
+#include "Graphics.h"
 #include "Mouse.h"
 #include "Sprite.h"
 #include "Enemy.h"
@@ -29,6 +30,7 @@ struct Game {
     static SDL_Window *window;
     static SDL_Renderer *renderer;
     static TTF_Font *bigfont;
+    static TTF_Font *mediumfont;
     static TTF_Font *smallfont;
 
     SDL_Texture *texture;
@@ -57,5 +59,4 @@ struct Game {
     void free();
 
     int score;
-    int sp_health;
 };

@@ -12,6 +12,7 @@ struct Sprite {
     int delay;
 
     Sprite();
+    Sprite(Animation* ani);
     ~Sprite();
 
     void init(Animation* ani);

@@ -1,5 +1,5 @@
 #include "../Header/AnimationManager.h"
-#include "../Header/TextureManager.h"
+#include "../Header/Graphics.h"
 
 
 Animation::Animation() {}

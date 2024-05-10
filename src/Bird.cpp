@@ -13,8 +13,8 @@ MainBird::~MainBird() {
 
 void MainBird::init() {
 
-    bird_spr = new Sprite();
-    bird_spr->init(bird_ani);
+    bird_spr = new Sprite(bird_ani);
+    // bird_spr->init(bird_ani);
 
     bird_mouse = new Mouse();
     bird_mouse->init(MAIN_BIRD_ORIGIN_POS_X, MAIN_BIRD_ORIGIN_POS_Y, 
@@ -53,12 +53,6 @@ void MainBird::handle_events(SDL_Event& event) {
 
 void MainBird::update() {
 
-    // if(KeyPressed::mainbird_left) bird_mouse->turnLeft();
-    // if(KeyPressed::mainbird_right) bird_mouse->turnRight();
-    // if(KeyPressed::mainbird_up) bird_mouse->turnUp();
-    //     else if(bird_mouse->angle<0) bird_mouse->angle+=ANGLE_STEP;
-    // if(KeyPressed::mainbird_down) bird_mouse->turnDown();
-    //     else if(bird_mouse->angle>0) bird_mouse->angle-=ANGLE_STEP;
     bird_mouse->updateMainBird();
 
     bird_spr->update();
@@ -82,28 +76,23 @@ SupportBird::SupportBird(Animation* _flying_ani,
     gothit_ani(_gothit_ani), shot_ani(_shot_ani),
     ram_ani(_ram_ani), dead_ani(_dead_ani),
     henshin_ani(_henshin_ani), henshinshot_ani(_henshinshot_ani)
-    {}
+{
+    health = MAX_BIRD_HEALTH;
+    alive = true;    
+}
 
 SupportBird::~SupportBird() {
 
-    // delete spbird_ani;
-    // delete flying_ani;
-    // delete gothit_ani;
-    // delete shot_ani;
-    // delete ram_ani;
-    // delete dead_ani;
-    // delete henshin_ani;
-    // delete henshinshot_ani;
     delete spbird_mouse;
     delete spbird_spr;
 }
 
 void SupportBird::init() {
 
-    if(henshin_ani) spbird_ani = henshin_ani;
+    if(spbird_ani) spbird_ani = flying_ani;
     
-    spbird_spr = new Sprite();
-    spbird_spr->init(spbird_ani);
+    spbird_spr = new Sprite(spbird_ani);
+    // spbird_spr->init(spbird_ani);
 
     spbird_mouse = new Mouse();
     spbird_mouse->init(SUPPORT_BIRT_ORIGIN_POS_X, SUPPORT_BIRT_ORIGIN_POS_Y, 
@@ -142,13 +131,6 @@ void SupportBird::handle_events(SDL_Event& event) {
 
 void SupportBird::update() {
     
-    // if(KeyPressed::supportbird_left) spbird_mouse->turnLeft();
-    // if(KeyPressed::supportbird_right) spbird_mouse->turnRight();
-    // if(KeyPressed::supportbird_up) spbird_mouse->turnUp();
-    //     else if(spbird_mouse->angle<0) spbird_mouse->angle+=ANGLE_STEP;
-    // if(KeyPressed::supportbird_down) spbird_mouse->turnDown();
-    //     else if(spbird_mouse->angle>0) spbird_mouse->angle-=ANGLE_STEP;
-    
     spbird_mouse->updateSupportBird();
     spbird_spr->update();
 }
@@ -157,4 +139,28 @@ void SupportBird::update() {
 void SupportBird::render() { 
 
     TextureManager::drawAngle(spbird_ani->texture, spbird_spr->getSrc(), spbird_mouse->getDest(), spbird_mouse->angle);
+}
+
+
+void SupportBird::clean() {
+    delete spbird_spr;
+}
+
+
+void SupportBird::check_sp(int _add) {
+
+    health+=_add;
+    if(health>MAX_BIRD_HEALTH) health = MAX_BIRD_HEALTH;
+    if(health<=0) {
+        alive = false;
+        health = 0;
+    }
+    if(alive==false) setBird(dead_ani);
+}
+
+void SupportBird::setBird(Animation* ani) {
+
+    spbird_ani = ani;
+    delete spbird_spr;
+    spbird_spr = new Sprite(spbird_ani);
 }

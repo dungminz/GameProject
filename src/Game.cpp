@@ -10,6 +10,7 @@ SDL_Renderer *Game::renderer = nullptr;
 SDL_Window *Game::window = nullptr;
 TTF_Font *Game::bigfont = nullptr;
 TTF_Font *Game::smallfont = nullptr;
+TTF_Font *Game::mediumfont = nullptr;
 
 bool KeyPressed::mainbird_left = false;
 bool KeyPressed::mainbird_right = false;
@@ -37,9 +38,8 @@ void Game::init(BackgroundManager* _background, Animation* _mainbird,
         Animation* _enemybird, Animation* _diamond, Animation* _diamond_collapsion)
 {
     next_state = GameState::Null;
-    is_enemy=true;
+    is_enemy = true;
     score = 0;
-    sp_health = 100;
 
     KeyPressed::mainbird_left = false;
     KeyPressed::mainbird_right = false;
@@ -111,7 +111,7 @@ void Game::renderText_Play() {
     TextureManager::drawText(texture, SCREEN_WIDTH/2, SCREEN_HEIGHT/4);
 
     free();
-    texture = TextureManager::loadTexture("SUPPORT BIRD HEALTH: "+std::to_string(highscore), smallfont, white);
+    texture = TextureManager::loadTexture("SUPPORT BIRD HEALTH: "+std::to_string(supportbird->health), smallfont, white);
     TextureManager::drawText(texture, 250, SCREEN_HEIGHT-40);
 }
 
@@ -149,21 +149,24 @@ void Game::update() {
 // CheckCollision
     if(checkCollision(mainbird->bird_mouse->getDest(), diamond)) {
         score++;
+        supportbird->check_sp(BIRD_HEALTH_BY_DIAMOND);
     }
-    if(checkCollision(mainbird->bird_mouse->getDest(), enemybird)) next_state=GameState::End;
-    checkCollision(supportbird->spbird_mouse->getDest(), enemybird);
+
+    if(checkCollision(supportbird->spbird_mouse->getDest(), enemybird)) {
+        supportbird->check_sp(BIRD_HEALTH_BY_ENEMYBIRD);
+    }
+
+    if(checkCollision(mainbird->bird_mouse->getDest(), enemybird)) {
+        next_state=GameState::End;
+    }
 
 }
-
 
 bool Game::checkCollision(SDL_Rect* _char_first, SDL_Rect* _char_second) {
 
     return SDL_HasIntersection(_char_first, _char_second);
 }
 
-void cerrrect(SDL_Rect* rect){
-    std::cerr<<rect->x<<' '<<rect->y<<' '<<rect->w<<' '<<rect->h<<'\n';
-}
 
 bool Game::checkCollision(SDL_Rect* _bird, Enemy* _enemy) {
     
@@ -178,10 +181,10 @@ bool Game::checkCollision(SDL_Rect* _bird, Enemy* _enemy) {
         rect.h = _enemy->enemy_ani->h;
 
         if(checkCollision(_bird, &rect)) {
-            // cerrrect(_bird);
-            // cerrrect(&rect);
+
             check = true;
-            _enemy->collapsion_pos.push_back({_enemy->enemy_pos[i].x, _enemy->enemy_pos[i].y, 0});
+            _enemy->collapsion_pos.push_back({_enemy->enemy_pos[i].x+_enemy->enemy_ani->w/2, 
+                    _enemy->enemy_pos[i].y+_enemy->enemy_ani->h/2, 0});
             _enemy->enemy_pos.erase(_enemy->enemy_pos.begin()+i);
         }
     }
