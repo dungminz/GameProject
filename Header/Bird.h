@@ -282,10 +282,8 @@ struct MainBird {
     ~MainBird();
 
     void init();
-    void handle_events(SDL_Event& event);
     void update();
     void render();
-
 };
 
 
@@ -310,10 +308,9 @@ struct SupportBird {
     ~SupportBird();
 
     void init();
-    void handle_events(SDL_Event& event);
     void update();
     void render();
-    void clean();
+    void free();
 
     int health;
     bool alive;

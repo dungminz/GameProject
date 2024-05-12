@@ -5,7 +5,6 @@
 #include "../Header/CommonFunction.h"
 #include "../Header/Screen.h"
 
-
 SDL_Renderer *Game::renderer = nullptr;
 SDL_Window *Game::window = nullptr;
 TTF_Font *Game::bigfont = nullptr;
@@ -103,7 +102,6 @@ void Game::render() {
     SDL_RenderPresent(renderer);
 }
 
-
 void Game::renderText_Play() {
 
     free();
@@ -129,8 +127,8 @@ void Game::handle_events() {
             default: break;
         }
 
-        mainbird->handle_events(event);
-        supportbird->handle_events(event);
+        mainbird->bird_mouse->handleEventsMainBird(event);
+        supportbird->spbird_mouse->handleEventsSupportBird(event);
     }
 }
 
@@ -141,9 +139,14 @@ void Game::update() {
 
     // create_enemy(diamond_pos, 10);
     diamond->update();
+
     // create_enemy(enemybird_pos, 10);
     enemybird->update();
+
+    mainbird->bird_mouse->getOtherBird(supportbird->spbird_mouse->curr_bird);
     mainbird->update();
+
+    supportbird->spbird_mouse->getOtherBird(mainbird->bird_mouse->curr_bird);
     supportbird->update();
 
 // CheckCollision
@@ -159,8 +162,8 @@ void Game::update() {
     if(checkCollision(mainbird->bird_mouse->getDest(), enemybird)) {
         next_state=GameState::End;
     }
-
 }
+
 
 bool Game::checkCollision(SDL_Rect* _char_first, SDL_Rect* _char_second) {
 
@@ -196,7 +199,7 @@ void Game::create_enemy(Enemy* _enemy, int numbers) {
 
     for(int i=1; i<=numbers; i++) {
 
-        int rand_y = DISTANCE_TO_SCREEN + rand()%(SCREEN_HEIGHT - _enemy->enemy_ani->h/2 - DISTANCE_TO_SCREEN*2);
+        int rand_y = DISTANCE_TO_SCREEN + rand()%(SCREEN_HEIGHT - _enemy->enemy_ani->h - DISTANCE_TO_SCREEN*2);
         int rand_spr = rand()%_enemy->enemy_ani->frames;
         int rand_speed = ENEMY_MIN_SPEED + rand()%(ENEMY_MAX_SPEED - ENEMY_MIN_SPEED*2);
 

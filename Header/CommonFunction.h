@@ -38,7 +38,7 @@ const int SUPPORT_BIRT_ORIGIN_POS_Y = SCREEN_HEIGHT/2;
 
 const int SPRITE_DELAY = 5;
 const int STEPS_MOVE_BIRD = 4;
-const int DISTANCE_TO_SCREEN = 20;
+const int DISTANCE_TO_SCREEN = 3;
 const int MAX_ANGLE = 30;
 const int ANGLE_STEP = 4;
 
