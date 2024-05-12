@@ -6,14 +6,23 @@
 const int CHOOSE_PLAY_X = SCREEN_WIDTH/2;
 const int CHOOSE_PLAY_Y = SCREEN_HEIGHT/2;
 
-const int CHOOSE_REPLAY_X = SCREEN_WIDTH/2;
-const int CHOOSE_REPLAY_Y = SCREEN_HEIGHT/2;
-
 const int CHOOSE_MUTE_X = SCREEN_WIDTH/10*4;
 const int CHOOSE_MUTE_Y = SCREEN_HEIGHT/2;
 
 const int CHOOSE_EXIT_X = SCREEN_WIDTH/10*6;
 const int CHOOSE_EXIT_Y = SCREEN_HEIGHT/2;
+
+const int CHOOSE_REPLAY_X = SCREEN_WIDTH/2;
+const int CHOOSE_REPLAY_Y = SCREEN_HEIGHT/10*6.5;
+
+const int HIGH_SCORE_X = SCREEN_WIDTH/2;
+const int HIGH_SCORE_Y = SCREEN_HEIGHT/10*8;
+
+const int SCORE_X = SCREEN_WIDTH/2;
+const int SCORE_Y = SCREEN_HEIGHT/10*4.5;
+
+const int CHOOSE_BACK_X = SCREEN_WIDTH/15;
+const int CHOOSE_BACK_Y = SCREEN_HEIGHT/10*9;
 
 const int CHOOSE_BIRD_TEXT_X = SCREEN_WIDTH/2;
 const int CHOOSE_BIRD_TEXT_Y = SCREEN_HEIGHT/6;
@@ -38,11 +47,6 @@ const int CHOOSE_CHICKEN_Y = SCREEN_HEIGHT/2;
 const int CHICKEN_CHOOSEN_W = CHICKEN_REAL_W*1.75;
 const int CHICKEN_CHOOSEN_H = CHICKEN_REAL_H*1.75;
 
-const int HIGH_SCORE_X = SCREEN_WIDTH/2;
-const int HIGH_SCORE_Y = SCREEN_HEIGHT/2+100;
-
-const int SCORE_X = SCREEN_WIDTH/2;
-const int SCORE_Y = SCREEN_HEIGHT/2-85;
 
 const std::string SCREEN_BEGIN_IMG = "../Image/Screen/screen_begin.png";
 const std::string SCREEN_END_IMG = "../Image/Screen/screen_end.png";
@@ -58,6 +62,9 @@ const std::string MUTE_IMG = "../Image/Screen/music_off.png";
 
 const std::string NEXT_CHOOSEN_IMG = "../Image/Screen/next_choosen.png";
 const std::string NEXT_UNCHOOSE_IMG = "../Image/Screen/next_unchoose.png";
+
+const std::string BACK_CHOOSEN_IMG = "../Image/Screen/back_choosen.png";
+const std::string BACK_UNCHOOSE_IMG = "../Image/Screen/back_unchoose.png";
 
 const std::string EXIT_CHOOSEN_IMG = "../Image/Screen/exit_choosen.png";
 const std::string EXIT_UNCHOOSE_IMG = "../Image/Screen/exit_unchoose.png";
@@ -76,6 +83,7 @@ const std::string EAGLE_UNCHOOSE_IMG = "../Image/Screen/eagle_unchoose.png";
 
 const std::string CHICKEN_CHOOSEN_IMG = "../Image/Screen/chicken_choosen.png";
 const std::string CHICKEN_UNCHOOSE_IMG = "../Image/Screen/chicken_unchoose.png";
+
 
 struct Menu {
 
@@ -100,6 +108,9 @@ struct Menu {
     SDL_Texture* replay_unchoose;
 
     SDL_Texture* screen_choose;
+    bool choose_back;
+    SDL_Texture* back_choosen;
+    SDL_Texture* back_unchoose;
 
     bool choose_eggbird;
     SDL_Texture* eggbird_choosen;

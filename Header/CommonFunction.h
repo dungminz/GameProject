@@ -18,6 +18,8 @@ const double LAYER_SPEED[MAX_LAYER] = {
     0.3, 0.5, 0.7, 0.9, 1.1, 1.3
 };
 
+const int MAPS = 2;
+
 const double EGGBIRD_SCALE = 7;
 const double UNICORNBIRD_SCALE = 7;
 const double ROCKET_SCALE = 5;

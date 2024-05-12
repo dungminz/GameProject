@@ -11,10 +11,14 @@ Game* game = nullptr;
 Menu* menu = nullptr;
 Music* music = nullptr;
 int highscore = 0;
+int map = 0;
+typeOfBackground map_current;
 
 void init();
 void clean();
+
 void changeMute();
+void updateMap();
 
 GameState doPlay();
 GameState doBegin();
@@ -30,8 +34,8 @@ static Animation *mainBird, *supportBird_flying, *supportBird_gothit,
                 *supportBird_henshinshot, *collapsionbyByBird, 
                 *diamond, *diamondCollapsion, *enemyBird;
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
+
     srand(time(0));
     init();
     
@@ -76,6 +80,7 @@ int main(int argc, char *argv[])
 
 
 void init() {
+
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
         logErrorAndExit("SDL_Init", SDL_GetError());
 
@@ -91,7 +96,7 @@ void init() {
     Game::renderer = SDL_CreateRenderer(Game::window, -1, SDL_RENDERER_ACCELERATED |
                                             SDL_RENDERER_PRESENTVSYNC);
     //Khi chạy trong máy ảo (ví dụ phòng máy ở trường)
-    //renderer = SDL_CreateSoftwareRenderer(SDL_GetWindowSurface(window));
+    //Game::renderer = SDL_CreateSoftwareRenderer(SDL_GetWindowSurface(window));
 
     if (Game::renderer == nullptr) logErrorAndExit("CreateRenderer", SDL_GetError());
 
@@ -127,6 +132,7 @@ void clean() {
     TTF_CloseFont(game->bigfont); game->bigfont = nullptr;
     TTF_CloseFont(game->smallfont); game->smallfont = nullptr;
 
+    delete music;
     delete menu;
     delete game;
 
@@ -147,15 +153,42 @@ void changeMute() {
     }
 }
 
+void updateMap() {
+
+    ++map;
+    map%=MAPS;
+
+    switch(map) {
+        case 0: map_current = DAY; break;
+        case 1: map_current = NIGHT; break;
+        default: break;
+    }
+}
 
 
 GameState doPlay() {
-        
-    // background = new BackgroundManager(DAY, DAY_BG, 
-    //                         FRAMES_LAYER_DAY, DAY_LAYER);
     
-    background = new BackgroundManager(NIGHT, NIGHT_BG, 
-                            FRAMES_LAYER_NIGHT, NIGHT_LAYER);
+    switch (map_current) {
+
+        case DAY:
+            background = new BackgroundManager(DAY, DAY_BG, 
+                                FRAMES_LAYER_DAY, DAY_LAYER);
+            enemyBird = new Animation(EVILBIRD, EVILBIRD_IMG, 
+                                FRAMES_EVILBIRD, CLIPS_EVILBIRD,
+                                EVILBIRD_REAL_W, EVILBIRD_REAL_H);
+            break;
+
+        case NIGHT:
+            background = new BackgroundManager(NIGHT, NIGHT_BG, 
+                                FRAMES_LAYER_NIGHT, NIGHT_LAYER);
+            enemyBird = new Animation(MASKBIRD, MASKBIRD_IMG, 
+                            FRAMES_MASKBIRD, CLIPS_MASKBIRD,
+                            MASKBIRD_REAL_W, MASKBIRD_REAL_H);
+            break;
+
+        default: 
+            break;
+    }
 
     if(menu->choose_eggbird) mainBird = new Animation(EGGBIRD, EGGBIRD_IMG, 
                             FRAMES_EGGBIRD, CLIPS_EGGBIRD, 
@@ -242,14 +275,6 @@ GameState doPlay() {
     diamondCollapsion = new Animation(DIAMONDCOLLAPSION, DIAMONDCOLLAPSION_IMG, 
             FRAMES_DIAMONDCOLLAPSION, CLIPS_DIAMONDCOLLAPSION, 
             DIAMONDCOLLAPSION_REAL_W, DIAMONDCOLLAPSION_REAL_H);
-
-    // enemyBird = new Animation(EVILBIRD, EVILBIRD_IMG, 
-    //                         FRAMES_EVILBIRD, CLIPS_EVILBIRD,
-    //                         EVILBIRD_REAL_W, EVILBIRD_REAL_H);
-
-    enemyBird = new Animation(MASKBIRD, MASKBIRD_IMG, 
-                            FRAMES_MASKBIRD, CLIPS_MASKBIRD,
-                            MASKBIRD_REAL_W, MASKBIRD_REAL_H);
 
     // enemyBird = new Animation(ROCKET, ROCKET_IMG, 
     //                         FRAMES_ROCKET, CLIPS_ROCKET,
@@ -391,7 +416,12 @@ GameState doEnd() {
     }
 
     menu->cleanEnd();
-    music->reset(-2);
+
+    if(next_state == GameState::Begin) {
+        music->reset(-2);
+        updateMap();
+    }
+
     return next_state;
 }
 
@@ -417,6 +447,8 @@ GameState doChooseMainBird() {
                 case SDL_MOUSEBUTTONUP:
                     if(menu->choose_eggbird || menu->choose_unicornbird)
                         next_state = GameState::ChooseSupportBird;
+                    if(menu->choose_back)
+                        next_state = GameState::Begin;
                     break;
 
                 default: 
@@ -445,17 +477,19 @@ GameState doChooseSupportBird() {
 
             switch (event.type)
             {
-            case SDL_QUIT:
-                next_state = GameState::Quit;
-                break;
-            
-            case SDL_MOUSEBUTTONUP:
-                if(menu->choose_eagle || menu->choose_chicken)
-                    next_state = GameState::Play;
-                break;
+                case SDL_QUIT:
+                    next_state = GameState::Quit;
+                    break;
+                
+                case SDL_MOUSEBUTTONUP:
+                    if(menu->choose_eagle || menu->choose_chicken)
+                        next_state = GameState::Play;
+                    if(menu->choose_back)
+                        next_state = GameState::ChooseMainBird;
+                    break;
 
-            default: 
-                break;
+                default: 
+                    break;
             }
             
         }   
