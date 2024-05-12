@@ -3,9 +3,9 @@
 
 Menu::Menu() :pick(SOUND_PICK) {}
 
-Menu::~Menu() {
-    
-}
+Menu::~Menu() {}
+
+
 
 bool Menu::check_mouse(int pos_x, int pos_y) {
 
@@ -28,6 +28,8 @@ bool Menu::check_mouse(int pos_x, int pos_y, int w, int h) {
     else return false;
 }
 
+
+
 void Menu::initBegin() {
 
     screen_begin = TextureManager::loadTexture(SCREEN_BEGIN_IMG);
@@ -36,15 +38,21 @@ void Menu::initBegin() {
     play_choosen = TextureManager::loadTexture(PLAY_CHOOSEN_IMG);
     play_unchoose = TextureManager::loadTexture(PLAY_UNCHOOSE_IMG);
 
-    choose_volume = false;
-    volume_choosen = TextureManager::loadTexture(VOLUME_CHOOSEN_IMG);
-    volume_unchoose = TextureManager::loadTexture(VOLUME_UNCHOOSE_IMG);
+    choose_mute = false;
+    unmute = TextureManager::loadTexture(UNMUTE_IMG);
+    mute = TextureManager::loadTexture(MUTE_IMG);
+
+    choose_exit = false;
+    exit_choosen = TextureManager::loadTexture(EXIT_CHOOSEN_IMG);
+    exit_unchoose = TextureManager::loadTexture(EXIT_UNCHOOSE_IMG);    
 }
+
 
 void Menu::renderBegin() {
 
     choose_play = check_mouse(CHOOSE_PLAY_X, CHOOSE_PLAY_Y);
-    choose_volume = check_mouse(CHOOSE_VOLUME_X, CHOOSE_VOLUME_Y);
+    choose_mute = check_mouse(CHOOSE_MUTE_X, CHOOSE_MUTE_Y);
+    choose_exit = check_mouse(CHOOSE_EXIT_X, CHOOSE_EXIT_Y);
 
     SDL_RenderClear(Game::renderer);
 
@@ -55,10 +63,15 @@ void Menu::renderBegin() {
     else 
         TextureManager::drawIcon(play_unchoose, CHOOSE_PLAY_X, CHOOSE_PLAY_Y);
 
-    if(choose_volume) 
-        TextureManager::drawIcon(volume_choosen, CHOOSE_VOLUME_X, CHOOSE_VOLUME_Y);
+    if(mute_choosen) 
+        TextureManager::drawIcon(mute, CHOOSE_MUTE_X, CHOOSE_MUTE_Y);
     else
-        TextureManager::drawIcon(volume_unchoose, CHOOSE_VOLUME_X, CHOOSE_VOLUME_Y);
+        TextureManager::drawIcon(unmute, CHOOSE_MUTE_X, CHOOSE_MUTE_Y);
+
+    if(choose_exit) 
+        TextureManager::drawIcon(exit_choosen, CHOOSE_EXIT_X, CHOOSE_EXIT_Y);
+    else
+        TextureManager::drawIcon(exit_unchoose, CHOOSE_EXIT_X, CHOOSE_EXIT_Y);
 
     SDL_RenderPresent(Game::renderer);
 }
@@ -68,7 +81,13 @@ void Menu::cleanBegin() {
     SDL_DestroyTexture(screen_begin);
     SDL_DestroyTexture(play_choosen);
     SDL_DestroyTexture(play_unchoose);
+    SDL_DestroyTexture(mute);
+    SDL_DestroyTexture(mute);
+    SDL_DestroyTexture(exit_unchoose);
+    SDL_DestroyTexture(exit_unchoose);
 }
+
+
 
 
 void Menu::initEnd() {
@@ -99,7 +118,6 @@ void Menu::renderEnd() {
     SDL_RenderPresent(Game::renderer);
 }
 
-
 void Menu::cleanEnd() {
 
     SDL_DestroyTexture(screen_end);
@@ -108,25 +126,26 @@ void Menu::cleanEnd() {
 }
 
 
+
 void Menu::initChooseMainBird() {
 
-    choose_bird1 = false;
-    choose_bird2 = false;
+    choose_eggbird = false;
+    choose_unicornbird = false;
 
     screen_choose = TextureManager::loadTexture(SCREEN_CHOOSE_IMG);
-    bird1_choosen = TextureManager::loadTexture(EGGBIRD_CHOOSEN_IMG);
-    bird1_unchoose = TextureManager::loadTexture(EGGBIRD_UNCHOOSE_IMG);
-    bird2_choosen = TextureManager::loadTexture(UNICORNBIRD_CHOOSEN_IMG);
-    bird2_unchoose = TextureManager::loadTexture(UNICORNBIRD_UNCHOOSE_IMG);
+    eggbird_choosen = TextureManager::loadTexture(EGGBIRD_CHOOSEN_IMG);
+    eggbird_unchoose = TextureManager::loadTexture(EGGBIRD_UNCHOOSE_IMG);
+    unicornbird_choosen = TextureManager::loadTexture(UNICORNBIRD_CHOOSEN_IMG);
+    unicornbird_unchoose = TextureManager::loadTexture(UNICORNBIRD_UNCHOOSE_IMG);
     
 }
 
 void Menu::renderChooseMainBird() {
 
-    choose_bird1 = check_mouse(CHOOSE_EGGBIRD_X, CHOOSE_EGGBIRD_Y, 
+    choose_eggbird = check_mouse(CHOOSE_EGGBIRD_X, CHOOSE_EGGBIRD_Y, 
                         EGGBIRD_CHOOSEN_W, EGGBIRD_CHOOSEN_H);
 
-    choose_bird2 = check_mouse(CHOOSE_UNICORNBIRD_X, CHOOSE_UNICORNBIRD_Y, 
+    choose_unicornbird = check_mouse(CHOOSE_UNICORNBIRD_X, CHOOSE_UNICORNBIRD_Y, 
                         UNICORNBIRD_CHOOSEN_W, UNICORNBIRD_CHOOSEN_H);
 
     SDL_RenderClear(Game::renderer);
@@ -135,33 +154,91 @@ void Menu::renderChooseMainBird() {
     TextureManager::drawText("Choose Main Bird", Game::mediumfont, black, 
                     CHOOSE_BIRD_TEXT_X, CHOOSE_BIRD_TEXT_Y);
 
-    if(choose_bird1) 
-        TextureManager::drawIcon(bird1_choosen,
+    if(choose_eggbird) 
+        TextureManager::drawIcon(eggbird_choosen,
                         CHOOSE_EGGBIRD_X, CHOOSE_EGGBIRD_Y,
                         EGGBIRD_CHOOSEN_W/2.5*3, EGGBIRD_CHOOSEN_H/2.5*3);
     else 
-        TextureManager::drawIcon(bird1_unchoose,
+        TextureManager::drawIcon(eggbird_unchoose,
                         CHOOSE_EGGBIRD_X, CHOOSE_EGGBIRD_Y,
                         EGGBIRD_CHOOSEN_W, EGGBIRD_CHOOSEN_H);
 
-    if(choose_bird2) 
-        TextureManager::drawIcon(bird2_choosen,
+    if(choose_unicornbird) 
+        TextureManager::drawIcon(unicornbird_choosen,
                         CHOOSE_UNICORNBIRD_X, CHOOSE_UNICORNBIRD_Y,
                         UNICORNBIRD_CHOOSEN_W/2.5*3, UNICORNBIRD_CHOOSEN_H/2.5*3);
     else 
-        TextureManager::drawIcon(bird2_unchoose,
+        TextureManager::drawIcon(unicornbird_unchoose,
                         CHOOSE_UNICORNBIRD_X, CHOOSE_UNICORNBIRD_Y,
                         UNICORNBIRD_CHOOSEN_W, UNICORNBIRD_CHOOSEN_H);
 
     SDL_RenderPresent(Game::renderer);
 }
 
-
 void Menu::cleanChooseMainBird() {
 
     SDL_DestroyTexture(screen_choose);
-    SDL_DestroyTexture(bird1_choosen);
-    SDL_DestroyTexture(bird1_unchoose);
-    SDL_DestroyTexture(bird2_choosen);
-    SDL_DestroyTexture(bird2_unchoose);
+    SDL_DestroyTexture(eggbird_choosen);
+    SDL_DestroyTexture(eggbird_unchoose);
+    SDL_DestroyTexture(unicornbird_choosen);
+    SDL_DestroyTexture(unicornbird_unchoose);
+}
+
+
+
+void Menu::initChooseSupportBird() {
+
+    choose_eagle = false;
+    choose_chicken = false;
+
+    screen_choose = TextureManager::loadTexture(SCREEN_CHOOSE_IMG);
+    eagle_choosen = TextureManager::loadTexture(EAGLE_CHOOSEN_IMG);
+    eagle_unchoose = TextureManager::loadTexture(EAGLE_UNCHOOSE_IMG);
+    chicken_choosen = TextureManager::loadTexture(CHICKEN_CHOOSEN_IMG);
+    chicken_unchoose = TextureManager::loadTexture(CHICKEN_UNCHOOSE_IMG);
+    
+}
+
+void Menu::renderChooseSupportBird() {
+
+    choose_eagle = check_mouse(CHOOSE_EAGLE_X, CHOOSE_EAGLE_Y, 
+                        EAGLE_CHOOSEN_W, EAGLE_CHOOSEN_H);
+
+    choose_chicken = check_mouse(CHOOSE_CHICKEN_X, CHOOSE_CHICKEN_Y, 
+                        CHICKEN_CHOOSEN_W, CHICKEN_CHOOSEN_H);
+
+    SDL_RenderClear(Game::renderer);
+
+    TextureManager::draw(screen_choose);
+    TextureManager::drawText("Choose Support Bird", Game::mediumfont, black, 
+                    CHOOSE_BIRD_TEXT_X, CHOOSE_BIRD_TEXT_Y);
+
+    if(choose_eagle) 
+        TextureManager::drawIcon(eagle_choosen,
+                        CHOOSE_EAGLE_X, CHOOSE_EAGLE_Y,
+                        EAGLE_CHOOSEN_W/2.5*3, EAGLE_CHOOSEN_H/2.5*3);
+    else 
+        TextureManager::drawIcon(eagle_unchoose,
+                        CHOOSE_EAGLE_X, CHOOSE_EAGLE_Y,
+                        EAGLE_CHOOSEN_W, EAGLE_CHOOSEN_H);
+
+    if(choose_chicken) 
+        TextureManager::drawIcon(chicken_choosen,
+                        CHOOSE_CHICKEN_X, CHOOSE_CHICKEN_Y,
+                        CHICKEN_CHOOSEN_W/2.5*3, CHICKEN_CHOOSEN_H/2.5*3);
+    else 
+        TextureManager::drawIcon(chicken_unchoose,
+                        CHOOSE_CHICKEN_X, CHOOSE_CHICKEN_Y,
+                        CHICKEN_CHOOSEN_W, CHICKEN_CHOOSEN_H);
+
+    SDL_RenderPresent(Game::renderer);
+}
+
+void Menu::cleanChooseSupportBird() {
+
+    SDL_DestroyTexture(screen_choose);
+    SDL_DestroyTexture(eagle_choosen);
+    SDL_DestroyTexture(eagle_unchoose);
+    SDL_DestroyTexture(chicken_choosen);
+    SDL_DestroyTexture(chicken_unchoose);
 }

@@ -2,8 +2,18 @@
 
 #include "Game.h"
 
-const std::string MUSIC_THEME = "../Audio/9.ogg";
-// const std::string MUSIC_THEME = "../Audio/Running Away - John Charles Fiddy.mp3";
+const std::string MUSIC_THEME_ORIGIN = "../Audio/origin.ogg";
+const std::string MUSICS_THEME[9] = {
+    "../Audio/1.ogg",
+    "../Audio/2.ogg",
+    "../Audio/3.ogg",
+    "../Audio/4.ogg",
+    "../Audio/5.ogg",
+    "../Audio/6.ogg",
+    "../Audio/7.ogg",
+    "../Audio/8.ogg",
+    "../Audio/9.ogg",
+};
 const std::string SOUND_PICK = "../Audio/lost.wav";
 
 
@@ -35,9 +45,13 @@ struct Music {
     Music(const std::string filename);
     ~Music();
 
+    void setMusic(int num = 0);
     void play();
+    void reset(int num = 0);
     void pause();
+    void resume();
     void stop();
+    void free();
 };
 
 struct Sound {

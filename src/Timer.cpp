@@ -56,6 +56,6 @@ void Timer::checkDelayFrame() {
     if(real_time < FRAME_MAX_DELAY) {
         int delay_time = FRAME_MAX_DELAY - real_time;
         SDL_Delay(delay_time);
-        std::cerr<<"delay time : "<<delay_time<<'\n';
+        // std::cerr<<"delay time : "<<delay_time<<'\n';
     }
 }

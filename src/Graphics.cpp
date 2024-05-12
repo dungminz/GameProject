@@ -160,6 +160,24 @@ Music::~Music() {
     if(music) Mix_FreeMusic(music);
 }
 
+void Music::setMusic(int num) {
+
+    free();
+
+    int rand_music = rand()%9;
+    if(num == -1)
+        music = Mix_LoadMUS(MUSIC_THEME_ORIGIN.c_str());
+    else if(num>0)
+        music = Mix_LoadMUS(MUSICS_THEME[num-1].c_str());
+    else 
+        music = Mix_LoadMUS(MUSICS_THEME[rand_music].c_str());
+        
+    if (music == nullptr) 
+        SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR,
+            "Could not load music! SDL_mixer Error: %s", Mix_GetError());
+
+}
+
 void Music::play() {
 
     if (Mix_PlayingMusic() == 0) 
@@ -168,18 +186,41 @@ void Music::play() {
         Mix_ResumeMusic();
 }
 
+void Music::reset(int num) {
+
+    if (Mix_PausedMusic()) {
+        // Mix_RewindMusic();
+        setMusic(num);
+        Mix_PlayMusic(music, -1);
+        pause();     
+    }
+    else {
+        // Mix_RewindMusic();
+        setMusic(num);
+        Mix_PlayMusic(music, -1);
+    }
+}
 
 void Music::pause() {
 
-    if (Mix_PlayingMusic() == 1)
+    if (Mix_PlayingMusic())
         Mix_PauseMusic();
 }
 
+void Music::resume() {
+
+    if(Mix_PausedMusic())
+        Mix_ResumeMusic();
+}
 
 void Music::stop() {
     
     pause();
     Mix_RewindMusic();
+}
+
+void Music::free() {
+    if(music) Mix_FreeMusic(music);
 }
 
 

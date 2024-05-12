@@ -23,10 +23,10 @@ Bố cục Game:
 - . Xử lý va chạm, xử lý sau va chạm
 - . Tạo bird sp
 - . Menu 
-
 - . Cơ chế tính điểm (ttf)
     + (Timer)
-- Nhạc (mixer)
+- . Nhạc (mixer)
+
 - (Tạo đạn quái)
 - Tạo tên lửa (hướng tới chim)
 

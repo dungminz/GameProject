@@ -1,26 +1,26 @@
-#include <iostream>
-
 #include "../Header/Game.h"
 #include "../Header/Screen.h"
-#include "../Header/CommonFunction.h"
-#include "../Header/BackgroundManager.h"
-#include "../Header/AnimationManager.h"
+// #include "../Header/CommonFunction.h"
+// #include "../Header/BackgroundManager.h"
+// #include "../Header/AnimationManager.h"
 #include "../Header/Background.h"
-#include "../Header/Enemy.h"
-#include "../Header/Bird.h"
-
+// #include "../Header/Enemy.h"
+// #include "../Header/Bird.h"
 
 Game* game = nullptr;
 Menu* menu = nullptr;
+Music* music = nullptr;
 int highscore = 0;
 
 void init();
 void clean();
+void changeMute();
 
 GameState doPlay();
 GameState doBegin();
 GameState doEnd();
 GameState doChooseMainBird();
+GameState doChooseSupportBird();
 
 static BackgroundManager* background;
 
@@ -29,9 +29,6 @@ static Animation *mainBird, *supportBird_flying, *supportBird_gothit,
                 *supportBird_dead, *supportBird_henshin, 
                 *supportBird_henshinshot, *collapsionbyByBird, 
                 *diamond, *diamondCollapsion, *enemyBird;
-
-bool chooseDay, chooseNight, chooseEggBird, 
-        chooseUnicornBird, chooseEagle, chooseEvilBird;
 
 int main(int argc, char *argv[])
 {
@@ -42,11 +39,10 @@ int main(int argc, char *argv[])
 
     game = new Game();
     menu = new Menu();
+    music = new Music();
 
-    Music mus(MUSIC_THEME);
-    mus.play();
-
-    // Sound sou(SOUND_PICK);
+    music->setMusic(-1);
+    music->play();
 
     while(state != GameState::Quit) {
 
@@ -64,12 +60,15 @@ int main(int argc, char *argv[])
         case GameState::ChooseMainBird:
             state = doChooseMainBird();
             break;            
+        case GameState::ChooseSupportBird:
+            state = doChooseSupportBird();
+            break;     
         default:
             logErrorAndExit("GameState : ", SDL_GetError());
         }        
     }
 
-    mus.stop();
+    music->stop();
     clean();
 
     return 0;
@@ -81,8 +80,9 @@ void init() {
         logErrorAndExit("SDL_Init", SDL_GetError());
 
     Game::window = SDL_CreateWindow(WINDOW_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-    //full screen
-    //window = SDL_CreateWindow(WINDOW_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_FULLSCREEN_DESKTOP);
+    // full screen
+    // Game::window = SDL_CreateWindow(WINDOW_TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_FULLSCREEN_DESKTOP);
+    
     if (Game::window == nullptr) logErrorAndExit("CreateWindow", SDL_GetError());
 
     if (!IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG))
@@ -95,10 +95,9 @@ void init() {
 
     if (Game::renderer == nullptr) logErrorAndExit("CreateRenderer", SDL_GetError());
 
-    if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 ) {
+    if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 )
         logErrorAndExit( "SDL_mixer could not initialize! SDL_mixer Error: %s\n",
-                        Mix_GetError() );
-    }
+                                        Mix_GetError() );
 
     if (TTF_Init() == -1) 
             logErrorAndExit("SDL_ttf could not initialize! SDL_ttf Error: ",
@@ -137,7 +136,16 @@ void clean() {
     SDL_Quit();
 }
 
-
+void changeMute() {
+    if(menu->mute_choosen) {
+        menu->mute_choosen = false;
+        music->resume();
+    }
+    else {
+        menu->mute_choosen = true;
+        music->pause();
+    }
+}
 
 
 
@@ -149,45 +157,83 @@ GameState doPlay() {
     background = new BackgroundManager(NIGHT, NIGHT_BG, 
                             FRAMES_LAYER_NIGHT, NIGHT_LAYER);
 
-    mainBird = new Animation(EGGBIRD, EGGBIRD_IMG, 
+    if(menu->choose_eggbird) mainBird = new Animation(EGGBIRD, EGGBIRD_IMG, 
                             FRAMES_EGGBIRD, CLIPS_EGGBIRD, 
                             EGGBIRD_REAL_W, EGGBIRD_REAL_H);
 
-    mainBird = new Animation(UNICORNBIRD, UNICORNBIRD_IMG, 
+    if(menu->choose_unicornbird) mainBird = new Animation(UNICORNBIRD, UNICORNBIRD_IMG, 
                         FRAMES_UNICORNBIRD, CLIPS_UNICORNBIRD, 
                         UNICORNBIRD_REAL_W, UNICORNBIRD_REAL_H);
 
-    supportBird_flying = new Animation(EAGLEFLYING, EAGLE_IMG, 
-                        FRAMES_EAGLE_FLYING, CLIPS_EAGLE_FLYING, 
-                                EAGLE_REAL_W, EAGLE_REAL_H);
-    
-    supportBird_gothit = new Animation(EAGLEGOTHIT, EAGLE_IMG, 
-                    FRAMES_EAGLE_GOT_HIT, CLIPS_EAGLE_GOT_HIT, 
-                                EAGLE_REAL_W, EAGLE_REAL_H);
-    
-    supportBird_shot = new Animation(EAGLESHOT, EAGLE_IMG, 
-                        FRAMES_EAGLE_SHOT, CLIPS_EAGLE_SHOT, 
-                                EAGLE_REAL_W, EAGLE_REAL_H);
-    
-    supportBird_ram = new Animation(EAGLERAM, EAGLE_IMG, 
-                            FRAMES_EAGLE_RAM, CLIPS_EAGLE_RAM, 
-                                EAGLE_REAL_W, EAGLE_REAL_H);
-    
-    supportBird_dead = new Animation(EAGLEDEAD, EAGLE_IMG, 
-                        FRAMES_EAGLE_DEAD, CLIPS_EAGLE_DEAD, 
-                                EAGLE_REAL_W, EAGLE_REAL_H);
-    
-    supportBird_henshin = new Animation(EAGLEHENSHIN, EAGLE_IMG, 
-                    FRAMES_EAGLE_HENSHIN, CLIPS_EAGLE_HENSHIN, 
-                                EAGLE_REAL_W, EAGLE_REAL_H);
-    
-    supportBird_henshinshot = new Animation(EAGLEHENSHINSHOT, EAGLE_IMG, 
-            FRAMES_EAGLE_HENSHIN_SHOT, CLIPS_EAGLE_HENSHIN_SHOT, 
-                                EAGLE_REAL_W, EAGLE_REAL_H);
-    
-    collapsionbyByBird = new Animation(COLLAPSIONBYEAGLE, COLLAPSION_BY_EAGLE_IMG, 
-        FRAMES_COLLAPSION_BY_EAGLE, CLIPS_COLLAPSION_BY_EAGLE,
-        COLLAPSION_BY_EAGLE_REAL_W, COLLAPSION_BY_EAGLE_REAL_H);
+    if(menu->choose_eagle) {
+
+        supportBird_flying = new Animation(EAGLEFLYING, EAGLE_IMG, 
+                            FRAMES_EAGLE_FLYING, CLIPS_EAGLE_FLYING, 
+                                    EAGLE_REAL_W, EAGLE_REAL_H);
+        
+        supportBird_gothit = new Animation(EAGLEGOTHIT, EAGLE_IMG, 
+                        FRAMES_EAGLE_GOT_HIT, CLIPS_EAGLE_GOT_HIT, 
+                                    EAGLE_REAL_W, EAGLE_REAL_H);
+        
+        supportBird_shot = new Animation(EAGLESHOT, EAGLE_IMG, 
+                            FRAMES_EAGLE_SHOT, CLIPS_EAGLE_SHOT, 
+                                    EAGLE_REAL_W, EAGLE_REAL_H);
+        
+        supportBird_ram = new Animation(EAGLERAM, EAGLE_IMG, 
+                                FRAMES_EAGLE_RAM, CLIPS_EAGLE_RAM, 
+                                    EAGLE_REAL_W, EAGLE_REAL_H);
+        
+        supportBird_dead = new Animation(EAGLEDEAD, EAGLE_IMG, 
+                            FRAMES_EAGLE_DEAD, CLIPS_EAGLE_DEAD, 
+                                    EAGLE_REAL_W, EAGLE_REAL_H);
+        
+        supportBird_henshin = new Animation(EAGLEHENSHIN, EAGLE_IMG, 
+                        FRAMES_EAGLE_HENSHIN, CLIPS_EAGLE_HENSHIN, 
+                                    EAGLE_REAL_W, EAGLE_REAL_H);
+        
+        supportBird_henshinshot = new Animation(EAGLEHENSHINSHOT, EAGLE_IMG, 
+                FRAMES_EAGLE_HENSHIN_SHOT, CLIPS_EAGLE_HENSHIN_SHOT, 
+                                    EAGLE_REAL_W, EAGLE_REAL_H);
+
+        collapsionbyByBird = new Animation(COLLAPSIONBYEAGLE, COLLAPSION_BY_EAGLE_IMG, 
+            FRAMES_COLLAPSION_BY_EAGLE, CLIPS_COLLAPSION_BY_EAGLE,
+            COLLAPSION_BY_EAGLE_REAL_W, COLLAPSION_BY_EAGLE_REAL_H);
+    }
+
+    if(menu->choose_chicken) {
+
+        supportBird_flying = new Animation(CHICKENFLYING, CHICKEN_IMG, 
+                            FRAMES_CHICKEN_FLYING, CLIPS_CHICKEN_FLYING, 
+                                    CHICKEN_REAL_W, CHICKEN_REAL_H);
+        
+        supportBird_gothit = new Animation(CHICKENGOTHIT, CHICKEN_IMG, 
+                        FRAMES_CHICKEN_GOT_HIT, CLIPS_CHICKEN_GOT_HIT, 
+                                    CHICKEN_REAL_W, CHICKEN_REAL_H);
+        
+        supportBird_shot = new Animation(CHICKENSHOT, CHICKEN_IMG, 
+                            FRAMES_CHICKEN_SHOT, CLIPS_CHICKEN_SHOT, 
+                                    CHICKEN_REAL_W, CHICKEN_REAL_H);
+        
+        supportBird_ram = new Animation(CHICKENRAM, CHICKEN_IMG, 
+                                FRAMES_CHICKEN_RAM, CLIPS_CHICKEN_RAM, 
+                                    CHICKEN_REAL_W, CHICKEN_REAL_H);
+        
+        supportBird_dead = new Animation(CHICKENDEAD, CHICKEN_IMG, 
+                            FRAMES_CHICKEN_DEAD, CLIPS_CHICKEN_DEAD, 
+                                    CHICKEN_REAL_W, CHICKEN_REAL_H);
+        
+        supportBird_henshin = new Animation(CHICKENHENSHIN, CHICKEN_IMG, 
+                        FRAMES_CHICKEN_HENSHIN, CLIPS_CHICKEN_HENSHIN, 
+                                    CHICKEN_REAL_W, CHICKEN_REAL_H);
+        
+        supportBird_henshinshot = new Animation(CHICKENHENSHINSHOT, CHICKEN_IMG, 
+                FRAMES_CHICKEN_HENSHIN_SHOT, CLIPS_CHICKEN_HENSHIN_SHOT, 
+                                    CHICKEN_REAL_W, CHICKEN_REAL_H);
+        
+        collapsionbyByBird = new Animation(COLLAPSIONBYCHICKEN, COLLAPSION_BY_CHICKEN_IMG, 
+            FRAMES_COLLAPSION_BY_CHICKEN, CLIPS_COLLAPSION_BY_CHICKEN,
+            COLLAPSION_BY_CHICKEN_REAL_W, COLLAPSION_BY_CHICKEN_REAL_H);
+    }
 
     diamond = new Animation(DIAMOND, DIAMOND_IMG, 
                             FRAMES_DIAMOND, CLIPS_DIAMOND, 
@@ -197,9 +243,13 @@ GameState doPlay() {
             FRAMES_DIAMONDCOLLAPSION, CLIPS_DIAMONDCOLLAPSION, 
             DIAMONDCOLLAPSION_REAL_W, DIAMONDCOLLAPSION_REAL_H);
 
-    enemyBird = new Animation(EVILBIRD, EVILBIRD_IMG, 
-                            FRAMES_EVILBIRD, CLIPS_EVILBIRD,
-                            EVILBIRD_REAL_W, EVILBIRD_REAL_H);
+    // enemyBird = new Animation(EVILBIRD, EVILBIRD_IMG, 
+    //                         FRAMES_EVILBIRD, CLIPS_EVILBIRD,
+    //                         EVILBIRD_REAL_W, EVILBIRD_REAL_H);
+
+    enemyBird = new Animation(MASKBIRD, MASKBIRD_IMG, 
+                            FRAMES_MASKBIRD, CLIPS_MASKBIRD,
+                            MASKBIRD_REAL_W, MASKBIRD_REAL_H);
 
     // enemyBird = new Animation(ROCKET, ROCKET_IMG, 
     //                         FRAMES_ROCKET, CLIPS_ROCKET,
@@ -249,12 +299,15 @@ GameState doPlay() {
 
 GameState doBegin() {
 
-    Timer time_begin;
     SDL_Event event;
-    menu->initBegin();
-    time_begin.start();
 
-    while(true) {
+    Timer time_begin;
+    // time_begin.start();
+
+    GameState next_state = GameState::Null;
+    menu->initBegin();
+
+    while(next_state == GameState::Null) {
 
         // time_begin.start();
         menu->renderBegin();
@@ -263,35 +316,58 @@ GameState doBegin() {
 
             switch (event.type)
             {
-            case SDL_QUIT:
-                return GameState::Quit;
-                break;
+                
+                case SDL_QUIT:
+                    next_state = GameState::Quit;
+                    break;
 
-            case SDL_MOUSEBUTTONUP:
-                menu->pick.play();
-                if(menu->choose_play) {
-                    menu->cleanBegin();
-                    return GameState::ChooseMainBird;
-                }
-                break;
+                case SDL_MOUSEBUTTONUP:
+                    menu->pick.play();
+                    if(menu->choose_play) 
+                        next_state = GameState::ChooseMainBird;
+                    if(menu->choose_exit)
+                        next_state = GameState::Quit;
+                    if(menu->choose_mute) {
+                        changeMute();
+                    }
 
-            default: 
-                break;
+                case SDL_KEYDOWN:
+                    switch (event.key.keysym.sym)
+                    {
+                        case SDLK_0: changeMute(); break;
+                        case SDLK_1: music->reset(1); break; 
+                        case SDLK_2: music->reset(2); break; 
+                        case SDLK_3: music->reset(3); break; 
+                        case SDLK_4: music->reset(4); break; 
+                        case SDLK_5: music->reset(5); break; 
+                        case SDLK_6: music->reset(6); break; 
+                        case SDLK_7: music->reset(7); break; 
+                        case SDLK_8: music->reset(8); break; 
+                        case SDLK_9: music->reset(9); break; 
+                        default: break;
+                    }
+                    break;
+
+                default: 
+                    break;
             }
         }
-        time_begin.checkDelayFrame();
+
+        // time_begin.checkDelayFrame();
     }
 
     menu->cleanBegin();
-    return GameState::ChooseMainBird;
+    return next_state;
 }
 
 GameState doEnd() {
 
     SDL_Event event;
+    
+    GameState next_state = GameState::Null;
     menu->initEnd();
 
-    while(true) {
+    while(next_state == GameState::Null) {
 
         menu->renderEnd();
         
@@ -299,29 +375,34 @@ GameState doEnd() {
 
             switch (event.type)
             {
-            case SDL_QUIT:
-                return GameState::Quit;
-                break;
+                case SDL_QUIT:
+                    next_state = GameState::Quit;
+                    break;
 
-            case SDL_MOUSEBUTTONUP:
-                if(menu->choose_replay) return GameState::ChooseMainBird;
-                break;
+                case SDL_MOUSEBUTTONUP:
+                    if(menu->choose_replay) 
+                        next_state = GameState::Begin;
+                    break;
 
-            default: 
-                break;
+                default: 
+                    break;
             }
         }
     }
 
     menu->cleanEnd();
+    music->reset(-2);
+    return next_state;
 }
 
 GameState doChooseMainBird() {
     
     SDL_Event event;
+
+    GameState next_state = GameState::Null;
     menu->initChooseMainBird();
 
-    while(true) {
+    while(next_state == GameState::Null) {
 
         menu->renderChooseMainBird();
         
@@ -329,17 +410,57 @@ GameState doChooseMainBird() {
 
             switch (event.type)
             {
-            case SDL_QUIT:
-                return GameState::Quit;
-            
-            case SDL_MOUSEBUTTONUP:
-                if(menu->bird1_choosen) return GameState::Play;
+                case SDL_QUIT:
+                    next_state = GameState::Quit;
+                    break;
+                
+                case SDL_MOUSEBUTTONUP:
+                    if(menu->choose_eggbird || menu->choose_unicornbird)
+                        next_state = GameState::ChooseSupportBird;
+                    break;
 
-            default: break;
+                default: 
+                    break;
             }
             
         }   
     }
     
     menu->cleanChooseMainBird();
+    return next_state;
+}
+
+GameState doChooseSupportBird() {
+    
+    SDL_Event event;
+
+    GameState next_state = GameState::Null;
+    menu->initChooseSupportBird();
+
+    while(next_state == GameState::Null) {
+
+        menu->renderChooseSupportBird();
+        
+        if(SDL_PollEvent(&event)) {
+
+            switch (event.type)
+            {
+            case SDL_QUIT:
+                next_state = GameState::Quit;
+                break;
+            
+            case SDL_MOUSEBUTTONUP:
+                if(menu->choose_eagle || menu->choose_chicken)
+                    next_state = GameState::Play;
+                break;
+
+            default: 
+                break;
+            }
+            
+        }   
+    }
+    
+    menu->cleanChooseSupportBird();
+    return next_state;
 }

@@ -23,3 +23,4 @@
     + Có thể add thêm charactor mới dễ dàng
     + Tinh chỉnh tỉ lệ chim đơn giản
     + Lưu vị trí, render vị trị -> tốn ít bộ nhớ
+    + Qua màn nhạc sẽ được chọn ngẫu, có thể chọn qua bàn phím
