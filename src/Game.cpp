@@ -11,15 +11,6 @@ TTF_Font *Game::bigfont = nullptr;
 TTF_Font *Game::smallfont = nullptr;
 TTF_Font *Game::mediumfont = nullptr;
 
-bool KeyPressed::mainbird_left = false;
-bool KeyPressed::mainbird_right = false;
-bool KeyPressed::mainbird_up = false;
-bool KeyPressed::mainbird_down = false;
-bool KeyPressed::supportbird_left = false;
-bool KeyPressed::supportbird_right = false;
-bool KeyPressed::supportbird_up = false;
-bool KeyPressed::supportbird_down = false;
-
 Background *background = nullptr;
 Enemy *diamond = nullptr;
 Enemy *enemybird = nullptr;
@@ -28,6 +19,8 @@ SupportBird *supportbird = nullptr;
 
 
 Game::Game() {}
+Game::~Game() {}
+
 
 void Game::init(BackgroundManager* _background, Animation* _mainbird, 
         Animation* _supportBird_flying, Animation* _supportBird_gothit, 
@@ -37,17 +30,6 @@ void Game::init(BackgroundManager* _background, Animation* _mainbird,
         Animation* _enemybird, Animation* _diamond, Animation* _diamond_collapsion)
 {
     next_state = GameState::Null;
-    is_enemy = true;
-    score = 0;
-
-    KeyPressed::mainbird_left = false;
-    KeyPressed::mainbird_right = false;
-    KeyPressed::mainbird_up = false;
-    KeyPressed::mainbird_down = false;
-    KeyPressed::supportbird_left = false;
-    KeyPressed::supportbird_right = false;
-    KeyPressed::supportbird_up = false;
-    KeyPressed::supportbird_down = false;
     
     background = new Background(_background);
     if(background) background->init();
@@ -73,44 +55,8 @@ void Game::init(BackgroundManager* _background, Animation* _mainbird,
                 _supportBird_henshin, _supportBird_henshinshot);
     if(supportbird) supportbird->init();
         else logErrorAndExit("CreateSupportBird", SDL_GetError());
-}
-
-
-void Game::clean() {
     
-    if(background) delete background;
-    if(diamond) delete diamond;
-    if(enemybird) enemybird;
-    if(mainbird) delete mainbird;
-    if(supportbird) delete supportbird;
-}
-
-
-void Game::render() {
-
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    SDL_RenderClear(renderer);
-
-    //Render everything
-    background->render();
-    diamond->render();
-    enemybird->render();
-    mainbird->render();
-    supportbird->render();
-    renderText_Play();
-
-    SDL_RenderPresent(renderer);
-}
-
-void Game::renderText_Play() {
-
-    free();
-    texture = TextureManager::loadTexture(std::to_string(score), bigfont, white);
-    TextureManager::drawText(texture, SCREEN_WIDTH/2, SCREEN_HEIGHT/4);
-
-    free();
-    texture = TextureManager::loadTexture("SUPPORT BIRD HEALTH: "+std::to_string(supportbird->health), smallfont, white);
-    TextureManager::drawText(texture, 250, SCREEN_HEIGHT-40);
+    initLogic();
 }
 
 
@@ -132,15 +78,30 @@ void Game::handle_events() {
     }
 }
 
+void Game::render() {
+
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    SDL_RenderClear(renderer);
+
+    //Render everything
+    background->render();
+
+    diamond->render();
+    enemybird->render();
+
+    mainbird->render();
+    supportbird->render();
+
+    renderLogic();
+
+    SDL_RenderPresent(renderer);
+}
 
 void Game::update() {
 
     background->update();
-
-    // create_enemy(diamond_pos, 10);
+    
     diamond->update();
-
-    // create_enemy(enemybird_pos, 10);
     enemybird->update();
 
     mainbird->bird_mouse->getOtherBird(supportbird->spbird_mouse->curr_bird);
@@ -149,7 +110,39 @@ void Game::update() {
     supportbird->spbird_mouse->getOtherBird(mainbird->bird_mouse->curr_bird);
     supportbird->update();
 
+    updateLogic();
+}
+
+void Game::clean() {
+    
+    free();
+
+    if(background) delete background;
+    if(diamond) delete diamond;
+    if(enemybird) enemybird;
+    if(mainbird) delete mainbird;
+    if(supportbird) delete supportbird;
+}
+
+
+void Game::initLogic() {
+
+    time_turn.start();
+    time_wave.start();
+
+    score = 0;
+    wave_num = 0;
+    turn_num = 0;
+    turn_diamond = 1;
+    turn_enemybird = 1;
+}
+
+void Game::updateLogic() {
+
 // CheckCollision
+    checkAppear(diamond);
+    checkAppear(enemybird);
+
     if(checkCollision(mainbird->bird_mouse->getDest(), diamond)) {
         score++;
         supportbird->check_sp(BIRD_HEALTH_BY_DIAMOND);
@@ -162,20 +155,61 @@ void Game::update() {
     if(checkCollision(mainbird->bird_mouse->getDest(), enemybird)) {
         next_state=GameState::End;
     }
+
+// CheckLogic
+    if((time_wave.getTicks()>=TIME_EACH_WAVE && noneEnemy())
+    || wave_num==0) 
+    {
+        ++wave_num;
+        turn_num = 0;
+        turn_diamond += DIAMOND_EACH_TURN;
+        turn_enemybird += ENEMY_BIRD_EACH_TURN;
+
+        time_turn.reset();
+        time_wave.reset();
+    }
+    
+    if(time_wave.getTicks()>TIME_TEXT_WAVE_DRAW
+    && time_turn.getTicks()>=TIME_EACH_TURN 
+    && turn_num<TURNS_EACH_WAVE) 
+    {
+        ++turn_num;
+        create_enemy(diamond, turn_diamond);
+        create_enemy(enemybird, turn_enemybird);
+        time_turn.reset();
+    }
 }
 
+void Game::renderLogic() {
 
-bool Game::checkCollision(SDL_Rect* _char_first, SDL_Rect* _char_second) {
+    free();
+    texture = TextureManager::loadTexture(std::to_string(score), bigfont, white);
+    TextureManager::drawText(texture, SCREEN_WIDTH/2, SCREEN_HEIGHT/6);
 
-    return SDL_HasIntersection(_char_first, _char_second);
+    free();
+    texture = TextureManager::loadTexture("SUPPORT BIRD HEALTH: "+std::to_string(supportbird->health), smallfont, white);
+    TextureManager::drawText(texture, 250, SCREEN_HEIGHT-40);
+
+    if(time_wave.getTicks()<TIME_TEXT_WAVE_DRAW) {
+
+        free();
+        texture = TextureManager::loadTexture("WAVE "+std::to_string(wave_num), bigfont, yellow);
+        TextureManager::drawText(texture, SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
+    }
 }
+
+void Game::free() {
+
+    if(texture) SDL_DestroyTexture(texture);
+}
+
 
 
 bool Game::checkCollision(SDL_Rect* _bird, Enemy* _enemy) {
     
     bool check = false;
 
-    for(int i=0; i<_enemy->enemy_pos.size(); i++) {
+    for(int i=0; i<_enemy->enemy_pos.size();) {
 
         SDL_Rect rect;
         rect.x = _enemy->enemy_pos[i].x;
@@ -183,17 +217,26 @@ bool Game::checkCollision(SDL_Rect* _bird, Enemy* _enemy) {
         rect.w = _enemy->enemy_ani->w;
         rect.h = _enemy->enemy_ani->h;
 
-        if(checkCollision(_bird, &rect)) {
+        if(SDL_HasIntersection(_bird, &rect)) {
 
             check = true;
             _enemy->collapsion_pos.push_back({_enemy->enemy_pos[i].x+_enemy->enemy_ani->w/2, 
                     _enemy->enemy_pos[i].y+_enemy->enemy_ani->h/2, 0});
             _enemy->enemy_pos.erase(_enemy->enemy_pos.begin()+i);
         }
+        else i++;
     }
     return check;
 }
 
+void Game::checkAppear(Enemy* _enemy) {
+
+    for(int i=0; i<_enemy->enemy_pos.size();) {
+        if(_enemy->enemy_pos[i].x+_enemy->enemy_ani->w<0)
+            _enemy->enemy_pos.erase(_enemy->enemy_pos.begin()+i);
+        else i++;
+    }
+}
 
 void Game::create_enemy(Enemy* _enemy, int numbers) {
 
@@ -201,13 +244,19 @@ void Game::create_enemy(Enemy* _enemy, int numbers) {
 
         int rand_y = DISTANCE_TO_SCREEN + rand()%(SCREEN_HEIGHT - _enemy->enemy_ani->h - DISTANCE_TO_SCREEN*2);
         int rand_spr = rand()%_enemy->enemy_ani->frames;
-        int rand_speed = ENEMY_MIN_SPEED + rand()%(ENEMY_MAX_SPEED - ENEMY_MIN_SPEED*2);
+        int rand_speed = ENEMY_MIN_SPEED + rand()%(ENEMY_MAX_SPEED - ENEMY_MIN_SPEED);
 
         _enemy->enemy_pos.push_back({SCREEN_WIDTH, rand_y, rand_spr, rand_speed});
         // std::cerr<<"rand y : " << rand_y<<'\n';
     }
 }
 
-void Game::free() {
-    if(texture) SDL_DestroyTexture(texture);
+bool Game::noneEnemy() {
+
+    if(diamond->enemy_pos.empty()
+    && diamond->collapsion_pos.empty()
+    && enemybird->enemy_pos.empty()
+    && enemybird->collapsion_pos.empty())
+        return true;
+    return false;
 }

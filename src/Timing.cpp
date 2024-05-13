@@ -1,31 +1,32 @@
-#include "../Header/Timer.h"
+#include "../Header/Timing.h"
+#include "../Header/Game.h"
 
 
-Timer::Timer() {
+Timing::Timing() {
+
     start_tick = 0;
     paused_tick = 0;
     paused = started = false;
 }
 
-Timer::~Timer() {}
+Timing::~Timing() {}
 
 
-void Timer::start() {
+void Timing::start() {
+
     started = true;
     paused = false;
     start_tick = SDL_GetTicks();
 }
 
-
-void Timer::pause() {
+void Timing::pause() {
     if(started == true && paused == false) {
         paused = true;
         paused_tick = SDL_GetTicks() - start_tick;
     }
 }
 
-
-void Timer::unpause() {
+void Timing::unpause() {
     if(paused == true) {
         paused = false;
         start_tick = paused_tick;
@@ -33,14 +34,17 @@ void Timer::unpause() {
     }
 }
 
-
-void Timer::stop() {
+void Timing::stop() {
     paused = true;
     start_tick = false;
 }
 
+void Timing::reset() {
+    start();
+}
 
-int Timer::getTicks() {
+
+float Timing::getTicks() {
     if(started == true) {
         if(paused == true)
             return paused_tick;
@@ -50,12 +54,11 @@ int Timer::getTicks() {
     return -1;
 }
 
-void Timer::checkDelayFrame() {
+void Timing::checkDelayFrame() {
 
-    int real_time = getTicks();
+    Uint32 real_time = getTicks();
     if(real_time < FRAME_MAX_DELAY) {
-        int delay_time = FRAME_MAX_DELAY - real_time;
+        Uint32 delay_time = FRAME_MAX_DELAY - real_time;
         SDL_Delay(delay_time);
-        // std::cerr<<"delay time : "<<delay_time<<'\n';
     }
 }

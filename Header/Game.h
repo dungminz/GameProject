@@ -15,7 +15,7 @@
 #include <SDL_mixer.h>
 
 #include "Exception.h"
-#include "Timer.h"
+#include "Timing.h"
 #include "BackgroundManager.h"
 #include "AnimationManager.h"
 #include "Graphics.h"
@@ -35,9 +35,9 @@ struct Game {
 
     SDL_Texture *texture;
     GameState next_state;
-    bool is_enemy;
 
     Game();
+    ~Game();
 
     void init(BackgroundManager* _background, Animation* _mainbird, 
         Animation* _supportBird_flying, Animation* _supportBird_gothit, 
@@ -45,18 +45,27 @@ struct Game {
         Animation* _supportBird_dead, Animation* _supportBird_henshin, 
         Animation* _supportBird_henshinshot, Animation* _collapsion_by_bird,
         Animation* _enemybird, Animation* _diamond, Animation* _diamond_collapsion);
-    
-    void render();
     void handle_events();
     void update();
+    void render();
     void clean();
 
-    bool checkCollision(SDL_Rect* _char_first, SDL_Rect* _char_second);
-    bool checkCollision(SDL_Rect* _bird, class Enemy* _enemy);
-    void create_enemy(Enemy* _enemy, int numbers);
-
-    void renderText_Play();
+    void initLogic();
+    void updateLogic();
+    void renderLogic();
     void free();
 
+    bool checkCollision(SDL_Rect* _bird, class Enemy* _enemy);
+    void checkAppear(Enemy* _enemy);
+    void create_enemy(Enemy* _enemy, int numbers);
+    bool noneEnemy();
+
     int score;
+    int wave_num;
+    int turn_num;
+    int turn_diamond;
+    int turn_enemybird;
+
+    Timing time_turn;
+    Timing time_wave;
 };

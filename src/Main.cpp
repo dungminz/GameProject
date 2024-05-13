@@ -63,7 +63,7 @@ int main(int argc, char *argv[]) {
             break;
         case GameState::ChooseMainBird:
             state = doChooseMainBird();
-            break;            
+            break;        
         case GameState::ChooseSupportBird:
             state = doChooseSupportBird();
             break;     
@@ -280,7 +280,7 @@ GameState doPlay() {
     //                         FRAMES_ROCKET, CLIPS_ROCKET,
     //                         ROCKET_REAL_W, ROCKET_REAL_H);
 
-    Timer time;
+    Timing time_play;
 
     game->init(background, mainBird, 
             supportBird_flying, supportBird_gothit, 
@@ -291,13 +291,16 @@ GameState doPlay() {
                     
     while(game->next_state == GameState::Null) {
 
-        time.start();
+        time_play.start();
+
         game->handle_events();
         game->update();
         game->render();
         
-        time.checkDelayFrame();
+        time_play.checkDelayFrame();
     }
+
+    if(game->next_state == GameState::End) SDL_Delay(1000);
 
     menu->score = game->score;
     highscore = std::max(highscore, game->score);
@@ -325,16 +328,15 @@ GameState doPlay() {
 GameState doBegin() {
 
     SDL_Event event;
-
-    Timer time_begin;
-    // time_begin.start();
+    Timing time_begin;
 
     GameState next_state = GameState::Null;
     menu->initBegin();
 
     while(next_state == GameState::Null) {
 
-        // time_begin.start();
+        time_begin.start();
+
         menu->renderBegin();
         
         if(SDL_PollEvent(&event)) {
@@ -378,7 +380,7 @@ GameState doBegin() {
             }
         }
 
-        // time_begin.checkDelayFrame();
+        time_begin.checkDelayFrame();
     }
 
     menu->cleanBegin();
@@ -388,11 +390,14 @@ GameState doBegin() {
 GameState doEnd() {
 
     SDL_Event event;
+    Timing time_end;
     
     GameState next_state = GameState::Null;
     menu->initEnd();
 
     while(next_state == GameState::Null) {
+
+        time_end.start();
 
         menu->renderEnd();
         
@@ -413,6 +418,8 @@ GameState doEnd() {
                     break;
             }
         }
+
+        time_end.checkDelayFrame();
     }
 
     menu->cleanEnd();
@@ -428,11 +435,14 @@ GameState doEnd() {
 GameState doChooseMainBird() {
     
     SDL_Event event;
+    Timing time_choosemainbird;
 
     GameState next_state = GameState::Null;
     menu->initChooseMainBird();
 
     while(next_state == GameState::Null) {
+
+        time_choosemainbird.start();
 
         menu->renderChooseMainBird();
         
@@ -453,11 +463,12 @@ GameState doChooseMainBird() {
 
                 default: 
                     break;
-            }
-            
+            } 
         }   
+
+        time_choosemainbird.checkDelayFrame();
     }
-    
+
     menu->cleanChooseMainBird();
     return next_state;
 }
@@ -465,11 +476,14 @@ GameState doChooseMainBird() {
 GameState doChooseSupportBird() {
     
     SDL_Event event;
+    Timing time_choosespbird;
 
     GameState next_state = GameState::Null;
     menu->initChooseSupportBird();
 
     while(next_state == GameState::Null) {
+
+        time_choosespbird.start();
 
         menu->renderChooseSupportBird();
         
@@ -491,8 +505,9 @@ GameState doChooseSupportBird() {
                 default: 
                     break;
             }
-            
         }   
+
+        time_choosespbird.checkDelayFrame();
     }
     
     menu->cleanChooseSupportBird();
