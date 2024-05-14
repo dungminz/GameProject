@@ -19,6 +19,8 @@
 
 - Hàm SDL_HasIntersection
 
+- sdl sethint
+
 - Ưu điêm : 
     + Có thể add thêm charactor mới dễ dàng
     + Tinh chỉnh tỉ lệ chim đơn giản

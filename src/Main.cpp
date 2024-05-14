@@ -339,7 +339,7 @@ GameState doBegin() {
 
         menu->renderBegin();
         
-        if(SDL_PollEvent(&event)) {
+        while(SDL_PollEvent(&event)) {
 
             switch (event.type)
             {
@@ -401,7 +401,7 @@ GameState doEnd() {
 
         menu->renderEnd();
         
-        if(SDL_PollEvent(&event)) {
+        while(SDL_PollEvent(&event)) {
 
             switch (event.type)
             {
@@ -446,7 +446,7 @@ GameState doChooseMainBird() {
 
         menu->renderChooseMainBird();
         
-        if(SDL_PollEvent(&event)) {
+        while(SDL_PollEvent(&event)) {
 
             switch (event.type)
             {
@@ -487,7 +487,7 @@ GameState doChooseSupportBird() {
 
         menu->renderChooseSupportBird();
         
-        if(SDL_PollEvent(&event)) {
+        while(SDL_PollEvent(&event)) {
 
             switch (event.type)
             {

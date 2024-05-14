@@ -50,6 +50,9 @@ struct Game {
     void render();
     void clean();
 
+    void Pause();
+    bool checkScreen();
+
     void initLogic();
     void updateLogic();
     void renderLogic();

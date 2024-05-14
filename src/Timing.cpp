@@ -57,8 +57,10 @@ float Timing::getTicks() {
 void Timing::checkDelayFrame() {
 
     Uint32 real_time = getTicks();
+    // std::cerr<<"real_time : "<<real_time<<'\n';
     if(real_time < FRAME_MAX_DELAY) {
         Uint32 delay_time = FRAME_MAX_DELAY - real_time;
         SDL_Delay(delay_time);
+        // std::cerr<<"delay time : "<<delay_time<<'\n';
     }
 }

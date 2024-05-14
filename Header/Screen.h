@@ -126,11 +126,13 @@ struct Menu {
     SDL_Texture* chicken_choosen;
     SDL_Texture* chicken_unchoose;
 
+    SDL_Texture* screen_pause;
+
     Menu();
     ~Menu();
 
-    bool check_mouse(int pos_x, int pos_y);
-    bool check_mouse(int pos_x, int pos_y, int w, int h);
+    static bool check_mouse(int pos_x, int pos_y);
+    static bool check_mouse(int pos_x, int pos_y, int w, int h);
 
     void initBegin();
     void renderBegin();
@@ -144,10 +146,9 @@ struct Menu {
     void renderChooseSupportBird();
     void cleanChooseSupportBird();
 
-    void initPause();
-    void renderPause();
-
     void initEnd();
     void renderEnd();
     void cleanEnd();
+
+    // void Pause();
 };

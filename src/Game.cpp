@@ -65,11 +65,26 @@ void Game::handle_events() {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
 
+        std::cerr<<"time turn : "<<time_turn.start_tick<<'\n';
+
         switch(event.type) {
 
             case SDL_QUIT: 
                 next_state=GameState::Quit; 
                 break;
+
+            case SDL_KEYUP:
+                if (event.key.keysym.sym == SDLK_SPACE
+                    && event.key.repeat == 0)
+                {
+                    time_wave.pause();
+                    time_turn.pause();
+                    Pause();
+                    time_wave.unpause();
+                    time_turn.unpause();
+                }    
+                break;
+
             default: break;
         }
 
@@ -123,6 +138,62 @@ void Game::clean() {
     if(mainbird) delete mainbird;
     if(supportbird) delete supportbird;
 }
+
+
+
+void Game::Pause() {
+
+    free();
+    texture = TextureManager::loadTexture(SCREEN_PAUSE_IMG);
+
+    SDL_Event event;
+    Timing time_pause;
+
+    bool pausing =  true;
+
+    while(pausing) {
+
+        time_pause.start();
+
+        while(SDL_PollEvent(&event)) {
+
+            switch (event.type) {
+
+                case SDL_QUIT:
+                    next_state = GameState::Quit;
+                    pausing = false;
+                    break;
+
+                case SDL_KEYUP:
+                    if(event.key.keysym.sym == SDLK_SPACE)
+                        pausing = false;
+                    break;
+
+                case SDL_MOUSEBUTTONUP:
+                    if(checkScreen())
+                        pausing = false;
+                    break;
+                
+                default: 
+                    break;
+            }
+        }
+
+        SDL_SetRenderDrawColor(Game::renderer, 255, 255, 255, 255);
+        SDL_RenderClear(Game::renderer);
+        TextureManager::draw(texture);
+        SDL_RenderPresent(Game::renderer);
+
+        time_pause.checkDelayFrame();
+    }
+}
+
+bool Game::checkScreen() {
+
+    return Menu::check_mouse(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+}
+
+
 
 
 void Game::initLogic() {

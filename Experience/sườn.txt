@@ -1,21 +1,21 @@
 Bố cục Game:
 
 - . Chạy chương trình đầu tiên
-    + Tách TextureManager thay vì Graphics (đổi tên phù hợp)
+    + . Tách TextureManager thay vì Graphics (đổi tên phù hợp)
 - . Chim di chuyển
-    + Hàm mouse: di chuyển bị khựng giữa chừng
+    + . Hàm mouse: di chuyển bị khựng giữa chừng
     -> xử lý từng nút một
         : xoá hướng ngược lại -> mượt++
         : không dùng đến SDL_GetKeyboardState -> bỏ
     ->done
-    + Thêm di chuyển không quá màn hình
-    + Thêm hiệu ứng khi bay lên và xuống
+    + . Thêm di chuyển không quá màn hình
+    + . Thêm hiệu ứng khi bay lên và xuống
 - . Màn hình di chuyển
     + Thêm phong cảnh (png)..
 - . Chim chuyển động tại chỗ (sprite)
 - . Tạo diamond (đồ ăn -> tính điểm)
-    + Xử lý tạo nhiều dia, ý tưởng thô dùng vector;
-    + rand
+    + . Xử lý tạo nhiều dia, ý tưởng thô dùng vector;
+    + . rand
 - . Tổ chức lại chương trình 
     + Tạo từng struct riêng cho mainbird, supportbird, enemy
     + Tạo struct animation -> có lựa chọn loại nhân vật
@@ -24,11 +24,11 @@ Bố cục Game:
 - . Tạo bird sp
 - . Menu 
 - . Cơ chế tính điểm (ttf)
-    + (Timer)
+    + . (Timing)
 - . Nhạc (mixer)
 
-- (Tạo đạn quái)
 - Tạo tên lửa (hướng tới chim)
+- (Tạo đạn quái)
 
 
 Bố cục hàm:
@@ -39,6 +39,7 @@ Bố cục hàm:
 - destructor
 
 - init <-> constructor
+- handle events
 - hàm phụ
 - update
 - render
