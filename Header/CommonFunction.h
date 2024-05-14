@@ -22,11 +22,12 @@ const int MAPS = 2;
 
 const double EGGBIRD_SCALE = 7;
 const double UNICORNBIRD_SCALE = 7;
-const double ROCKET_SCALE = 5;
 const double COLLAPSION_BY_EAGLE_SCALE = 1;
 const double COLLAPSION_BY_CHICKEN_SCALE = 1;
 const double DIAMOND_SCALE = 10;
 const double DIAMONDCOLLAPSION_SCALE = 2.5;
+const double ROCKET_SCALE = 5;
+const double ROCKETCOLLAPSION_SCALE = 1;
 const double EVILBIRD_SCALE = 3.75;
 const double MASKBIRD_SCALE = 3.75;
 
@@ -81,13 +82,13 @@ enum typeOfCharacror {
     COLLAPSIONBYCHICKEN,
 
     EGGBIRD,
-    EGGBIRDCOLLAPSION,
     UNICORNBIRD,
     DIAMOND,
-    ROCKET,
     DIAMONDCOLLAPSION,
     EVILBIRD,
     MASKBIRD,
+    ROCKET,
+    ROCKETCOLLAPSION,
 };
 
 enum typeOfBackground {
@@ -117,6 +118,6 @@ const int ENEMY_BIRD_EACH_TURN = 2;
 
 const int MAX_BIRD_HEALTH = 100;
 const int BIRD_HEALTH_BY_DIAMOND = 5;
-const int BIRD_HEALTH_BY_ENEMYBIRD = -50;
+const int BIRD_HEALTH_BY_ENEMYBIRD = -15;
 const int BIRD_HEALTH_BY_ROCKET = -50;
 const int TIME_CREATE_ENEMY = 5000;

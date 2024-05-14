@@ -48,9 +48,10 @@ const int CLIPS_DIAMONDCOLLAPSION[FRAMES_DIAMONDCOLLAPSION][4] = {
     {RANGE_FRAME_DIAMONDCOLLAPSION*15, 0, 180, 180}
 };
 
-const std::string ROCKET_IMG = "../Image/Animation/rocket1.png";
+
+const std::string ROCKET_IMG = "../Image/Animation/rocket.png";
 const int FRAMES_ROCKET = 4;
-const int ROCKET_W = 1075;
+const int ROCKET_W = 1075*2/3;
 const int ROCKET_H = 350;
 const int ROCKET_REAL_W = ROCKET_W/ROCKET_SCALE;
 const int ROCKET_REAL_H = ROCKET_H/ROCKET_SCALE;
@@ -60,6 +61,34 @@ const int CLIPS_ROCKET[FRAMES_ROCKET][4] = {
     {1314, 65, 1075, 350},
     {2600, 65, 1075, 350},
     {3880, 65, 1075, 350},
+};
+
+const std::string ROCKETCOLLAPSION_IMG = "../Image/Animation/rocketcollapsion.png";
+const int FRAMES_ROCKETCOLLAPSION = 18;
+const int ROCKETCOLLAPSION_W = 180;
+const int ROCKETCOLLAPSION_H = 180;
+const int ROCKETCOLLAPSION_REAL_W = ROCKETCOLLAPSION_W/ROCKETCOLLAPSION_SCALE;
+const int ROCKETCOLLAPSION_REAL_H = ROCKETCOLLAPSION_H/ROCKETCOLLAPSION_SCALE;
+const int RANGE_FRAME_ROCKETCOLLAPSION = 180;
+const int CLIPS_ROCKETCOLLAPSION[FRAMES_ROCKETCOLLAPSION][4] = {
+    {RANGE_FRAME_ROCKETCOLLAPSION*0, 0, 180, 180},
+    {RANGE_FRAME_ROCKETCOLLAPSION*1, 0, 180, 180},
+    {RANGE_FRAME_ROCKETCOLLAPSION*2, 0, 180, 180},
+    {RANGE_FRAME_ROCKETCOLLAPSION*3, 0, 180, 180},
+    {RANGE_FRAME_ROCKETCOLLAPSION*4, 0, 180, 180},
+    {RANGE_FRAME_ROCKETCOLLAPSION*5, 0, 180, 180},
+    {RANGE_FRAME_ROCKETCOLLAPSION*6, 0, 180, 180},
+    {RANGE_FRAME_ROCKETCOLLAPSION*7, 0, 180, 180},
+    {RANGE_FRAME_ROCKETCOLLAPSION*8, 0, 180, 180},
+    {RANGE_FRAME_ROCKETCOLLAPSION*9, 0, 180, 180},
+    {RANGE_FRAME_ROCKETCOLLAPSION*10, 0, 180, 180},
+    {RANGE_FRAME_ROCKETCOLLAPSION*11, 0, 180, 180},
+    {RANGE_FRAME_ROCKETCOLLAPSION*12, 0, 180, 180},
+    {RANGE_FRAME_ROCKETCOLLAPSION*13, 0, 180, 180},
+    {RANGE_FRAME_ROCKETCOLLAPSION*14, 0, 180, 180},
+    {RANGE_FRAME_ROCKETCOLLAPSION*15, 0, 180, 180},
+    {RANGE_FRAME_ROCKETCOLLAPSION*16, 0, 180, 180},
+    {RANGE_FRAME_ROCKETCOLLAPSION*17, 0, 180, 180},
 };
 
 
@@ -80,7 +109,6 @@ const int CLIPS_EVILBIRD[FRAMES_EVILBIRD][4] = {
     {120+RANGE_FRAME_EVILBIRD*6, 116, 342, 280},
     {120+RANGE_FRAME_EVILBIRD*7, 116, 342, 280}
 };
-
 
 const std::string MASKBIRD_IMG = "../Image/Animation/maskbird.png";
 const int FRAMES_MASKBIRD = 8;
@@ -120,6 +148,7 @@ struct Enemy {
     int delay_spr = 0;
     std::vector<Pos> enemy_pos;
     std::vector<Pos> collapsion_pos;
+    SDL_Rect* bird_dest;
 
     Enemy();
     Enemy(Animation* ani);
@@ -127,7 +156,27 @@ struct Enemy {
     ~Enemy();
 
     void init();
-    void update();
+    void update(SDL_Rect* _bird_dest = nullptr);
     void render();
+};
 
+struct Rocket {
+
+    class Sprite* enemy_spr;
+    class Sprite* collapsion_spr;
+    Animation* enemy_ani;
+    Animation* collapsion_ani;
+    int delay_spr = 0;
+    std::vector<Pos> enemy_pos;
+    std::vector<Pos> collapsion_pos;
+    std::pair<int, int> bird_pos;
+
+    Rocket();
+    Rocket(Animation* ani);
+    Rocket(Animation* _enemy_ani, Animation* _collapsion_ani);
+    ~Rocket();
+
+    void init();
+    void update(std::pair<int, int> _bird);
+    void render();
 };

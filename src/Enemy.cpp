@@ -29,18 +29,32 @@ void Enemy::init() {
 }
 
 
-void Enemy::update() {
+void Enemy::update(SDL_Rect* _bird_dest) {
+
+    bird_dest = _bird_dest;
 
     delay_spr = ++delay_spr%SPRITE_DELAY;
 
-    for(int i=0; i<enemy_pos.size(); i++) {
-        if(!delay_spr) 
-            enemy_pos[i].spr = ++enemy_pos[i].spr%enemy_ani->frames;
-        enemy_pos[i].x-=enemy_pos[i].speed;
-    }
+    if(enemy_ani->type == ROCKET)
+        for(int i=0; i<enemy_pos.size(); i++) {
+
+            int dy = enemy_pos[i].y - bird_dest->y;
+            enemy_pos[i].x-=enemy_pos[i].speed;
+            enemy_pos[i].y-=(dy/abs(dy));
+            if(!delay_spr) 
+                enemy_pos[i].spr = ++enemy_pos[i].spr%enemy_ani->frames;
+        } 
+    else
+        for(int i=0; i<enemy_pos.size(); i++) {
+
+            enemy_pos[i].x-=enemy_pos[i].speed;
+            if(!delay_spr) 
+                enemy_pos[i].spr = ++enemy_pos[i].spr%enemy_ani->frames;
+        }
 
     if(!delay_spr)
         for(int i=0; i<collapsion_pos.size();) {
+            
             collapsion_pos[i].spr++;
             if(collapsion_pos[i].spr>collapsion_ani->frames)
                 collapsion_pos.erase(collapsion_pos.begin()+i);
@@ -51,16 +65,94 @@ void Enemy::update() {
 
 void Enemy::render() {
 
-    for(int i=0; i<enemy_pos.size(); i++) {
-        SDL_Rect src = enemy_spr->clips[enemy_pos[i].spr];
-        SDL_Rect dest = {enemy_pos[i].x, enemy_pos[i].y, enemy_ani->w, enemy_ani->h};
-        TextureManager::draw(enemy_ani->texture, &src, &dest);
-    }
+    if(enemy_ani->type == ROCKET) 
+        for(int i=0; i<enemy_pos.size(); i++) {
+            SDL_Rect src(enemy_spr->clips[enemy_pos[i].spr]);
+            SDL_Rect dest({enemy_pos[i].x, enemy_pos[i].y, enemy_ani->w, enemy_ani->h});
+            double angle_ = Game::checkAngle(bird_dest, &dest);
+            TextureManager::drawAngle(enemy_ani->texture, &src, &dest, angle_);
+        }
+    
+    else
+        for(int i=0; i<enemy_pos.size(); i++) {
+            SDL_Rect src(enemy_spr->clips[enemy_pos[i].spr]);
+            SDL_Rect dest({enemy_pos[i].x, enemy_pos[i].y, enemy_ani->w, enemy_ani->h});
+            TextureManager::draw(enemy_ani->texture, &src, &dest);
+        }
 
     for(int i=0; i<collapsion_pos.size(); i++) {
-        SDL_Rect src = collapsion_spr->clips[collapsion_pos[i].spr];
-        SDL_Rect dest = {collapsion_pos[i].x, collapsion_pos[i].y, collapsion_ani->w, collapsion_ani->h};
+        SDL_Rect src(collapsion_spr->clips[collapsion_pos[i].spr]);
+        SDL_Rect dest({collapsion_pos[i].x, collapsion_pos[i].y, collapsion_ani->w, collapsion_ani->h});
         TextureManager::drawCollaption(collapsion_ani->texture, &src, &dest);
     }
-
 }
+
+
+
+
+
+// Rocket::Rocket() {}
+
+// Rocket::Rocket(Animation* ani) : enemy_ani(ani) {}
+
+// Rocket::Rocket(Animation* _enemy_ani, Animation* _collapsion_ani)
+//     : enemy_ani(_enemy_ani), collapsion_ani(_collapsion_ani) {}
+
+// Rocket::~Rocket() {
+    
+//     if(enemy_spr) delete enemy_spr;
+//     if(collapsion_spr) delete collapsion_spr;
+//     enemy_pos.clear();
+//     collapsion_pos.clear();
+// }
+
+// void Rocket::init() {
+
+//     enemy_spr = new Sprite();
+//     enemy_spr->init(enemy_ani);
+
+//     collapsion_spr = new Sprite();
+//     collapsion_spr->init(collapsion_ani);
+
+//     delay_spr = 0;
+// }
+
+
+// void Rocket::update(std::pair<int, int> _bird) {
+
+//     bird_pos = _bird;
+
+//     delay_spr = ++delay_spr%SPRITE_DELAY;
+
+//     for(int i=0; i<enemy_pos.size(); i++) {
+//         if(!delay_spr) 
+//             enemy_pos[i].spr = ++enemy_pos[i].spr%enemy_ani->frames;
+//         enemy_pos[i].x-=enemy_pos[i].speed;
+//     }
+
+//     if(!delay_spr)
+//         for(int i=0; i<collapsion_pos.size();) {
+//             collapsion_pos[i].spr++;
+//             if(collapsion_pos[i].spr>collapsion_ani->frames)
+//                 collapsion_pos.erase(collapsion_pos.begin()+i);
+//             else i++;
+//         }
+// }
+
+
+// void Rocket::render() {
+
+//     for(int i=0; i<enemy_pos.size(); i++) {
+//         SDL_Rect src(enemy_spr->clips[enemy_pos[i].spr]);
+//         SDL_Rect dest({enemy_pos[i].x, enemy_pos[i].y, enemy_ani->w, enemy_ani->h});
+
+//         // TextureManager::draw(enemy_ani->texture, &src, &dest);
+//         TextureManager::drawAngle(enemy_ani->texture, &src, &dest, _angle);
+//     }
+
+//     for(int i=0; i<collapsion_pos.size(); i++) {
+//         SDL_Rect src(collapsion_spr->clips[collapsion_pos[i].spr]);
+//         SDL_Rect dest({collapsion_pos[i].x, collapsion_pos[i].y, collapsion_ani->w, collapsion_ani->h});
+//         TextureManager::drawCollaption(collapsion_ani->texture, &src, &dest);
+//     }
+// }

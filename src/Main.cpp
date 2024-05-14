@@ -32,7 +32,8 @@ static Animation *mainBird, *supportBird_flying, *supportBird_gothit,
                 *supportBird_shot, *supportBird_ram, 
                 *supportBird_dead, *supportBird_henshin, 
                 *supportBird_henshinshot, *collapsionbyByBird, 
-                *diamond, *diamondCollapsion, *enemyBird;
+                *diamond, *diamondCollapsion, *enemyBird,
+                *rocket, *rocketCollapsion;
 
 int main(int argc, char *argv[]) {
 
@@ -276,9 +277,13 @@ GameState doPlay() {
             FRAMES_DIAMONDCOLLAPSION, CLIPS_DIAMONDCOLLAPSION, 
             DIAMONDCOLLAPSION_REAL_W, DIAMONDCOLLAPSION_REAL_H);
 
-    // enemyBird = new Animation(ROCKET, ROCKET_IMG, 
-    //                         FRAMES_ROCKET, CLIPS_ROCKET,
-    //                         ROCKET_REAL_W, ROCKET_REAL_H);
+    rocket = new Animation(ROCKET, ROCKET_IMG, 
+                    FRAMES_ROCKET, CLIPS_ROCKET,
+                    ROCKET_REAL_W, ROCKET_REAL_H);
+
+    rocketCollapsion = new Animation(ROCKETCOLLAPSION, ROCKETCOLLAPSION_IMG, 
+                    FRAMES_ROCKETCOLLAPSION, CLIPS_ROCKETCOLLAPSION,
+                    ROCKETCOLLAPSION_REAL_W, ROCKETCOLLAPSION_REAL_H);
 
     Timing time_play;
 
@@ -287,7 +292,8 @@ GameState doPlay() {
             supportBird_shot, supportBird_ram, 
             supportBird_dead, supportBird_henshin, 
             supportBird_henshinshot, collapsionbyByBird, 
-            enemyBird, diamond, diamondCollapsion);
+            enemyBird, diamond, diamondCollapsion,
+            rocket, rocketCollapsion);
                     
     while(game->next_state == GameState::Null) {
 

@@ -14,6 +14,7 @@ TTF_Font *Game::mediumfont = nullptr;
 Background *background = nullptr;
 Enemy *diamond = nullptr;
 Enemy *enemybird = nullptr;
+Enemy *rocket = nullptr;
 MainBird *mainbird = nullptr;
 SupportBird *supportbird = nullptr;
 
@@ -27,7 +28,8 @@ void Game::init(BackgroundManager* _background, Animation* _mainbird,
         Animation* _supportBird_shot, Animation* _supportBird_ram, 
         Animation* _supportBird_dead, Animation* _supportBird_henshin, 
         Animation* _supportBird_henshinshot, Animation* _collapsion_by_bird,
-        Animation* _enemybird, Animation* _diamond, Animation* _diamond_collapsion)
+        Animation* _enemybird, Animation* _diamond, Animation* _diamond_collapsion,
+        Animation* _rocket, Animation* _rocket_collapsion)
 {
     next_state = GameState::Null;
     
@@ -44,6 +46,11 @@ void Game::init(BackgroundManager* _background, Animation* _mainbird,
     if(enemybird) enemybird->init();
         else logErrorAndExit("CreateEvilbird", SDL_GetError());
     create_enemy(enemybird, 3);
+
+    rocket = new Enemy(_rocket, _rocket_collapsion);
+    if(rocket) rocket->init();
+        else logErrorAndExit("CreateRocket", SDL_GetError());
+    create_enemy(rocket, 2);
 
     mainbird = new MainBird(_mainbird);
     if(mainbird) mainbird->init();
@@ -64,8 +71,6 @@ void Game::handle_events() {
 
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
-
-        std::cerr<<"time turn : "<<time_turn.start_tick<<'\n';
 
         switch(event.type) {
 
@@ -103,6 +108,7 @@ void Game::render() {
 
     diamond->render();
     enemybird->render();
+    rocket->render();
 
     mainbird->render();
     supportbird->render();
@@ -118,6 +124,7 @@ void Game::update() {
     
     diamond->update();
     enemybird->update();
+    rocket->update(mainbird->bird_mouse->getDest());
 
     mainbird->bird_mouse->getOtherBird(supportbird->spbird_mouse->curr_bird);
     mainbird->update();
@@ -134,7 +141,8 @@ void Game::clean() {
 
     if(background) delete background;
     if(diamond) delete diamond;
-    if(enemybird) enemybird;
+    if(enemybird) delete enemybird;
+    if(rocket) delete rocket;
     if(mainbird) delete mainbird;
     if(supportbird) delete supportbird;
 }
@@ -213,17 +221,26 @@ void Game::updateLogic() {
 // CheckCollision
     checkAppear(diamond);
     checkAppear(enemybird);
+    checkAppear(rocket);
+
+    if(checkCollision(supportbird->spbird_mouse->getDest(), enemybird)) {
+        supportbird->check_sp(BIRD_HEALTH_BY_ENEMYBIRD);
+    }
+
+    if(checkCollision(supportbird->spbird_mouse->getDest(), rocket)) {
+        supportbird->check_sp(BIRD_HEALTH_BY_ENEMYBIRD);
+    }
 
     if(checkCollision(mainbird->bird_mouse->getDest(), diamond)) {
         score++;
         supportbird->check_sp(BIRD_HEALTH_BY_DIAMOND);
     }
 
-    if(checkCollision(supportbird->spbird_mouse->getDest(), enemybird)) {
-        supportbird->check_sp(BIRD_HEALTH_BY_ENEMYBIRD);
+    if(checkCollision(mainbird->bird_mouse->getDest(), enemybird)) {
+        next_state=GameState::End;
     }
 
-    if(checkCollision(mainbird->bird_mouse->getDest(), enemybird)) {
+    if(checkCollision(mainbird->bird_mouse->getDest(), rocket)) {
         next_state=GameState::End;
     }
 
@@ -318,16 +335,38 @@ void Game::create_enemy(Enemy* _enemy, int numbers) {
         int rand_speed = ENEMY_MIN_SPEED + rand()%(ENEMY_MAX_SPEED - ENEMY_MIN_SPEED);
 
         _enemy->enemy_pos.push_back({SCREEN_WIDTH, rand_y, rand_spr, rand_speed});
-        // std::cerr<<"rand y : " << rand_y<<'\n';
     }
+}
+
+double Game::checkAngle(SDL_Rect* _bird, 
+                        SDL_Rect* _enemy) 
+{
+    double bird_x = _bird->x + _bird->w/2;   
+    double bird_y = _bird->y + _bird->h/2;  
+    
+    double enemy_x = _enemy->x + _enemy->w/2;   
+    double enemy_y = _enemy->y + _enemy->h/2;
+
+    double dx = enemy_x - bird_x;
+    double dy = enemy_y - bird_y;
+
+    double cos_ = dx/hypot(dx, dy);
+    double angle = acos(cos_);
+    angle = angle * 180.0 / M_PI;
+
+    if(dy<=0) return -angle;
+    else return angle;
 }
 
 bool Game::noneEnemy() {
 
     if(diamond->enemy_pos.empty()
-    && diamond->collapsion_pos.empty()
-    && enemybird->enemy_pos.empty()
-    && enemybird->collapsion_pos.empty())
-        return true;
+        && diamond->collapsion_pos.empty()
+        && enemybird->enemy_pos.empty()
+        && enemybird->collapsion_pos.empty()
+        && rocket->enemy_pos.empty()
+        && rocket->collapsion_pos.empty())
+            return true;
+
     return false;
 }
