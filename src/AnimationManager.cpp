@@ -11,7 +11,7 @@ Animation::Animation(typeOfCharacror _type, std::string _img,
     img = _img;
     frames = _frames;
     w = _w; 
-    h = _h;
+    h = _h; 
     clips = new SDL_Rect[frames];
     for(int i=0; i<frames; i++) {
         SDL_Rect clip;

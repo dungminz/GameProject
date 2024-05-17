@@ -26,8 +26,8 @@ Bố cục Game:
 - . Cơ chế tính điểm (ttf)
     + . (Timing)
 - . Nhạc (mixer)
-
 - . Tạo tên lửa (hướng tới chim)
+- . Readme -> Finish!!
 
 
 Bố cục hàm:

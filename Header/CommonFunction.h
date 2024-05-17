@@ -25,7 +25,7 @@ const float LAYER_SPEED[MAX_LAYER] = {
 };
 
 const int MAPS = 2;
-const int WAVE_END = 1;
+const int WAVE_END = 3;
 const int WAVE_BONUS = WAVE_END + 1;
 
 const float EGGBIRD_SCALE = 7;
