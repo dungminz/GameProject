@@ -46,13 +46,10 @@ struct Game {
         Animation* _supportBird_henshinshot, Animation* _collapsion_by_bird,
         Animation* _enemybird, Animation* _diamond, Animation* _diamond_collapsion,
         Animation* _rocket, Animation* _rocket_collapsion);
-    void handle_events();
+    void handle_events(SDL_Event &event);
     void update();
     void render();
     void clean();
-
-    void Pause();
-    bool checkScreen();
 
     void initLogic();
     void updateLogic();
@@ -61,17 +58,22 @@ struct Game {
 
     bool checkCollision(SDL_Rect* _bird, class Enemy* _enemy);
     void checkAppear(Enemy* _enemy);
-    void create_enemy(Enemy* _enemy, int numbers);
-    static double checkAngle(SDL_Rect* _bird, 
-                        SDL_Rect* _enemy);
+    void create_enemy(Enemy* _enemy, int numbers = 1,
+                        int speed = SPEED_ORIGIN_ENEMY);
+    static float checkAngle(SDL_Rect* _bird, 
+                            SDL_Rect* _enemy);
     bool noneEnemy();
 
     int score;
     int wave_num;
+    int wave_speed_enemy;
+    int wave_speed_rocket;
     int turn_num;
     int turn_diamond;
     int turn_enemybird;
+    int turn_rocket;
 
     Timing time_turn;
     Timing time_wave;
+    Timing time_gothit;
 };

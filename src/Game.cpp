@@ -40,17 +40,17 @@ void Game::init(BackgroundManager* _background, Animation* _mainbird,
     diamond = new Enemy(_diamond, _diamond_collapsion);
     if(diamond) diamond->init();
         else logErrorAndExit("CreateDiamon", SDL_GetError());
-    create_enemy(diamond, 5);
+    // create_enemy(diamond, 5);
 
     enemybird = new Enemy(_enemybird, _collapsion_by_bird);
     if(enemybird) enemybird->init();
         else logErrorAndExit("CreateEvilbird", SDL_GetError());
-    create_enemy(enemybird, 3);
+    // create_enemy(enemybird, 3);
 
     rocket = new Enemy(_rocket, _rocket_collapsion);
     if(rocket) rocket->init();
         else logErrorAndExit("CreateRocket", SDL_GetError());
-    create_enemy(rocket, 2);
+    // create_enemy(rocket, 2);
 
     mainbird = new MainBird(_mainbird);
     if(mainbird) mainbird->init();
@@ -67,35 +67,10 @@ void Game::init(BackgroundManager* _background, Animation* _mainbird,
 }
 
 
-void Game::handle_events() {
+void Game::handle_events(SDL_Event &event) {
 
-    SDL_Event event;
-    while (SDL_PollEvent(&event)) {
-
-        switch(event.type) {
-
-            case SDL_QUIT: 
-                next_state=GameState::Quit; 
-                break;
-
-            case SDL_KEYUP:
-                if (event.key.keysym.sym == SDLK_SPACE
-                    && event.key.repeat == 0)
-                {
-                    time_wave.pause();
-                    time_turn.pause();
-                    Pause();
-                    time_wave.unpause();
-                    time_turn.unpause();
-                }    
-                break;
-
-            default: break;
-        }
-
-        mainbird->bird_mouse->handleEventsMainBird(event);
-        supportbird->spbird_mouse->handleEventsSupportBird(event);
-    }
+    mainbird->bird_mouse->handleEventsMainBird(event);
+    supportbird->spbird_mouse->handleEventsSupportBird(event);
 }
 
 void Game::render() {
@@ -149,60 +124,6 @@ void Game::clean() {
 
 
 
-void Game::Pause() {
-
-    free();
-    texture = TextureManager::loadTexture(SCREEN_PAUSE_IMG);
-
-    SDL_Event event;
-    Timing time_pause;
-
-    bool pausing =  true;
-
-    while(pausing) {
-
-        time_pause.start();
-
-        while(SDL_PollEvent(&event)) {
-
-            switch (event.type) {
-
-                case SDL_QUIT:
-                    next_state = GameState::Quit;
-                    pausing = false;
-                    break;
-
-                case SDL_KEYUP:
-                    if(event.key.keysym.sym == SDLK_SPACE)
-                        pausing = false;
-                    break;
-
-                case SDL_MOUSEBUTTONUP:
-                    if(checkScreen())
-                        pausing = false;
-                    break;
-                
-                default: 
-                    break;
-            }
-        }
-
-        SDL_SetRenderDrawColor(Game::renderer, 255, 255, 255, 255);
-        SDL_RenderClear(Game::renderer);
-        TextureManager::draw(texture);
-        SDL_RenderPresent(Game::renderer);
-
-        time_pause.checkDelayFrame();
-    }
-}
-
-bool Game::checkScreen() {
-
-    return Menu::check_mouse(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-}
-
-
-
 
 void Game::initLogic() {
 
@@ -211,29 +132,49 @@ void Game::initLogic() {
 
     score = 0;
     wave_num = 0;
+    wave_speed_enemy = SPEED_ORIGIN_ENEMY;
+    wave_speed_rocket = SPEED_ORIGIN_ROCKET;
     turn_num = 0;
     turn_diamond = 1;
     turn_enemybird = 1;
+    turn_rocket = 1;
 }
 
 void Game::updateLogic() {
+
+    if(supportbird->spbird_ani == supportbird->gothit_ani 
+        && time_gothit.getTicks() > TIME_GOT_HIT)
+    {
+        supportbird->setBird(supportbird->flying_ani);
+        time_gothit.stop();
+    }
 
 // CheckCollision
     checkAppear(diamond);
     checkAppear(enemybird);
     checkAppear(rocket);
+    
+    if(supportbird->alive) {
+        if(checkCollision(supportbird->spbird_mouse->getDest(), enemybird)) {
+            if(!supportbird->check_alive(BIRD_HEALTH_BY_ENEMYBIRD)) {
+                supportbird->setBird(supportbird->dead_ani);
+            }
+            else {
+                supportbird->setBird(supportbird->gothit_ani);
+                time_gothit.start();
+            }
+        }
 
-    if(checkCollision(supportbird->spbird_mouse->getDest(), enemybird)) {
-        supportbird->check_sp(BIRD_HEALTH_BY_ENEMYBIRD);
-    }
-
-    if(checkCollision(supportbird->spbird_mouse->getDest(), rocket)) {
-        supportbird->check_sp(BIRD_HEALTH_BY_ENEMYBIRD);
+        if(checkCollision(supportbird->spbird_mouse->getDest(), rocket)) {
+            if(!supportbird->check_alive(BIRD_HEALTH_BY_ROCKET)) {
+                supportbird->setBird(supportbird->dead_ani);
+            }
+        }
     }
 
     if(checkCollision(mainbird->bird_mouse->getDest(), diamond)) {
         score++;
-        supportbird->check_sp(BIRD_HEALTH_BY_DIAMOND);
+        supportbird->check_alive(BIRD_HEALTH_BY_DIAMOND);
     }
 
     if(checkCollision(mainbird->bird_mouse->getDest(), enemybird)) {
@@ -245,25 +186,62 @@ void Game::updateLogic() {
     }
 
 // CheckLogic
-    if((time_wave.getTicks()>=TIME_EACH_WAVE && noneEnemy())
-    || wave_num==0) 
+    if((time_wave.getTicks() >= TIME_EACH_WAVE && noneEnemy())
+        || wave_num == 0) 
     {
+        supportbird->alive = true;
+        supportbird->setBird(supportbird->flying_ani);
+
         ++wave_num;
+        wave_speed_enemy+=SPEED_ORIGIN_ENEMY/5;
         turn_num = 0;
-        turn_diamond += DIAMOND_EACH_TURN;
-        turn_enemybird += ENEMY_BIRD_EACH_TURN;
+        turn_diamond += DIAMOND_EACH_TURN_ORIGIN;
+        turn_enemybird += ENEMY_BIRD_EACH_TURN_ORIGIN;
 
         time_turn.reset();
         time_wave.reset();
     }
     
-    if(time_wave.getTicks()>TIME_TEXT_WAVE_DRAW
-    && time_turn.getTicks()>=TIME_EACH_TURN 
-    && turn_num<TURNS_EACH_WAVE) 
+    if(wave_num > WAVE_BONUS) {
+        
+        next_state = GameState::End;
+    }
+
+    if (wave_num==WAVE_BONUS
+        && time_wave.getTicks()>TIME_TEXT_WAVE_DRAW
+        && time_turn.getTicks()>=TIME_EACH_TURN 
+        && turn_num<=TURNS_EACH_WAVE) 
+    {
+        turn_num += (TURNS_EACH_WAVE/3);
+        turn_diamond+=DIAMOND_EACH_TURN_ORIGIN;
+        create_enemy(diamond, turn_diamond);
+        time_turn.reset();
+    }
+
+    if (wave_num==WAVE_END
+        && time_wave.getTicks()>TIME_TEXT_WAVE_DRAW
+        && time_turn.getTicks()>=TIME_EACH_TURN 
+        && turn_num<=TURNS_EACH_WAVE) 
+    {
+        if(supportbird->alive) 
+            supportbird->setBird(supportbird->ram_ani);
+
+        ++turn_num;
+        if(turn_num%3 == 0) ++turn_rocket;
+        create_enemy(rocket, turn_rocket, wave_speed_rocket);
+        time_turn.reset();
+    }
+
+    if (wave_num<WAVE_END
+        && time_wave.getTicks()>TIME_TEXT_WAVE_DRAW
+        && time_turn.getTicks()>=TIME_EACH_TURN 
+        && turn_num<=TURNS_EACH_WAVE)
     {
         ++turn_num;
         create_enemy(diamond, turn_diamond);
-        create_enemy(enemybird, turn_enemybird);
+        create_enemy(enemybird, turn_enemybird, wave_speed_enemy);
+        if(turn_num % (TURNS_EACH_WAVE/5) == 0) 
+            create_enemy(rocket, turn_rocket, wave_speed_rocket);
         time_turn.reset();
     }
 }
@@ -278,10 +256,28 @@ void Game::renderLogic() {
     texture = TextureManager::loadTexture("SUPPORT BIRD HEALTH: "+std::to_string(supportbird->health), smallfont, white);
     TextureManager::drawText(texture, 250, SCREEN_HEIGHT-40);
 
-    if(time_wave.getTicks()<TIME_TEXT_WAVE_DRAW) {
 
+    if(wave_num < WAVE_END
+        && time_wave.getTicks()<TIME_TEXT_WAVE_DRAW)
+    {
         free();
         texture = TextureManager::loadTexture("WAVE "+std::to_string(wave_num), bigfont, yellow);
+        TextureManager::drawText(texture, SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
+    }
+
+    if(wave_num == WAVE_END
+        && time_wave.getTicks()<TIME_TEXT_WAVE_DRAW)
+    {
+        free();
+        texture = TextureManager::loadTexture("LAST WAVE", bigfont, red);
+        TextureManager::drawText(texture, SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
+    }
+
+    if(wave_num == WAVE_BONUS
+        && time_wave.getTicks()<TIME_TEXT_WAVE_DRAW)
+    {
+        free();
+        texture = TextureManager::loadTexture("BONUS", bigfont, yellow);
         TextureManager::drawText(texture, SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
     }
 }
@@ -326,35 +322,35 @@ void Game::checkAppear(Enemy* _enemy) {
     }
 }
 
-void Game::create_enemy(Enemy* _enemy, int numbers) {
+void Game::create_enemy(Enemy* _enemy, int numbers, int speed) {
 
     for(int i=1; i<=numbers; i++) {
 
         int rand_y = DISTANCE_TO_SCREEN + rand()%(SCREEN_HEIGHT - _enemy->enemy_ani->h - DISTANCE_TO_SCREEN*2);
         int rand_spr = rand()%_enemy->enemy_ani->frames;
-        int rand_speed = ENEMY_MIN_SPEED + rand()%(ENEMY_MAX_SPEED - ENEMY_MIN_SPEED);
+        int rand_speed = speed + rand()%int(speed*SPEED_SCALE);
 
         _enemy->enemy_pos.push_back({SCREEN_WIDTH, rand_y, rand_spr, rand_speed});
     }
 }
 
-double Game::checkAngle(SDL_Rect* _bird, 
+float Game::checkAngle(SDL_Rect* _bird, 
                         SDL_Rect* _enemy) 
 {
-    double bird_x = _bird->x + _bird->w/2;   
-    double bird_y = _bird->y + _bird->h/2;  
+    float bird_x = _bird->x + _bird->w/2;   
+    float bird_y = _bird->y + _bird->h/2;  
     
-    double enemy_x = _enemy->x + _enemy->w/2;   
-    double enemy_y = _enemy->y + _enemy->h/2;
+    float enemy_x = _enemy->x + _enemy->w/2;   
+    float enemy_y = _enemy->y + _enemy->h/2;
 
-    double dx = enemy_x - bird_x;
-    double dy = enemy_y - bird_y;
+    float dx = enemy_x - bird_x;
+    float dy = enemy_y - bird_y;
 
-    double cos_ = dx/hypot(dx, dy);
-    double angle = acos(cos_);
+    float cos_ = dx/hypot(dx, dy);
+    float angle = acos(cos_);
     angle = angle * 180.0 / M_PI;
 
-    if(dy<=0) return -angle;
+    if (dy<=0) return -angle;
     else return angle;
 }
 

@@ -26,7 +26,7 @@ struct TextureManager {
     static void draw(SDL_Texture *texture, SDL_Rect *src, int x, int y);
     static void draw(SDL_Texture *texture, SDL_Rect *src, SDL_Rect *dest);
     static void drawCollaption(SDL_Texture *texture, SDL_Rect *src, SDL_Rect *dest);
-    static void drawAngle(SDL_Texture *texture, SDL_Rect *src, SDL_Rect *dest, double angle);
+    static void drawAngle(SDL_Texture *texture, SDL_Rect *src, SDL_Rect *dest, float angle);
     static void drawIcon(SDL_Texture *texture, int x, int y);
     static void drawIcon(SDL_Texture *texture, int x, int y, int w, int h);
 

@@ -19,6 +19,7 @@ void MainBird::init() {
                                 bird_ani->w, bird_ani->h});
 
     bird_spr = new Sprite(bird_ani);
+    bird_spr->init();
 }
 
 void MainBird::update() {
@@ -59,12 +60,15 @@ SupportBird::~SupportBird() {
 
 void SupportBird::init() {
 
-    if(spbird_ani) spbird_ani = flying_ani;
+    setBird(flying_ani);
     
     spbird_spr = new Sprite(spbird_ani);
-
+    spbird_spr->init();
     spbird_mouse = new Mouse({SUPPORT_BIRT_ORIGIN_POS_X, SUPPORT_BIRT_ORIGIN_POS_Y, 
                                 spbird_ani->w, spbird_ani->h});
+
+    health = BIRD_HEALTH_ORIGIN;
+    alive = true;
 }
 
 void SupportBird::update() {
@@ -84,21 +88,25 @@ void SupportBird::free() {
 }
 
 
-void SupportBird::check_sp(int _add) {
+bool SupportBird::check_alive(int _add) {
 
     health+=_add;
     if(health>MAX_BIRD_HEALTH) health = MAX_BIRD_HEALTH;
     if(health<=0) {
-        alive = false;
         health = 0;
+        alive = false;
+        return false;
     }
-    if(alive==false) setBird(dead_ani);
+    return true;
 }
 
 void SupportBird::setBird(Animation* ani) {
-    
-    free();
 
-    spbird_ani = ani;
-    spbird_spr = new Sprite(spbird_ani);
+    if(spbird_ani != ani) {
+
+        free();
+        spbird_ani = ani;
+        spbird_spr = new Sprite(spbird_ani);
+        spbird_spr->init();
+    }
 }

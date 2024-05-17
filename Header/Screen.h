@@ -126,7 +126,7 @@ struct Menu {
     SDL_Texture* chicken_choosen;
     SDL_Texture* chicken_unchoose;
 
-    SDL_Texture* screen_pause;
+    
 
     Menu();
     ~Menu();

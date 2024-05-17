@@ -7,31 +7,28 @@ Sprite::Sprite () {}
 Sprite::Sprite(Animation* ani) {
     
     texture = ani->texture;
-    frames = ani->frames;
+    numFrames = ani->frames;
     clips = ani->clips;
 }
 
 Sprite::~Sprite() {}
 
 
-void Sprite::init(Animation* ani) {
+void Sprite::init() {
 
-    texture = ani->texture;
-    frames = ani->frames;
-    clips = ani->clips;
+    time_sprite.start();
 }
-
-
-void Sprite::tick() {
-
-    currentFrame = ++currentFrame%frames;
-}
-
 
 void Sprite::update() {
 
-    delay = ++delay%SPRITE_DELAY;
-    if(!delay) tick();
+    float dT = time_sprite.getTicks();
+    int frames_to_update = dT/FRAME_MAX_DELAY_ANIMATION;
+
+    if(frames_to_update>0) {
+        currentFrame+=frames_to_update;
+        currentFrame%=numFrames;
+        time_sprite.reset();
+    }
 }
 
 

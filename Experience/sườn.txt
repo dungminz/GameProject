@@ -27,7 +27,7 @@ Bố cục Game:
     + . (Timing)
 - . Nhạc (mixer)
 
-- Tạo tên lửa (hướng tới chim)
+- . Tạo tên lửa (hướng tới chim)
 - (Tạo đạn quái)
 
 
@@ -49,6 +49,7 @@ Bố cục hàm:
 Bố cục chạy:
     
 - Background
+- (collapsion)
 - diamond
 - enemy
 - mainbird

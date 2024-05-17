@@ -29,7 +29,7 @@ const std::string DAY_LAYER[FRAMES_LAYER_DAY] = {
 struct Background {
 
     BackgroundManager* background_bgr;
-    double *scrolling_layer;
+    float *scrolling_layer;
 
     Background();
     Background(BackgroundManager* bgr);

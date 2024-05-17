@@ -314,6 +314,6 @@ struct SupportBird {
 
     int health;
     bool alive;
-    void check_sp(int _add);
+    bool check_alive(int _add);
     void setBird(Animation* ani);
 };

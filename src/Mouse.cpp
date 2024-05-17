@@ -133,9 +133,9 @@ bool Mouse::checkIntersection(int x_move, int y_move) {
     || y_move > SCREEN_HEIGHT - curr_bird.h - DISTANCE_TO_SCREEN)
         return false;
 
-    SDL_Rect dest_move({x_move, y_move, curr_bird.w, curr_bird.h});
-    if(SDL_HasIntersection(&dest_move, &other_bird))
-        return false;
+    // SDL_Rect dest_move({x_move, y_move, curr_bird.w, curr_bird.h});
+    // if(SDL_HasIntersection(&dest_move, &other_bird))
+    //     return false;
 
     return true;
 }

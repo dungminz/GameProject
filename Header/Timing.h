@@ -4,9 +4,7 @@
 #define __has_extension(x) 0
 #endif
 
-// #include <stdint.h>
 #include "SDL_stdinc.h"
-// #include "Game.h"
 
 struct Timing {
 
@@ -21,10 +19,8 @@ struct Timing {
     
     void start();
     void stop();
-    void pause();
-    void unpause();
     void reset();
     
     float getTicks();
-    void checkDelayFrame();
+    void DelayFrame();
 };

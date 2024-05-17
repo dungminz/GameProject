@@ -19,21 +19,6 @@ void Timing::start() {
     start_tick = SDL_GetTicks();
 }
 
-void Timing::pause() {
-    if(started == true && paused == false) {
-        paused = true;
-        paused_tick = SDL_GetTicks() - start_tick;
-    }
-}
-
-void Timing::unpause() {
-    if(paused == true) {
-        paused = false;
-        start_tick = paused_tick;
-        paused_tick = 0;
-    }
-}
-
 void Timing::stop() {
     paused = true;
     start_tick = false;
@@ -54,13 +39,11 @@ float Timing::getTicks() {
     return -1;
 }
 
-void Timing::checkDelayFrame() {
+void Timing::DelayFrame() {
 
     Uint32 real_time = getTicks();
-    // std::cerr<<"real_time : "<<real_time<<'\n';
     if(real_time < FRAME_MAX_DELAY) {
-        Uint32 delay_time = FRAME_MAX_DELAY - real_time;
+        float delay_time = FRAME_MAX_DELAY - real_time;
         SDL_Delay(delay_time);
-        // std::cerr<<"delay time : "<<delay_time<<'\n';
     }
 }

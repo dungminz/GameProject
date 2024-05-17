@@ -65,7 +65,7 @@ void TextureManager::drawCollaption(SDL_Texture *texture, SDL_Rect *src, SDL_Rec
 }
 
 
-void TextureManager::drawAngle(SDL_Texture *texture, SDL_Rect *src, SDL_Rect *dest, double angle) {
+void TextureManager::drawAngle(SDL_Texture *texture, SDL_Rect *src, SDL_Rect *dest, float angle) {
     
     SDL_RenderCopyEx(Game::renderer, texture, src, dest, angle, nullptr, SDL_FLIP_NONE);
 }

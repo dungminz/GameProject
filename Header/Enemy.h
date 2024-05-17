@@ -1,7 +1,7 @@
 #pragma once
 
-// #include "Game.h"
-#include "Sprite.h"
+#include "Game.h"
+// #include "Sprite.h"
 
 
 const std::string DIAMOND_IMG = "../Image/Animation/diamond.png";
@@ -134,49 +134,29 @@ struct Pos {
     int speed;
     
     Pos(int _x, int _y, int _spr) 
-        : x(_x), y(_y), spr(_spr) {}
+        : x(_x), y(_y), spr(_spr) 
+        {}
+
     Pos(int _x, int _y, int _spr, int _speed) 
-        : x(_x), y(_y), spr(_spr), speed(_speed) {}
+        : x(_x), y(_y), spr(_spr), speed(_speed) 
+        {}
 };
 
 struct Enemy {
 
-    class Sprite* enemy_spr;
-    class Sprite* collapsion_spr;
     Animation* enemy_ani;
     Animation* collapsion_ani;
-    int delay_spr = 0;
     std::vector<Pos> enemy_pos;
     std::vector<Pos> collapsion_pos;
     SDL_Rect* bird_dest;
+    Timing time_frame;
+    Timing time_speed;
 
     Enemy();
-    Enemy(Animation* ani);
     Enemy(Animation* _enemy_ani, Animation* _collapsion_ani);
     ~Enemy();
 
     void init();
     void update(SDL_Rect* _bird_dest = nullptr);
-    void render();
-};
-
-struct Rocket {
-
-    class Sprite* enemy_spr;
-    class Sprite* collapsion_spr;
-    Animation* enemy_ani;
-    Animation* collapsion_ani;
-    int delay_spr = 0;
-    std::vector<Pos> enemy_pos;
-    std::vector<Pos> collapsion_pos;
-    std::pair<int, int> bird_pos;
-
-    Rocket();
-    Rocket(Animation* ani);
-    Rocket(Animation* _enemy_ani, Animation* _collapsion_ani);
-    ~Rocket();
-
-    void init();
-    void update(std::pair<int, int> _bird);
     void render();
 };

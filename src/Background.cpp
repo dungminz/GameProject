@@ -13,7 +13,7 @@ Background::~Background() {
 
 void Background::init() {
 
-    scrolling_layer = new double[background_bgr->frames_layer];
+    scrolling_layer = new float[background_bgr->frames_layer];
     for(int i=0; i<background_bgr->frames_layer; i++) {
 
         scrolling_layer[i] = 0;

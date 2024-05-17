@@ -1,11 +1,11 @@
 #include "../Header/Game.h"
 #include "../Header/Screen.h"
-// #include "../Header/CommonFunction.h"
-// #include "../Header/BackgroundManager.h"
-// #include "../Header/AnimationManager.h"
+#include "../Header/CommonFunction.h"
+#include "../Header/BackgroundManager.h"
+#include "../Header/AnimationManager.h"
 #include "../Header/Background.h"
-// #include "../Header/Enemy.h"
-// #include "../Header/Bird.h"
+#include "../Header/Enemy.h"
+#include "../Header/Bird.h"
 
 Game* game = nullptr;
 Menu* menu = nullptr;
@@ -131,6 +131,7 @@ void clean() {
     SDL_DestroyRenderer(game->renderer); game->renderer = nullptr;
     SDL_DestroyWindow(game->window); game->window = nullptr;
     TTF_CloseFont(game->bigfont); game->bigfont = nullptr;
+    TTF_CloseFont(game->mediumfont); game->mediumfont = nullptr;
     TTF_CloseFont(game->smallfont); game->smallfont = nullptr;
 
     delete music;
@@ -285,6 +286,7 @@ GameState doPlay() {
                     FRAMES_ROCKETCOLLAPSION, CLIPS_ROCKETCOLLAPSION,
                     ROCKETCOLLAPSION_REAL_W, ROCKETCOLLAPSION_REAL_H);
 
+    SDL_Event event;
     Timing time_play;
 
     game->init(background, mainBird, 
@@ -298,12 +300,43 @@ GameState doPlay() {
     while(game->next_state == GameState::Null) {
 
         time_play.start();
+        
+        while (SDL_PollEvent(&event)) {
+            
+            switch(event.type) {
 
-        game->handle_events();
+                case SDL_QUIT: 
+                    game->next_state = GameState::Quit; 
+                    break;
+                
+                case SDL_KEYDOWN:
+                    switch (event.key.keysym.sym)
+                    {
+                        case SDLK_0: changeMute(); break;
+                        case SDLK_1: music->reset(1); break; 
+                        case SDLK_2: music->reset(2); break; 
+                        case SDLK_3: music->reset(3); break; 
+                        case SDLK_4: music->reset(4); break; 
+                        case SDLK_5: music->reset(5); break; 
+                        case SDLK_6: music->reset(6); break; 
+                        case SDLK_7: music->reset(7); break; 
+                        case SDLK_8: music->reset(8); break; 
+                        case SDLK_9: music->reset(9); break; 
+                        default: break;
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+
+            game->handle_events(event);
+        }
+
         game->update();
         game->render();
         
-        time_play.checkDelayFrame();
+        time_play.DelayFrame();
     }
 
     if(game->next_state == GameState::End) SDL_Delay(1000);
@@ -313,9 +346,6 @@ GameState doPlay() {
 
     game->clean();
     delete background;
-    delete diamond; 
-    delete diamondCollapsion; 
-    delete enemyBird; 
     delete mainBird; 
     delete supportBird_flying; 
     delete supportBird_gothit; 
@@ -325,9 +355,13 @@ GameState doPlay() {
     delete supportBird_henshin;
     delete supportBird_henshinshot;
     delete collapsionbyByBird; 
+    delete diamond; 
+    delete diamondCollapsion; 
+    delete enemyBird; 
+    delete rocket;
+    delete rocketCollapsion;
 
-    if(game->next_state == GameState::Quit) return GameState::Quit;
-    return GameState::End;
+    return game->next_state;
 }
 
 
@@ -386,7 +420,7 @@ GameState doBegin() {
             }
         }
 
-        time_begin.checkDelayFrame();
+        time_begin.DelayFrame();
     }
 
     menu->cleanBegin();
@@ -425,7 +459,7 @@ GameState doEnd() {
             }
         }
 
-        time_end.checkDelayFrame();
+        time_end.DelayFrame();
     }
 
     menu->cleanEnd();
@@ -472,7 +506,7 @@ GameState doChooseMainBird() {
             } 
         }   
 
-        time_choosemainbird.checkDelayFrame();
+        time_choosemainbird.DelayFrame();
     }
 
     menu->cleanChooseMainBird();
@@ -513,7 +547,7 @@ GameState doChooseSupportBird() {
             }
         }   
 
-        time_choosespbird.checkDelayFrame();
+        time_choosespbird.DelayFrame();
     }
     
     menu->cleanChooseSupportBird();

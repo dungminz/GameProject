@@ -113,7 +113,7 @@ void Menu::renderEnd() {
 
     TextureManager::drawText(std::to_string(score), Game::bigfont, black, 
                                         SCORE_X, SCORE_Y);
-    TextureManager::drawText("Highest score : "+std::to_string(highscore), Game::mediumfont, black, 
+    TextureManager::drawText("Best score : "+std::to_string(highscore), Game::mediumfont, black, 
                                     HIGH_SCORE_X, HIGH_SCORE_Y);
 
     SDL_RenderPresent(Game::renderer);
