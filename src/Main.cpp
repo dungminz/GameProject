@@ -450,6 +450,7 @@ GameState doEnd() {
                     break;
 
                 case SDL_MOUSEBUTTONUP:
+                    menu->pick.play();
                     if(menu->choose_replay) 
                         next_state = GameState::Begin;
                     break;
@@ -495,6 +496,7 @@ GameState doChooseMainBird() {
                     break;
                 
                 case SDL_MOUSEBUTTONUP:
+                    menu->pick.play();
                     if(menu->choose_eggbird || menu->choose_unicornbird)
                         next_state = GameState::ChooseSupportBird;
                     if(menu->choose_back)
@@ -536,6 +538,7 @@ GameState doChooseSupportBird() {
                     break;
                 
                 case SDL_MOUSEBUTTONUP:
+                    menu->pick.play();
                     if(menu->choose_eagle || menu->choose_chicken)
                         next_state = GameState::Play;
                     if(menu->choose_back)

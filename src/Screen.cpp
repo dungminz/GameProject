@@ -30,7 +30,6 @@ bool Menu::check_mouse(int pos_x, int pos_y, int w, int h) {
 
 
 
-
 void Menu::initBegin() {
 
     screen_begin = TextureManager::loadTexture(SCREEN_BEGIN_IMG);

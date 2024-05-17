@@ -28,7 +28,6 @@ Bố cục Game:
 - . Nhạc (mixer)
 
 - . Tạo tên lửa (hướng tới chim)
-- (Tạo đạn quái)
 
 
 Bố cục hàm:

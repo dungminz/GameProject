@@ -14,8 +14,7 @@ const std::string MUSICS_THEME[9] = {
     "../Audio/8.ogg",
     "../Audio/9.ogg",
 };
-const std::string SOUND_PICK = "../Audio/lost.wav";
-
+const std::string SOUND_PICK = "../Audio/pick.wav";
 
 struct TextureManager {
             
@@ -59,7 +58,7 @@ struct Sound {
     Mix_Chunk* chunk;
 
     Sound();
-    Sound(const std::string file);
+    Sound(const std::string filename);
     ~Sound() ;
 
     void play();

@@ -189,13 +189,11 @@ void Music::play() {
 void Music::reset(int num) {
 
     if (Mix_PausedMusic()) {
-        // Mix_RewindMusic();
         setMusic(num);
         Mix_PlayMusic(music, -1);
         pause();     
     }
     else {
-        // Mix_RewindMusic();
         setMusic(num);
         Mix_PlayMusic(music, -1);
     }
