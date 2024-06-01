@@ -1,5 +1,6 @@
 # Flappy couple
  ^^
+- Link youtube demo : https://youtu.be/0F_V6cHfGBI
 
 # Introduction
 
@@ -66,6 +67,8 @@ Project uses:
 - Dùng các kiến thức toán học để tính toán được góc nghiêng, hướng di chuyển, ...
 - Xử lý thời gian, thao tác chuột và bàn phím, âm thanh, hình ảnh, chữ
 - Tạo menu và các nút ấn di chuyển giữa các menu 
+- Dùng nhiều yếu tố ngẫu nhiên (rand)
+- Dùng thời gian thực, có độ chính xác cao
 
 # Điều tâm đắc
 - Game tự viết từ đầu, có sử dụng các đoạn code mẫu của cô
@@ -77,14 +80,15 @@ Project uses:
 - Game có sử sụng các thuật toán ngoài chương trình học:
     + Menu : xây dụng menu riêng cho game, có thể lựa chọn nhân vật chơi
     + Game state : xây dựng các state khác nhau và có thể giải phóng bộ nhớ dễ dàng
-    + Delay : tính toán FPS, delay game, sprite dựa trên độ trễ, game chạy mượt mà
+    + FPS : tính toán FPS, delay game, sprite dựa trên độ trễ làm game chạy mượt mà
     + Background : các ảnh khác nhau có tốc độ riêng biệt, lồng vào nhau tạo thành 1 background có cảm giác chân thực
     + Toạ độ : tự tạo toạ độ cho từng ảnh nhân vật
     + Vector : lưu các thông số dùng chung một lớp, không cần taọ ra từng lớp riêng lẻ
-    + Create enemy : random có giới hạn cho các thông số tốc độ, toạ độ
     + Collision : kiểm tra va chạm giữa các nhân vật khác nhau
     + Angle : tính toán góc nghiêng, góc xoay dựa trên vị trí
     + DrawEx : vẽ nhân vật dựa trên angle
+    + Rand : các chỉ số ngẫu nhiên trong khoảng xác định (trong khoảng min và max), như số quái, tốc độ, điểm đặt hình sprite
+    + Timing : căn thời gian toàn bộ game, như render delay, sprite delay, lượt xuất hiện quái địch
 
 # Hướng phát triển
 - Cập nhật tính năng lưu điểm, tạo ra được một danh sách và có thể lưu tên
